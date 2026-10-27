@@ -1,805 +1,988 @@
-  @import url('https://fonts.googleapis.com/css2?family=Open+Sans:wght@400;500;600;700;800&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Open+Sans:wght@400;500;600;700;800&display=swap');
 
-  :root {
-    /* Palet Warna Khas Bank Jago (Kuning-Oranye & Coklat) */
-    --ojk-red: #F58220;          /* Oranye Utama Bank Jago */
-    --ojk-red-hover: #D96B0C;    /* Oranye Gelap saat Hover */
-    --jago-yellow: #FDB913;      /* Kuning Khas Bank Jago */
-    --jago-brown: #4A2511;       /* Coklat Tua Khas Bank Jago untuk Footer */
-    --ojk-blue: #4A2511;
-    --ojk-bg: #FAF9F6;
-    --ojk-border: #e2e8f0;
-    --ojk-border-dark: #cbd5e1;
-    --ojk-green: #19b159;
-    --ojk-green-dark: #16a34a;
-    --ojk-yellow: #f59e0b;
-    --ojk-yellow-dark: #d97706;
-    --ojk-gray-text: #475569;
-    --ojk-dark-text: #1e293b;
-  }
+:root {
+  /* Palet Warna Khas Bank Jago (Kuning-Oranye & Coklat) */
+  --ojk-red: #F58220;          /* Oranye Utama Bank Jago */
+  --ojk-red-hover: #D96B0C;    /* Oranye Gelap saat Hover */
+  --jago-yellow: #FDB913;      /* Kuning Khas Bank Jago */
+  --jago-brown: #4A2511;       /* Coklat Tua Khas Bank Jago untuk Footer */
+  --ojk-blue: #4A2511;
+  --ojk-bg: #FAF9F6;
+  --ojk-border: #e2e8f0;
+  --ojk-border-dark: #cbd5e1;
+  --ojk-green: #19b159;
+  --ojk-green-dark: #16a34a;
+  --ojk-yellow: #f59e0b;
+  --ojk-yellow-dark: #d97706;
+  --ojk-gray-text: #475569;
+  --ojk-dark-text: #1e293b;
+}
 
-  body {
-    font-family: 'Open Sans', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
-    background-color: var(--ojk-bg);
-    color: #334155;
-    margin: 0;
-    padding: 0;
-    display: flex;
-    flex-direction: column;
-    min-height: 100vh;
-  }
+body {
+  font-family: 'Open Sans', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+  background-color: var(--ojk-bg);
+  color: #334155;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+}
 
-  /* Override kelas text-danger & border-danger bawaan Bootstrap agar menjadi Oranye Jago */
-  .text-danger {
-    color: var(--ojk-red) !important;
-  }
-  .border-danger-subtle {
-    border-color: #FED7AA !important;
-  }
+.text-danger {
+  color: var(--ojk-red) !important;
+}
+.border-danger-subtle {
+  border-color: #FED7AA !important;
+}
 
-  /* ==========================================================================
-     1. HEADER & NAVIGASI PORTAL (TEMA KUNING/ORANYE BANK JAGO)
-     ========================================================================== */
-  .topbar-ojk {
-    background: linear-gradient(90deg, #F58220 0%, #FDB913 100%);
-    font-size: 0.78rem;
-    padding: 7px 0;
-    color: #ffffff;
-  }
-  .topbar-ojk a {
-    color: #ffffff;
-    text-decoration: none;
-    margin-right: 14px;
-    font-weight: 600;
-  }
-  .topbar-ojk a:hover {
-    text-decoration: underline;
-  }
-  .topbar-ojk a.active {
-    font-weight: 800;
-  }
+/* ==========================================================================
+   1. HEADER & NAVIGASI PORTAL (TEMA KUNING/ORANYE BANK JAGO)
+   ========================================================================== */
+.topbar-ojk {
+  background: linear-gradient(90deg, #F58220 0%, #FDB913 100%);
+  font-size: 0.78rem;
+  padding: 7px 0;
+  color: #ffffff;
+}
+.topbar-ojk a {
+  color: #ffffff;
+  text-decoration: none;
+  margin-right: 14px;
+  font-weight: 600;
+}
+.topbar-ojk a:hover {
+  text-decoration: underline;
+}
+.topbar-ojk a.active {
+  font-weight: 800;
+}
 
-  .navbar-ojk {
-    background-color: #ffffff;
-    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
-    padding: 12px 0;
-    border-bottom: 2px solid #FEF3C7;
-  }
-  .navbar-brand-clickable {
-    cursor: pointer;
-    text-decoration: none;
-  }
-  .navbar-brand-clickable img {
-    height: 40px;
-  }
+.navbar-ojk {
+  background-color: #ffffff;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
+  padding: 12px 0;
+  border-bottom: 2px solid #FEF3C7;
+}
+.navbar-brand-clickable {
+  cursor: pointer;
+  text-decoration: none;
+}
+.navbar-brand-clickable img {
+  height: 40px;
+}
 
-  .main-wrapper {
-    max-width: 1140px;
-    width: 100%;
-    margin: 0 auto;
-    padding: 0 16px;
-  }
+.main-wrapper {
+  max-width: 1140px;
+  width: 100%;
+  margin: 0 auto;
+  padding: 0 16px;
+}
 
-  /* ==========================================================================
-     2. KARTU SELEKSI SKALA (STEP 0) & KARTU UMUM
-     ========================================================================== */
-  .scale-selection-card {
-    background: #ffffff;
-    border: 2px solid var(--ojk-border);
-    border-radius: 16px;
-    padding: 34px 24px;
-    text-align: center;
-    cursor: pointer;
-    transition: all 0.25s ease;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: space-between;
-    height: 100%;
-  }
-  .scale-selection-card:hover {
-    border-color: var(--ojk-red);
-    transform: translateY(-4px);
-    box-shadow: 0 12px 28px rgba(245, 130, 32, 0.16);
-  }
-  .scale-icon-circle {
-    width: 72px;
-    height: 72px;
-    border-radius: 50%;
-    background-color: #FFF7ED;
-    color: var(--ojk-red);
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    font-size: 2.1rem;
-    margin-bottom: 18px;
-    transition: all 0.2s ease;
-  }
-  .scale-selection-card:hover .scale-icon-circle {
-    background-color: var(--ojk-red);
-    color: #ffffff;
-  }
+/* ==========================================================================
+   2. KARTU SELEKSI SKALA (STEP 0) & KARTU UMUM
+   ========================================================================== */
+.scale-selection-card {
+  background: #ffffff;
+  border: 2px solid var(--ojk-border);
+  border-radius: 16px;
+  padding: 34px 24px;
+  text-align: center;
+  cursor: pointer;
+  transition: all 0.25s ease;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: space-between;
+  height: 100%;
+}
+.scale-selection-card:hover {
+  border-color: var(--ojk-red);
+  transform: translateY(-4px);
+  box-shadow: 0 12px 28px rgba(245, 130, 32, 0.16);
+}
+.scale-icon-circle {
+  width: 72px;
+  height: 72px;
+  border-radius: 50%;
+  background-color: #FFF7ED;
+  color: var(--ojk-red);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 2.1rem;
+  margin-bottom: 18px;
+  transition: all 0.2s ease;
+}
+.scale-selection-card:hover .scale-icon-circle {
+  background-color: var(--ojk-red);
+  color: #ffffff;
+}
 
-  .card-ojk {
-    background: #ffffff;
-    border: 1px solid var(--ojk-border);
-    border-radius: 12px;
-    border-top: 4px solid var(--ojk-red);
-    box-shadow: 0 4px 14px rgba(0, 0, 0, 0.03);
-    padding: 32px;
-    margin-bottom: 24px;
-  }
+.card-ojk {
+  background: #ffffff;
+  border: 1px solid var(--ojk-border);
+  border-radius: 12px;
+  border-top: 4px solid var(--ojk-red);
+  box-shadow: 0 4px 14px rgba(0, 0, 0, 0.03);
+  padding: 32px;
+  margin-bottom: 24px;
+}
 
-  /* ==========================================================================
-     3. TOMBOL AKSI UTAMA (KUNING/ORANYE BANK JAGO)
-     ========================================================================== */
-  .btn-next {
-    background-color: var(--ojk-red);
-    color: #ffffff;
-    border-radius: 50px;
-    padding: 10px 36px;
-    font-weight: 700;
-    border: none;
-    transition: all 0.2s ease;
-  }
-  .btn-next:hover {
-    background-color: var(--ojk-red-hover);
-    color: #ffffff;
-  }
-  .btn-next:disabled {
-    background-color: #cbd5e1;
-    color: #64748b;
-    cursor: not-allowed;
-  }
+/* ==========================================================================
+   3. TOMBOL AKSI UTAMA
+   ========================================================================== */
+.btn-next {
+  background-color: var(--ojk-red);
+  color: #ffffff;
+  border-radius: 50px;
+  padding: 10px 36px;
+  font-weight: 700;
+  border: none;
+  transition: all 0.2s ease;
+}
+.btn-next:hover {
+  background-color: var(--ojk-red-hover);
+  color: #ffffff;
+}
+.btn-next:disabled {
+  background-color: #cbd5e1;
+  color: #64748b;
+  cursor: not-allowed;
+}
 
-  .btn-back, .btn-reset {
-    background-color: #ffffff;
-    color: #475569;
-    border: 1px solid var(--ojk-border-dark);
-    border-radius: 50px;
-    padding: 10px 28px;
-    font-weight: 700;
-    transition: all 0.2s ease;
-  }
-  .btn-back:hover, .btn-reset:hover {
-    background-color: #FFF7ED;
-    border-color: var(--ojk-red);
-    color: var(--ojk-red-hover);
-  }
+.btn-back, .btn-reset {
+  background-color: #ffffff;
+  color: #475569;
+  border: 1px solid var(--ojk-border-dark);
+  border-radius: 50px;
+  padding: 10px 28px;
+  font-weight: 700;
+  transition: all 0.2s ease;
+}
+.btn-back:hover, .btn-reset:hover {
+  background-color: #FFF7ED;
+  border-color: var(--ojk-red);
+  color: var(--ojk-red-hover);
+}
 
-  .btn-unduh-pdf {
-    background-color: var(--ojk-red);
-    color: #ffffff;
-    border-radius: 50px;
-    padding: 10px 34px;
-    font-weight: 700;
-    border: none;
-    transition: all 0.2s ease;
-  }
-  .btn-unduh-pdf:hover {
-    background-color: var(--ojk-red-hover);
-    color: #ffffff;
-  }
+.btn-unduh-pdf {
+  background-color: var(--ojk-red);
+  color: #ffffff;
+  border-radius: 50px;
+  padding: 10px 34px;
+  font-weight: 700;
+  border: none;
+  transition: all 0.2s ease;
+}
+.btn-unduh-pdf:hover {
+  background-color: var(--ojk-red-hover);
+  color: #ffffff;
+}
 
-  /* ==========================================================================
-     4. KOMPONEN POHON HIERARKI KBLI (DROPDOWN TREE)
-     ========================================================================== */
-  .kbli-picker-container {
-    position: relative;
-  }
-  .kbli-select-display {
-    border: 1px solid #ced4da;
-    border-radius: 6px;
-    padding: 10px 14px;
-    background-color: #ffffff;
-    cursor: pointer;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    font-size: 0.95rem;
-    user-select: none;
-    transition: border-color 0.2s ease;
-  }
-  .kbli-select-display:hover {
-    border-color: var(--ojk-red);
-  }
-  .kbli-tree-dropdown {
-    position: absolute;
-    top: 100%;
-    left: 0;
-    right: 0;
-    z-index: 1050;
-    display: none;
-    background: #ffffff;
-    border: 1px solid #ced4da;
-    border-radius: 6px;
-    margin-top: 4px;
-    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.12);
-  }
-  .kbli-tree-title {
-    padding: 9px 14px;
-    font-size: 0.85rem;
-    font-weight: 700;
-    color: #495057;
-    background-color: #FFF7ED;
-    border-bottom: 1px solid #FFEDD5;
-  }
-  .kbli-tree-search {
-    padding: 8px 12px;
-    border-bottom: 1px solid #e9ecef;
-  }
-  .kbli-tree-container {
-    max-height: 280px;
-    overflow-y: auto;
-    padding: 6px 0;
-  }
-  .tree-node {
-    padding: 7px 14px;
-    font-size: 0.88rem;
-    cursor: pointer;
-    transition: all 0.15s ease;
-    white-space: nowrap;
-    text-overflow: ellipsis;
-    overflow: hidden;
-  }
-  .tree-node:hover {
-    background-color: #FFF7ED;
-    color: var(--ojk-red-hover);
-    font-weight: 600;
-  }
-  .tree-node-arrow {
-    display: inline-block;
-    width: 14px;
-    color: #6c757d;
-  }
-  .tree-lvl-0 { font-weight: 700; color: #1e293b; padding-left: 14px; }
-  .tree-lvl-1 { font-weight: 600; color: #334155; padding-left: 28px; }
-  .tree-lvl-2 { font-weight: 600; color: #475569; padding-left: 42px; }
-  .tree-lvl-3 { font-weight: 500; color: #475569; padding-left: 56px; }
-  .tree-lvl-4 { font-weight: 500; color: #0f172a; padding-left: 70px; }
-  .tree-lvl-5 { font-weight: 400; color: #334155; padding-left: 88px; }
+/* ==========================================================================
+   4. KOMPONEN POHON HIERARKI KBLI (DROPDOWN TREE)
+   ========================================================================== */
+.kbli-picker-container {
+  position: relative;
+}
+.kbli-select-display {
+  border: 1px solid #ced4da;
+  border-radius: 6px;
+  padding: 10px 14px;
+  background-color: #ffffff;
+  cursor: pointer;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-size: 0.95rem;
+  user-select: none;
+  transition: border-color 0.2s ease;
+}
+.kbli-select-display:hover {
+  border-color: var(--ojk-red);
+}
+.kbli-tree-dropdown {
+  position: absolute;
+  top: 100%;
+  left: 0;
+  right: 0;
+  z-index: 1050;
+  display: none;
+  background: #ffffff;
+  border: 1px solid #ced4da;
+  border-radius: 6px;
+  margin-top: 4px;
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.12);
+}
+.kbli-tree-title {
+  padding: 9px 14px;
+  font-size: 0.85rem;
+  font-weight: 700;
+  color: #495057;
+  background-color: #FFF7ED;
+  border-bottom: 1px solid #FFEDD5;
+}
+.kbli-tree-search {
+  padding: 8px 12px;
+  border-bottom: 1px solid #e9ecef;
+}
+.kbli-tree-container {
+  max-height: 280px;
+  overflow-y: auto;
+  padding: 6px 0;
+}
+.tree-node {
+  padding: 7px 14px;
+  font-size: 0.88rem;
+  cursor: pointer;
+  transition: all 0.15s ease;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+  overflow: hidden;
+}
+.tree-node:hover {
+  background-color: #FFF7ED;
+  color: var(--ojk-red-hover);
+  font-weight: 600;
+}
+.tree-node-arrow {
+  display: inline-block;
+  width: 14px;
+  color: #6c757d;
+}
+.tree-lvl-0 { font-weight: 700; color: #1e293b; padding-left: 14px; }
+.tree-lvl-1 { font-weight: 600; color: #334155; padding-left: 28px; }
+.tree-lvl-2 { font-weight: 600; color: #475569; padding-left: 42px; }
+.tree-lvl-3 { font-weight: 500; color: #475569; padding-left: 56px; }
+.tree-lvl-4 { font-weight: 500; color: #0f172a; padding-left: 70px; }
+.tree-lvl-5 { font-weight: 400; color: #334155; padding-left: 88px; }
 
-  /* ==========================================================================
-     5. KARTU REVIEW IDENTITAS & MULTI-BUBBLE STEPPER SURVEI
-     ========================================================================== */
-  .review-card-ojk {
-    background-color: #ffffff;
-    border: 1px solid var(--ojk-border);
-    border-radius: 12px;
-    border-top: 4px solid var(--ojk-red);
-    padding: 24px 30px;
-    margin-bottom: 20px;
-    box-shadow: 0 3px 10px rgba(0, 0, 0, 0.02);
-  }
-  .review-label-red {
-    font-size: 0.8rem;
-    color: var(--ojk-red);
-    font-weight: 700;
-    text-transform: uppercase;
-    letter-spacing: 0.5px;
-    display: flex;
-    align-items: center;
-    gap: 6px;
-    margin-bottom: 3px;
-  }
-  .review-val-text {
-    font-size: 0.94rem;
-    color: #1e293b;
-    font-weight: 600;
-  }
+/* ==========================================================================
+   5. KARTU REVIEW IDENTITAS & STEPPER SURVEI
+   ========================================================================== */
+.review-card-ojk {
+  background-color: #ffffff;
+  border: 1px solid var(--ojk-border);
+  border-radius: 12px;
+  border-top: 4px solid var(--ojk-red);
+  padding: 24px 30px;
+  margin-bottom: 20px;
+  box-shadow: 0 3px 10px rgba(0, 0, 0, 0.02);
+}
+.review-label-red {
+  font-size: 0.8rem;
+  color: var(--ojk-red);
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  margin-bottom: 3px;
+}
+.review-val-text {
+  font-size: 0.94rem;
+  color: #1e293b;
+  font-weight: 600;
+}
 
-  .stepper-card-ojk {
-    background-color: #ffffff;
-    border: 1px solid var(--ojk-border);
-    border-radius: 12px;
-    padding: 20px 28px;
-    margin-bottom: 24px;
-    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.03);
-  }
-  .stepper-trail-list {
-    display: flex;
-    align-items: center;
-    flex-wrap: wrap;
-    gap: 24px;
-  }
-  .step-pill-wrapper {
-    display: flex;
-    align-items: center;
-    gap: 12px;
-  }
-  .step-circle-badge-large {
-    width: 44px;
-    height: 44px;
-    border-radius: 50%;
-    background-color: var(--ojk-green);
-    color: #ffffff;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    font-weight: 800;
-    font-size: 1.2rem;
-    box-shadow: 0 4px 14px rgba(25, 177, 89, 0.42);
-    flex-shrink: 0;
-  }
-  .step-circle-badge-large.badge-yellow-transisi {
-    background-color: #f59e0b;
-    box-shadow: 0 4px 14px rgba(245, 158, 11, 0.45);
-  }
-  .step-pill-label-large {
-    font-size: 1.15rem;
-    font-weight: 800;
-    color: var(--ojk-dark-text);
-    letter-spacing: 0.2px;
-  }
-  .step-pill-label-multi {
-    font-size: 0.96rem;
-    font-weight: 700;
-    color: #1e293b;
-    line-height: 1.25;
-  }
-  .btn-petunjuk-ojk {
-    border: 1.5px solid var(--ojk-red);
-    color: var(--ojk-red);
-    background: #ffffff;
-    border-radius: 50px;
-    font-weight: 600;
-    padding: 8px 24px;
-    font-size: 0.92rem;
-    display: flex;
-    align-items: center;
-    gap: 6px;
-    transition: all 0.2s ease;
-  }
-  .btn-petunjuk-ojk:hover {
-    background: #FFF7ED;
-    color: var(--ojk-red-hover);
-  }
-  .stepper-progress-track {
-    height: 6px;
-    background-color: #e2e8f0;
-    border-radius: 6px;
-    margin-top: 18px;
-    width: 100%;
-    overflow: hidden;
-  }
-  .stepper-progress-fill {
-    height: 100%;
-    background-color: var(--ojk-green);
-    border-radius: 6px;
-    transition: width 0.35s ease;
-  }
+.stepper-card-ojk {
+  background-color: #ffffff;
+  border: 1px solid var(--ojk-border);
+  border-radius: 12px;
+  padding: 20px 28px;
+  margin-bottom: 24px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.03);
+}
+.stepper-trail-list {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 24px;
+}
+.step-pill-wrapper {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+.step-circle-badge-large {
+  width: 44px;
+  height: 44px;
+  border-radius: 50%;
+  background-color: var(--ojk-green);
+  color: #ffffff;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: 800;
+  font-size: 1.2rem;
+  box-shadow: 0 4px 14px rgba(25, 177, 89, 0.42);
+  flex-shrink: 0;
+}
+.step-circle-badge-large.badge-yellow-transisi {
+  background-color: #f59e0b;
+  box-shadow: 0 4px 14px rgba(245, 158, 11, 0.45);
+}
+.step-pill-label-large {
+  font-size: 1.15rem;
+  font-weight: 800;
+  color: var(--ojk-dark-text);
+  letter-spacing: 0.2px;
+}
+.step-pill-label-multi {
+  font-size: 0.96rem;
+  font-weight: 700;
+  color: #1e293b;
+  line-height: 1.25;
+}
+.btn-petunjuk-ojk {
+  border: 1.5px solid var(--ojk-red);
+  color: var(--ojk-red);
+  background: #ffffff;
+  border-radius: 50px;
+  font-weight: 600;
+  padding: 8px 24px;
+  font-size: 0.92rem;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  transition: all 0.2s ease;
+}
+.btn-petunjuk-ojk:hover {
+  background: #FFF7ED;
+  color: var(--ojk-red-hover);
+}
+.stepper-progress-track {
+  height: 6px;
+  background-color: #e2e8f0;
+  border-radius: 6px;
+  margin-top: 18px;
+  width: 100%;
+  overflow: hidden;
+}
+.stepper-progress-fill {
+  height: 100%;
+  background-color: var(--ojk-green);
+  border-radius: 6px;
+  transition: width 0.35s ease;
+}
 
-  /* ==========================================================================
-     6. FORMULIR KUESIONER KRITERIA
-     ========================================================================== */
-  .sdt-form-container {
-    background-color: #ffffff;
-    border: 1px solid var(--ojk-border);
-    border-radius: 10px;
-    padding: 28px 32px;
-    margin-bottom: 22px;
-    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.02);
-  }
-  .sdt-card-title {
-    color: var(--ojk-red);
-    font-weight: 700;
-    font-size: 1.15rem;
-    line-height: 1.45;
-    margin-bottom: 8px;
-  }
-  .sdt-card-subtitle {
-    color: var(--ojk-gray-text);
-    font-size: 0.9rem;
-    line-height: 1.5;
-    margin-bottom: 16px;
-  }
-  .sdt-option {
-    background-color: #ffffff;
-    border: 1px solid #e2e8f0;
-    border-radius: 8px;
-    padding: 14px 18px;
-    display: flex;
-    justify-content: space-between;
-    align-items: flex-start;
-    margin-bottom: 10px;
-    transition: border-color 0.2s ease, box-shadow 0.2s ease;
-  }
-  .sdt-option:hover {
-    border-color: var(--ojk-red);
-    box-shadow: 0 2px 6px rgba(245, 130, 32, 0.08);
-  }
-  .sdt-option-text {
-    font-size: 0.92rem;
-    line-height: 1.55;
-    color: #334155;
-    padding-right: 16px;
-    margin-bottom: 0;
-    cursor: pointer;
-    white-space: pre-line;
-  }
-  .sdt-checkbox {
-    width: 22px;
-    height: 22px;
-    accent-color: var(--ojk-red);
-    cursor: pointer;
-    flex-shrink: 0;
-    margin-top: 2px;
-  }
-  .sdt-divider {
-    text-align: center;
-    font-weight: 700;
-    font-size: 0.85rem;
-    color: #475569;
-    margin: 10px 0;
-    text-transform: lowercase;
-  }
+/* ==========================================================================
+   6. FORMULIR KUESIONER KRITERIA TKBI
+   ========================================================================== */
+.sdt-form-container {
+  background-color: #ffffff;
+  border: 1px solid var(--ojk-border);
+  border-radius: 10px;
+  padding: 28px 32px;
+  margin-bottom: 22px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.02);
+}
+.sdt-card-title {
+  color: var(--ojk-red);
+  font-weight: 700;
+  font-size: 1.15rem;
+  line-height: 1.45;
+  margin-bottom: 8px;
+}
+.sdt-card-subtitle {
+  color: var(--ojk-gray-text);
+  font-size: 0.9rem;
+  line-height: 1.5;
+  margin-bottom: 16px;
+}
+.sdt-option {
+  background-color: #ffffff;
+  border: 1px solid #e2e8f0;
+  border-radius: 8px;
+  padding: 14px 18px;
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  margin-bottom: 10px;
+  transition: border-color 0.2s ease, box-shadow 0.2s ease;
+}
+.sdt-option:hover {
+  border-color: var(--ojk-red);
+  box-shadow: 0 2px 6px rgba(245, 130, 32, 0.08);
+}
+.sdt-option-text {
+  font-size: 0.92rem;
+  line-height: 1.55;
+  color: #334155;
+  padding-right: 16px;
+  margin-bottom: 0;
+  cursor: pointer;
+  white-space: pre-line;
+}
+.sdt-checkbox {
+  width: 22px;
+  height: 22px;
+  accent-color: var(--ojk-red);
+  cursor: pointer;
+  flex-shrink: 0;
+  margin-top: 2px;
+}
+.sdt-divider {
+  text-align: center;
+  font-weight: 700;
+  font-size: 0.85rem;
+  color: #475569;
+  margin: 10px 0;
+  text-transform: lowercase;
+}
 
-  .info-block-box {
-    margin-top: 24px;
-    padding-top: 18px;
-    border-top: 1px solid var(--ojk-border);
-  }
-  .info-block-label {
-    font-weight: 700;
-    font-size: 0.95rem;
-    color: var(--ojk-dark-text);
-    margin-bottom: 4px;
-  }
-  .info-block-desc {
-    font-size: 0.9rem;
-    color: var(--ojk-gray-text);
-    line-height: 1.55;
-    margin-bottom: 16px;
-    white-space: pre-line;
-  }
-  .sdt-textarea {
-    width: 100%;
-    border: 1px solid var(--ojk-border-dark);
-    border-radius: 6px;
-    padding: 10px 14px;
-    font-size: 0.88rem;
-    min-height: 78px;
-    margin-top: 4px;
-    outline: none;
-    transition: border-color 0.2s;
-  }
-  .sdt-textarea:focus {
-    border-color: var(--ojk-red);
-  }
+.info-block-box {
+  margin-top: 24px;
+  padding-top: 18px;
+  border-top: 1px solid var(--ojk-border);
+}
+.info-block-label {
+  font-weight: 700;
+  font-size: 0.95rem;
+  color: var(--ojk-dark-text);
+  margin-bottom: 4px;
+}
+.info-block-desc {
+  font-size: 0.9rem;
+  color: var(--ojk-gray-text);
+  line-height: 1.55;
+  margin-bottom: 16px;
+  white-space: pre-line;
+}
+.sdt-textarea {
+  width: 100%;
+  border: 1px solid var(--ojk-border-dark);
+  border-radius: 6px;
+  padding: 10px 14px;
+  font-size: 0.88rem;
+  min-height: 78px;
+  margin-top: 4px;
+  outline: none;
+  transition: border-color 0.2s;
+}
+.sdt-textarea:focus {
+  border-color: var(--ojk-red);
+}
 
-  .sdt-result-bar {
-    background-color: #f8fafc;
-    border: 1px solid var(--ojk-border);
-    border-radius: 8px;
-    padding: 14px 20px;
-    margin-top: 22px;
-    font-size: 0.95rem;
-    color: var(--ojk-gray-text);
-    display: flex;
-    align-items: center;
-    gap: 8px;
-  }
-  .status-terpenuhi {
-    color: #16a34a;
-    font-weight: 800;
-  }
-  .status-tidak-terpenuhi {
-    color: #dc2626;
-    font-weight: 800;
-  }
+.sdt-result-bar {
+  background-color: #f8fafc;
+  border: 1px solid var(--ojk-border);
+  border-radius: 8px;
+  padding: 14px 20px;
+  margin-top: 22px;
+  font-size: 0.95rem;
+  color: var(--ojk-gray-text);
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+.status-terpenuhi {
+  color: #16a34a;
+  font-weight: 800;
+}
+.status-tidak-terpenuhi {
+  color: #dc2626;
+  font-weight: 800;
+}
 
-  /* ==========================================================================
-     7. HALAMAN HASIL PENILAIAN
-     ========================================================================== */
-  .result-tabs-container {
-    display: flex;
-    gap: 28px;
-    border-bottom: 1px solid var(--ojk-border);
-    margin-bottom: 22px;
-  }
-  .result-tab-btn {
-    background: none;
-    border: none;
-    font-size: 1.05rem;
-    font-weight: 700;
-    color: #64748b;
-    padding: 10px 4px;
-    cursor: pointer;
-    transition: color 0.2s;
-  }
-  .result-tab-btn.active-tab {
-    color: var(--ojk-red);
-    border-bottom: 3px solid var(--ojk-red);
-  }
+/* ==========================================================================
+   7. HALAMAN HASIL PENILAIAN
+   ========================================================================== */
+.result-tabs-container {
+  display: flex;
+  gap: 28px;
+  border-bottom: 1px solid var(--ojk-border);
+  margin-bottom: 22px;
+}
+.result-tab-btn {
+  background: none;
+  border: none;
+  font-size: 1.05rem;
+  font-weight: 700;
+  color: #64748b;
+  padding: 10px 4px;
+  cursor: pointer;
+  transition: color 0.2s;
+}
+.result-tab-btn.active-tab {
+  color: var(--ojk-red);
+  border-bottom: 3px solid var(--ojk-red);
+}
 
-  .summary-section-box {
-    background-color: #ffffff;
-    border: 1px solid var(--ojk-border);
-    border-radius: 10px;
-    padding: 24px 30px;
-    margin-bottom: 20px;
-  }
-  .summary-section-title {
-    color: var(--ojk-red);
-    font-size: 1.15rem;
-    font-weight: 800;
-    margin-bottom: 16px;
-    padding-bottom: 10px;
-    border-bottom: 1px solid #f1f5f9;
-  }
-  .summary-data-table {
-    width: 100%;
-    border-collapse: collapse;
-  }
-  .summary-data-table td {
-    padding: 9px 0;
-    font-size: 0.92rem;
-    vertical-align: top;
-    border-bottom: 1px solid #f8fafc;
-  }
-  .summary-data-table td.label-col {
-    width: 280px;
-    color: var(--ojk-gray-text);
-    font-weight: 500;
-  }
-  .summary-data-table td.colon-col {
-    width: 20px;
-    text-align: center;
-    color: #64748b;
-  }
-  .summary-data-table td.val-col {
-    color: #334155;
-    font-weight: 500;
-  }
+.summary-section-box {
+  background-color: #ffffff;
+  border: 1px solid var(--ojk-border);
+  border-radius: 10px;
+  padding: 24px 30px;
+  margin-bottom: 20px;
+}
+.summary-section-title {
+  color: var(--ojk-red);
+  font-size: 1.15rem;
+  font-weight: 800;
+  margin-bottom: 16px;
+  padding-bottom: 10px;
+  border-bottom: 1px solid #f1f5f9;
+}
+.summary-data-table {
+  width: 100%;
+  border-collapse: collapse;
+}
+.summary-data-table td {
+  padding: 9px 0;
+  font-size: 0.92rem;
+  vertical-align: top;
+  border-bottom: 1px solid #f8fafc;
+}
+.summary-data-table td.label-col {
+  width: 280px;
+  color: var(--ojk-gray-text);
+  font-weight: 500;
+}
+.summary-data-table td.colon-col {
+  width: 20px;
+  text-align: center;
+  color: #64748b;
+}
+.summary-data-table td.val-col {
+  color: #334155;
+  font-weight: 500;
+}
 
-  .result-group-header {
-    background-color: #ffffff;
-    border: 1px solid var(--ojk-border);
-    border-radius: 8px;
-    padding: 12px 18px;
-    margin: 10px 0 8px 0;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    font-size: 0.94rem;
-    font-weight: 600;
-    color: #334155;
-  }
-  .result-group-header.border-success {
-    border-color: #22c55e !important;
-  }
-  .result-sub-card {
-    background-color: #ffffff;
-    border: 1px solid var(--ojk-border);
-    border-radius: 8px;
-    padding: 14px 18px;
-    margin: 8px 0;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    gap: 16px;
-  }
-  .result-sub-card-text {
-    font-size: 0.9rem;
-    line-height: 1.5;
-    color: #334155;
-  }
-  .result-sub-card-title {
-    font-size: 0.92rem;
-    font-weight: 700;
-    color: var(--ojk-dark-text);
-    margin-bottom: 3px;
-  }
-  .result-sub-card-desc {
-    font-size: 0.85rem;
-    color: #64748b;
-    line-height: 1.45;
-  }
+.result-group-header {
+  background-color: #ffffff;
+  border: 1px solid var(--ojk-border);
+  border-radius: 8px;
+  padding: 12px 18px;
+  margin: 10px 0 8px 0;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-size: 0.94rem;
+  font-weight: 600;
+  color: #334155;
+}
+.result-group-header.border-success {
+  border-color: #22c55e !important;
+}
+.result-sub-card {
+  background-color: #ffffff;
+  border: 1px solid var(--ojk-border);
+  border-radius: 8px;
+  padding: 14px 18px;
+  margin: 8px 0;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 16px;
+}
+.result-sub-card-text {
+  font-size: 0.9rem;
+  line-height: 1.5;
+  color: #334155;
+}
+.result-sub-card-title {
+  font-size: 0.92rem;
+  font-weight: 700;
+  color: var(--ojk-dark-text);
+  margin-bottom: 3px;
+}
+.result-sub-card-desc {
+  font-size: 0.85rem;
+  color: #64748b;
+  line-height: 1.45;
+}
 
-  .banner-hasil-box {
-    width: 100%;
-    padding: 22px 20px;
-    text-align: center;
-    color: #ffffff;
-    font-size: 1.5rem;
-    font-weight: 800;
-    border-radius: 12px;
-    margin: 18px 0 24px 0;
-  }
-  .banner-tidak-memenuhi { background-color: #64748b; }
-  .banner-selaras { background-color: #19b159; }
-  .banner-transisi { background-color: #f59e0b; }
+.banner-hasil-box {
+  width: 100%;
+  padding: 22px 20px;
+  text-align: center;
+  color: #ffffff;
+  font-size: 1.5rem;
+  font-weight: 800;
+  border-radius: 12px;
+  margin: 18px 0 24px 0;
+}
+.banner-tidak-memenuhi { background-color: #64748b; }
+.banner-selaras { background-color: #19b159; }
+.banner-transisi { background-color: #f59e0b; }
 
-  /* ==========================================================================
-     8. MODAL POP-UP KONFIRMASI & RESET
-     ========================================================================== */
-  .custom-modal-backdrop {
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    background: rgba(15, 23, 42, 0.55);
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    z-index: 100000;
-  }
-  .custom-modal-box {
-    background: #ffffff;
-    border-radius: 12px;
-    padding: 36px 32px 30px;
-    width: 90%;
-    max-width: 420px;
-    text-align: center;
-    box-shadow: 0 20px 35px rgba(0, 0, 0, 0.18);
-  }
-  .modal-circle-icon-large {
-    width: 76px;
-    height: 76px;
-    border-radius: 50%;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    margin: 0 auto 20px;
-    font-size: 2.2rem;
-  }
-  .modal-circle-icon-large.info-circle {
-    border: 3px solid var(--ojk-red);
-    color: var(--ojk-red);
-  }
-  .modal-circle-icon-large.success-circle {
-    border: 3px solid #86efac;
-    color: #22c55e;
-  }
-  .modal-confirm-question {
-    font-size: 1.25rem;
-    font-weight: 700;
-    color: #334155;
-    margin-bottom: 24px;
-    line-height: 1.45;
-  }
-  .modal-success-heading {
-    font-size: 1.55rem;
-    font-weight: 700;
-    color: #1e293b;
-    margin-bottom: 6px;
-  }
-  .modal-success-subheading {
-    font-size: 0.95rem;
-    color: #64748b;
-    margin-bottom: 24px;
-  }
-  .btn-modal-confirm-yes, .btn-modal-success-ok {
-    background-color: var(--ojk-red);
-    color: #ffffff;
-    border: none;
-    border-radius: 6px;
-    padding: 8px 32px;
-    font-weight: 700;
-    text-transform: uppercase;
-  }
-  .btn-modal-confirm-yes:hover, .btn-modal-success-ok:hover {
-    background-color: var(--ojk-red-hover);
-  }
-  .btn-modal-confirm-no {
-    background-color: #94a3b8;
-    color: #ffffff;
-    border: none;
-    border-radius: 6px;
-    padding: 8px 30px;
-    font-weight: 700;
-    text-transform: uppercase;
-  }
+/* ==========================================================================
+   8. MODAL POP-UP KONFIRMASI & RESET
+   ========================================================================== */
+.custom-modal-backdrop {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(15, 23, 42, 0.55);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 100000;
+}
+.custom-modal-box {
+  background: #ffffff;
+  border-radius: 12px;
+  padding: 36px 32px 30px;
+  width: 90%;
+  max-width: 420px;
+  text-align: center;
+  box-shadow: 0 20px 35px rgba(0, 0, 0, 0.18);
+}
+.modal-circle-icon-large {
+  width: 76px;
+  height: 76px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin: 0 auto 20px;
+  font-size: 2.2rem;
+}
+.modal-circle-icon-large.info-circle {
+  border: 3px solid var(--ojk-red);
+  color: var(--ojk-red);
+}
+.modal-circle-icon-large.success-circle {
+  border: 3px solid #86efac;
+  color: #22c55e;
+}
+.modal-confirm-question {
+  font-size: 1.25rem;
+  font-weight: 700;
+  color: #334155;
+  margin-bottom: 24px;
+  line-height: 1.45;
+}
+.modal-success-heading {
+  font-size: 1.55rem;
+  font-weight: 700;
+  color: #1e293b;
+  margin-bottom: 6px;
+}
+.modal-success-subheading {
+  font-size: 0.95rem;
+  color: #64748b;
+  margin-bottom: 24px;
+}
+.btn-modal-confirm-yes, .btn-modal-success-ok {
+  background-color: var(--ojk-red);
+  color: #ffffff;
+  border: none;
+  border-radius: 6px;
+  padding: 8px 32px;
+  font-weight: 700;
+  text-transform: uppercase;
+}
+.btn-modal-confirm-yes:hover, .btn-modal-success-ok:hover {
+  background-color: var(--ojk-red-hover);
+}
+.btn-modal-confirm-no {
+  background-color: #94a3b8;
+  color: #ffffff;
+  border: none;
+  border-radius: 6px;
+  padding: 8px 30px;
+  font-weight: 700;
+  text-transform: uppercase;
+}
 
-  /* ==========================================================================
-     9. EKSPOR DOKUMEN PDF (BEBAS DARI KOORDINAT NEGATIF AGAR 100% TERUNDUH)
-     ========================================================================== */
+/* ==========================================================================
+   9. EKSPOR DOKUMEN PDF (BEBAS DARI KOORDINAT NEGATIF)
+   ========================================================================== */
+#pdfOverlayContainer {
+  display: none;
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(15, 23, 42, 0.75);
+  z-index: 99999;
+  overflow-y: auto;
+  padding: 20px 0;
+}
+#pdfExportArea {
+  width: 794px;
+  margin: 0 auto;
+  background: #ffffff;
+  font-family: 'Open Sans', Arial, sans-serif;
+  color: #1e293b;
+  box-sizing: border-box;
+  box-shadow: 0 10px 30px rgba(0,0,0,0.3);
+}
+.pdf-page-container {
+  width: 794px;
+  min-height: 1080px;
+  padding: 36px 42px;
+  box-sizing: border-box;
+  background: #ffffff;
+  position: relative;
+}
+.pdf-header-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  border-bottom: 3px solid var(--ojk-red);
+  padding-bottom: 12px;
+  margin-bottom: 16px;
+}
+.pdf-penafian-box {
+  border: 2px solid var(--ojk-red);
+  border-radius: 6px;
+  overflow: hidden;
+  margin-bottom: 18px;
+}
+.pdf-penafian-bar {
+  background-color: var(--ojk-red);
+  color: #ffffff;
+  font-weight: 800;
+  font-size: 9.5pt;
+  padding: 5px 12px;
+  text-transform: uppercase;
+}
+.pdf-penafian-text {
+  padding: 10px 14px;
+  font-size: 8.5pt;
+  line-height: 1.45;
+  color: #334155;
+}
+.pdf-section-title-bar {
+  background-color: var(--jago-brown);
+  color: #ffffff;
+  font-weight: 700;
+  font-size: 10pt;
+  padding: 6px 14px;
+  border-radius: 4px;
+  margin-bottom: 12px;
+}
+
+@media print {
+  body * {
+    visibility: hidden;
+  }
+  #pdfOverlayContainer, #pdfOverlayContainer * {
+    visibility: visible;
+  }
   #pdfOverlayContainer {
-    display: none;
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    background: rgba(15, 23, 42, 0.75);
-    z-index: 99999;
-    overflow-y: auto;
-    padding: 20px 0;
+    display: block !important;
+    position: absolute !important;
+    left: 0 !important;
+    top: 0 !important;
+    width: 100% !important;
+    background: #ffffff !important;
+    padding: 0 !important;
   }
   #pdfExportArea {
-    width: 794px;
-    margin: 0 auto;
-    background: #ffffff;
-    font-family: 'Open Sans', Arial, sans-serif;
-    color: #1e293b;
-    box-sizing: border-box;
-    box-shadow: 0 10px 30px rgba(0,0,0,0.3);
+    box-shadow: none !important;
+    width: 100% !important;
+    margin: 0 !important;
   }
-  .pdf-page-container {
-    width: 794px;
-    min-height: 1080px;
-    padding: 36px 42px;
-    box-sizing: border-box;
-    background: #ffffff;
-    position: relative;
+  #pdfFloatingToolbar {
+    display: none !important;
   }
-  .pdf-header-row {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    border-bottom: 3px solid var(--ojk-red);
-    padding-bottom: 12px;
-    margin-bottom: 16px;
-  }
-  .pdf-penafian-box {
-    border: 2px solid var(--ojk-red);
-    border-radius: 6px;
-    overflow: hidden;
-    margin-bottom: 18px;
-  }
-  .pdf-penafian-bar {
-    background-color: var(--ojk-red);
-    color: #ffffff;
-    font-weight: 800;
-    font-size: 9.5pt;
-    padding: 5px 12px;
-    text-transform: uppercase;
-  }
-  .pdf-penafian-text {
-    padding: 10px 14px;
-    font-size: 8.5pt;
-    line-height: 1.45;
-    color: #334155;
-  }
-  .pdf-section-title-bar {
-    background-color: var(--jago-brown);
-    color: #ffffff;
-    font-weight: 700;
-    font-size: 10pt;
-    padding: 6px 14px;
-    border-radius: 4px;
-    margin-bottom: 12px;
-  }
+}
 
-  /* Aturan khusus jika pengguna memakai Print / Save as PDF bawaan browser */
-  @media print {
-    body * {
-      visibility: hidden;
-    }
-    #pdfOverlayContainer, #pdfOverlayContainer * {
-      visibility: visible;
-    }
-    #pdfOverlayContainer {
-      display: block !important;
-      position: absolute !important;
-      left: 0 !important;
-      top: 0 !important;
-      width: 100% !important;
-      background: #ffffff !important;
-      padding: 0 !important;
-    }
-    #pdfExportArea {
-      box-shadow: none !important;
-      width: 100% !important;
-      margin: 0 !important;
-    }
-    #pdfFloatingToolbar {
-      display: none !important;
-    }
-  }
+/* ==========================================================================
+   10. FOOTER COKLAT KHAS BANK JAGO
+   ========================================================================== */
+.footer {
+  background-color: var(--jago-brown);
+  color: #FDE68A;
+  padding: 20px 0;
+  margin-top: auto;
+  font-size: 0.82rem;
+  border-top: 3px solid var(--ojk-red);
+}
+.footer strong {
+  color: #ffffff;
+}
 
-  /* ==========================================================================
-     10. FOOTER COKLAT KHAS BANK JAGO
-     ========================================================================== */
-  .footer {
-    background-color: var(--jago-brown);
-    color: #FDE68A;
-    padding: 20px 0;
-    margin-top: auto;
-    font-size: 0.82rem;
-    border-top: 3px solid var(--ojk-red);
-  }
-  .footer strong {
-    color: #ffffff;
-  }
+/* ==========================================================================
+   11. KOMPONEN BARU: KUESIONER EMISI & LINGKUNGAN (POIN A - E)
+   ========================================================================== */
+
+/* Kotak Petunjuk / Panduan Pengisian Edukatif */
+.guidance-box {
+  background-color: #FFFBEB;
+  border: 1px solid #FDE68A;
+  border-left: 4px solid var(--jago-yellow);
+  border-radius: 8px;
+  padding: 14px 18px;
+  font-size: 0.875rem;
+  color: #78350F;
+  line-height: 1.55;
+  margin-bottom: 16px;
+}
+.guidance-box strong {
+  color: #451A03;
+}
+
+/* Helper Shortcut Multiplier (Juta / Miliar / Triliun) */
+.shortcut-multiplier-bar {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 6px;
+  margin-top: 6px;
+}
+.shortcut-label {
+  font-size: 0.78rem;
+  font-weight: 700;
+  color: #64748B;
+  text-transform: uppercase;
+  letter-spacing: 0.3px;
+}
+.btn-multiplier {
+  background-color: #F8FAFC;
+  border: 1px solid #CBD5E1;
+  color: #334155;
+  border-radius: 20px;
+  padding: 2px 12px;
+  font-size: 0.78rem;
+  font-weight: 700;
+  cursor: pointer;
+  transition: all 0.15s ease;
+}
+.btn-multiplier:hover {
+  background-color: #FFF7ED;
+  border-color: var(--ojk-red);
+  color: var(--ojk-red);
+}
+.btn-multiplier.active {
+  background-color: var(--ojk-red);
+  border-color: var(--ojk-red);
+  color: #ffffff;
+}
+
+/* Teks Pratinjau Terbaca Otomatis di Bawah Input Nominal */
+.nominal-preview-note {
+  font-size: 0.82rem;
+  font-weight: 600;
+  color: #16A34A;
+  margin-top: 4px;
+  min-height: 18px;
+}
+
+/* Input Group Satuan Khusus (Liter / kWh / Rp) */
+.input-group-unit {
+  position: relative;
+  display: flex;
+  align-items: center;
+}
+.input-group-unit .form-control {
+  padding-right: 68px;
+}
+.input-unit-badge {
+  position: absolute;
+  right: 12px;
+  font-size: 0.82rem;
+  font-weight: 700;
+  color: #64748B;
+  pointer-events: none;
+  background-color: #F1F5F9;
+  padding: 3px 8px;
+  border-radius: 4px;
+}
+
+/* Scope 3 Dynamic Travel Table & Cards */
+.scope3-container {
+  background-color: #F8FAFC;
+  border: 1px dashed #CBD5E1;
+  border-radius: 10px;
+  padding: 16px;
+  margin-bottom: 16px;
+}
+.scope3-row-card {
+  background-color: #ffffff;
+  border: 1px solid #E2E8F0;
+  border-radius: 8px;
+  padding: 14px 16px;
+  margin-bottom: 12px;
+  box-shadow: 0 1px 4px rgba(0,0,0,0.03);
+  transition: border-color 0.2s ease;
+}
+.scope3-row-card:hover {
+  border-color: #FED7AA;
+}
+.btn-remove-row {
+  background-color: #FEE2E2;
+  color: #DC2626;
+  border: 1px solid #FECACA;
+  border-radius: 6px;
+  padding: 6px 12px;
+  font-size: 0.82rem;
+  font-weight: 700;
+  transition: all 0.15s ease;
+}
+.btn-remove-row:hover {
+  background-color: #DC2626;
+  color: #ffffff;
+}
+.btn-add-row {
+  background-color: #ffffff;
+  border: 2px dashed var(--ojk-red);
+  color: var(--ojk-red);
+  border-radius: 8px;
+  padding: 10px 20px;
+  font-weight: 700;
+  font-size: 0.9rem;
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  transition: all 0.2s ease;
+}
+.btn-add-row:hover {
+  background-color: #FFF7ED;
+  color: var(--ojk-red-hover);
+}
+
+/* ==========================================================================
+   12. LAYAR TRANSISI / PESAN SELESAI EMISI (STEP 4)
+   ========================================================================== */
+.transition-finish-card {
+  background: #ffffff;
+  border: 1px solid var(--ojk-border);
+  border-top: 5px solid #16A34A;
+  border-radius: 16px;
+  padding: 44px 32px;
+  text-align: center;
+  box-shadow: 0 10px 25px rgba(0,0,0,0.04);
+}
+.transition-icon-circle {
+  width: 84px;
+  height: 84px;
+  border-radius: 50%;
+  background-color: #DCFCE7;
+  color: #16A34A;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 2.6rem;
+  margin: 0 auto 20px;
+}
+.transition-stats-box {
+  background-color: #F8FAFC;
+  border: 1px solid #E2E8F0;
+  border-radius: 12px;
+  padding: 20px;
+  max-width: 680px;
+  margin: 24px auto;
+  text-align: left;
+}
+.transition-stat-item {
+  display: flex;
+  justify-content: space-between;
+  padding: 8px 0;
+  border-bottom: 1px solid #F1F5F9;
+  font-size: 0.92rem;
+}
+.transition-stat-item:last-child {
+  border-bottom: none;
+}
