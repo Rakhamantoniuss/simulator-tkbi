@@ -1,0 +1,2425 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>TKBI Simulator - PT Bank Jago Tbk</title>
+  
+  <!-- Bootstrap & Icons -->
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css">
+  
+  <!-- Pustaka Ekspor PDF -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
+  
+  <!-- Pemanggilan File Statis Vercel -->
+  <link rel="stylesheet" href="style.css">
+  <script src="data-kbli.js"></script>
+  <script src="data-tsc.js"></script>
+</head>
+<body>
+
+  <!-- Topbar Kuning/Oranye Khas Bank Jago -->
+  <div class="topbar-ojk">
+    <div class="main-wrapper d-flex justify-content-between align-items-center">
+      <div>
+       <a href="javascript:void(0)" id="btnLangID" class="active fw-bold" onclick="ubahBahasa('id')">ID</a> | 
+       <a href="javascript:void(0)" id="btnLangEN" class="text-white text-decoration-none" onclick="ubahBahasa('en')">EN</a>
+      </div>
+      <div id="google_translate_element" style="display:none;"></div>
+      <div>
+        <a href="javascript:void(0)"><i class="bi bi-info-circle me-1"></i>Tentang</a> | 
+        <a href="https://www.jago.com" target="_blank"><i class="bi bi-globe me-1"></i>Bank Jago Website</a>
+      </div>
+    </div>
+  </div>
+
+  <!-- Navbar Putih dengan Logo Resmi Bank Jago di Kiri Atas -->
+  <nav class="navbar-ojk">
+    <div class="main-wrapper d-flex justify-content-between align-items-center">
+      <a class="navbar-brand-clickable d-flex align-items-center text-decoration-none" href="javascript:void(0)" onclick="resetKeMenuAwal()">
+        <svg height="42" viewBox="0 0 400 150" fill="none" xmlns="http://www.w3.org/2000/svg" style="display:block;">
+          <circle cx="24" cy="24" r="15" fill="#FEAE27"/>
+          <circle cx="60" cy="24" r="15" fill="#FEAE27"/>
+          <circle cx="96" cy="24" r="15" fill="#FEAE27"/>
+          <path d="M108 56 C108 48 102 42 95 42 C88 42 82 48 82 56 V74 C82 85 73 93 60 93 C47 93 38 85 38 74 V70 H12 V75 C12 100 32 117 60 117 C88 117 108 100 108 75 V56 Z" fill="#FEAE27"/>
+          <path fill-rule="evenodd" clip-rule="evenodd" d="M180 48 H203 V114 H180 V105 C174 113 164 117 152 117 C131 117 116 101 116 81 C116 61 131 45 152 45 C164 45 174 49 180 57 V48 Z M159 95 C170 95 178 89 178 81 C178 73 170 67 159 67 C148 67 140 73 140 81 C140 89 148 95 159 95 Z" fill="#FEAE27"/>
+          <path fill-rule="evenodd" clip-rule="evenodd" d="M276 48 H299 V110 C299 132 281 146 254 146 C233 146 217 136 213 121 H238 C241 126 246 128 254 128 C267 128 275 121 275 110 V103 C269 111 259 115 247 115 C226 115 211 100 211 80 C211 60 226 45 247 45 C259 45 269 49 276 57 V48 Z M255 94 C266 94 274 88 274 80 C274 72 266 66 255 66 C244 66 236 72 236 80 C236 88 244 94 255 94 Z" fill="#FEAE27"/>
+          <path fill-rule="evenodd" clip-rule="evenodd" d="M348 117 C371 117 389 101 389 81 C389 61 371 45 348 45 C325 45 307 61 307 81 C307 101 325 117 348 117 Z M348 95 C358 95 365 89 365 81 C365 73 358 67 348 67 C338 67 331 73 331 81 C331 89 338 95 348 95 Z" fill="#FEAE27"/>
+        </svg>
+        <span class="ms-3 fw-bold text-danger fs-5 border-start ps-3">TKBI SIMULATOR</span>
+      </a>
+      <span class="badge bg-light text-secondary border px-3 py-2 small fw-semibold">Taxonomy Navigator</span>
+    </div>
+  </nav>
+
+  <div class="main-wrapper py-4 flex-grow-1">
+
+    <!-- STEP 0: PILIH SKALA USAHA -->
+    <div id="viewStep0" class="row justify-content-center">
+      <div class="col-lg-9 text-center">
+        <h2 class="fw-bold mb-2 text-dark">Simulator Taksonomi Keuangan Berkelanjutan Indonesia (TKBI)</h2>
+        <p class="text-secondary mb-4">Pilih skala usaha entitas debitur untuk memulai penilaian mandiri (self-assessment)</p>
+        <div class="row g-4 justify-content-center">
+          <div class="col-md-6">
+            <div class="scale-selection-card" onclick="pilihSkala('UMKM')">
+              <div class="scale-icon-circle"><i class="bi bi-shop"></i></div>
+              <h4 class="fw-bold text-dark">Simulator UMKM</h4>
+              <p class="text-secondary small">Penilaian prinsip umum berbasis <em>Sector-Agnostic Decision Tree</em> (SDT) untuk Usaha Mikro, Kecil, dan Menengah.</p>
+              <button class="btn btn-next w-100">Mulai Simulator UMKM <i class="bi bi-arrow-right ms-1"></i></button>
+            </div>
+          </div>
+          <div class="col-md-6">
+            <div class="scale-selection-card" onclick="pilihSkala('Non UMKM')">
+              <div class="scale-icon-circle"><i class="bi bi-buildings"></i></div>
+              <h4 class="fw-bold text-dark">Simulator Non UMKM</h4>
+              <p class="text-secondary small">Penilaian kriteria teknis kuantitatif berbasis <em>Technical Screening Criteria</em> (TSC) untuk skala Korporasi.</p>
+              <button class="btn btn-next w-100">Mulai Simulator Non UMKM <i class="bi bi-arrow-right ms-1"></i></button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- STEP 1: PENAFIAN / DISCLAIMER -->
+    <div id="viewStep1" style="display:none;">
+      <div class="card-ojk">
+        <h4 class="fw-bold text-danger mb-3" id="txtJudulDisclaimer"><i class="bi bi-shield-exclamation me-2"></i>Penafian (Disclaimer)</h4>
+        <div class="p-3 bg-light rounded border mb-4 text-secondary small" style="line-height: 1.6;">
+          Aplikasi ini dibuat untuk keperluan simulasi dan asesmen internal Taksonomi Keuangan Berkelanjutan Indonesia (TKBI). Hasil simulasi berfungsi sebagai alat bantu evaluasi dan tetap mengacu pada Buku Panduan TKBI resmi Otoritas Jasa Keuangan (OJK) sebagai rujukan utama.
+        </div>
+        <div class="form-check mb-4">
+          <input class="form-check-input" type="checkbox" id="chkDisclaimer" onchange="toggleDisclaimer()">
+          <label class="form-check-label fw-bold text-dark" for="chkDisclaimer">
+            Dengan ini saya menyatakan telah membaca, memahami, dan memenuhi syarat dan ketentuan yang berlaku.
+          </label>
+        </div>
+        <div class="d-flex justify-content-between">
+          <button class="btn btn-back" onclick="navigasiStep(0)"><i class="bi bi-arrow-left me-2"></i>Kembali</button>
+          <button class="btn btn-next" id="btnNextDisclaimer" disabled onclick="navigasiStep(2)">Selanjutnya<i class="bi bi-arrow-right ms-2"></i></button>
+        </div>
+      </div>
+    </div>
+
+    <!-- STEP 2: FORM IDENTITAS ENTITAS & KBLI -->
+    <div id="viewStep2" style="display:none;">
+      <div class="card-ojk">
+        <div class="d-flex justify-content-between align-items-center mb-4 border-bottom pb-3">
+          <h4 class="fw-bold text-danger mb-0"><i class="bi bi-person-vcard me-2"></i>Informasi Entitas dan Aktivitas Usaha</h4>
+          <span class="badge bg-light text-secondary border">Wajib Diisi (<span class="text-danger">*</span>)</span>
+        </div>
+        <div class="row g-3">
+          <div class="col-md-6">
+            <label class="form-label fw-bold">Nama Institusi / Perusahaan <span class="text-danger">*</span></label>
+            <input type="text" class="form-control" id="inputNamaInstitusi" placeholder="Masukkan nama Institusi / Perusahaan">
+          </div>
+          <div class="col-md-6">
+            <label class="form-label fw-bold">Pilih tanggal posisi penilaian <span class="text-danger">*</span></label>
+            <input type="date" class="form-control" id="inputTanggal">
+          </div>
+          <div class="col-md-6">
+            <label class="form-label fw-bold">Pilih Sektor KBLI <span class="text-danger">*</span></label>
+            <select class="form-select" id="selectSektor" onchange="muatPohonKBLISektor()">
+              <option value="">-- Pilih Sektor KBLI --</option>
+            </select>
+          </div>
+          <div class="col-md-6">
+            <label class="form-label fw-bold">Pilih KBLI <span class="text-danger">*</span></label>
+            <div class="kbli-picker-container">
+              <div class="kbli-select-display" id="boxKBLIDisplay" onclick="toggleKBLIDropdown()">
+                <span id="labelKBLITerpilih" class="text-muted">Pilih KBLI</span>
+                <i class="bi bi-chevron-down text-secondary"></i>
+              </div>
+              <div class="kbli-tree-dropdown" id="dropdownPohonKBLI">
+                <div class="kbli-tree-title">Pilih Hierarki KBLI</div>
+                <div class="kbli-tree-search">
+                  <input type="text" class="form-control form-control-sm" id="cariInputKBLI" placeholder="🔍 Cari nama atau kode KBLI..." onkeyup="filterPohonKBLI()">
+                </div>
+                <div class="kbli-tree-container" id="kontainerNodeKBLI"></div>
+              </div>
+            </div>
+          </div>
+          <div class="col-12">
+            <label class="form-label fw-bold">Deskripsi KBLI</label>
+            <textarea class="form-control bg-light" id="inputDeskripsiKBLI" rows="2" readonly placeholder="-"></textarea>
+          </div>
+          <div class="col-md-12">
+            <label class="form-label fw-bold">Pilih Tujuan Lingkungan Utama <span class="text-danger">*</span></label>
+            <select class="form-select" id="selectEO" onchange="onEOChanged()">
+              <option value="EO1">EO1: Mitigasi Perubahan Iklim</option>
+              <option value="EO2">EO2: Adaptasi Perubahan Iklim</option>
+              <option value="EO3">EO3: Perlindungan Ekosistem dan Keanekaragaman Hayati</option>
+              <option value="EO4">EO4: Ketahanan Sumber Daya dan Transisi menuju Ekonomi Sirkular</option>
+            </select>
+          </div>
+        </div>
+        <div class="d-flex justify-content-between mt-4">
+          <button class="btn btn-back" onclick="navigasiStep(1)"><i class="bi bi-arrow-left me-2"></i>Kembali</button>
+          <button class="btn btn-next" onclick="mulaiKuesionerSurvei()">Mulai Simulasi <i class="bi bi-arrow-right ms-2"></i></button>
+        </div>
+      </div>
+    </div>
+
+    <!-- STEP 3 S.D. 6: SURVEI PERTANYAAN DINAMIS -->
+    <div id="viewStepSurvei" style="display:none;">
+
+      <!-- Kartu Review Identitas & Definisi -->
+      <div class="review-card-ojk" id="cardReviewIdentitasAtas">
+        <div class="row g-3 g-md-4 mb-3">
+          <div class="col-md-6">
+            <div class="review-label-red"><i class="bi bi-building"></i> NAMA INSTITUSI</div>
+            <div class="review-val-text" id="revNama">-</div>
+          </div>
+          <div class="col-md-6">
+            <div class="review-label-red"><i class="bi bi-calendar3"></i> POSISI PENILAIAN</div>
+            <div class="review-val-text" id="revTanggal">-</div>
+          </div>
+          <div class="col-md-6">
+            <div class="review-label-red"><i class="bi bi-graph-up-arrow"></i> SKALA USAHA</div>
+            <div class="review-val-text" id="revSkala">-</div>
+          </div>
+          <div class="col-md-6">
+            <div class="review-label-red"><i class="bi bi-grid-3x3-gap"></i> SEKTOR</div>
+            <div class="review-val-text" id="revSektor">-</div>
+          </div>
+          <div class="col-md-6">
+            <div class="review-label-red"><i class="bi bi-diagram-3"></i> KBLI LEVEL 5</div>
+            <div class="review-val-text text-danger" id="revKBLI">-</div>
+          </div>
+          <div class="col-md-6">
+            <div class="review-label-red"><i class="bi bi-diagram-2"></i> SUB KBLI LEVEL 5</div>
+            <div class="review-val-text" id="revSubKBLI">-</div>
+          </div>
+          <div class="col-12">
+            <div class="review-label-red"><i class="bi bi-tree"></i> TUJUAN LINGKUNGAN UTAMA</div>
+            <div class="review-val-text" id="revTujuan">-</div>
+          </div>
+        </div>
+        <hr class="my-3" style="border-color: #e2e8f0;">
+        <div>
+          <div class="d-flex align-items-center gap-2 mb-2">
+            <i class="bi bi-info-circle-fill text-danger fs-5"></i>
+            <span class="fw-bold text-danger fs-6">Definisi</span>
+          </div>
+          <p class="text-secondary small mb-0 lh-base" id="revDefinisi">-</p>
+        </div>
+      </div>
+
+      <!-- MULTI-BUBBLE STEPPER UI PERSIS GAMBAR WEB OJK -->
+      <div class="stepper-card-ojk">
+        <div class="d-flex justify-content-between align-items-center flex-wrap gap-3">
+          <div class="stepper-trail-list" id="areaStepperTrailSurvei"></div>
+          <button type="button" class="btn-petunjuk-ojk ms-auto" onclick="bukaPetunjuk()">
+            <i class="bi bi-info-circle me-1"></i> Petunjuk Pengisian
+          </button>
+        </div>
+        <div class="stepper-progress-track">
+          <div class="stepper-progress-fill" id="barProgressSurvei" style="width: 25%;"></div>
+        </div>
+      </div>
+
+      <!-- Wadah Kartu Pertanyaan Dinamis -->
+      <div id="kontainerKartuPertanyaan"></div>
+
+      <!-- Navigasi Bawah Kuesioner -->
+      <div class="d-flex justify-content-between align-items-center mt-3 mb-5">
+        <button class="btn btn-reset" onclick="bukaModalKonfirmasiReset()"><i class="bi bi-arrow-clockwise me-1"></i> Reset</button>
+        <div>
+          <button class="btn btn-back me-2" onclick="mundurSubStep()"><i class="bi bi-arrow-left me-1"></i> Sebelumnya</button>
+          <button class="btn btn-next" onclick="majuSubStep()">Selanjutnya <i class="bi bi-arrow-right ms-1"></i></button>
+        </div>
+      </div>
+    </div>
+
+    <!-- STEP 7: HASIL PENILAIAN & DETAIL SIMULASI -->
+    <div id="viewStepHasil" style="display:none;">
+
+      <!-- Kartu Review Identitas di Halaman Hasil -->
+      <div class="review-card-ojk">
+        <div class="row g-3 g-md-4 mb-3">
+          <div class="col-md-6">
+            <div class="review-label-red"><i class="bi bi-building"></i> NAMA INSTITUSI</div>
+            <div class="review-val-text" id="revHasilNama">-</div>
+          </div>
+          <div class="col-md-6">
+            <div class="review-label-red"><i class="bi bi-calendar3"></i> POSISI PENILAIAN</div>
+            <div class="review-val-text" id="revHasilTanggal">-</div>
+          </div>
+          <div class="col-md-6">
+            <div class="review-label-red"><i class="bi bi-graph-up-arrow"></i> SKALA USAHA</div>
+            <div class="review-val-text" id="revHasilSkala">-</div>
+          </div>
+          <div class="col-md-6">
+            <div class="review-label-red"><i class="bi bi-grid-3x3-gap"></i> SEKTOR</div>
+            <div class="review-val-text" id="revHasilSektor">-</div>
+          </div>
+          <div class="col-md-6">
+            <div class="review-label-red"><i class="bi bi-diagram-3"></i> KBLI LEVEL 5</div>
+            <div class="review-val-text text-danger" id="revHasilKBLI">-</div>
+          </div>
+          <div class="col-md-6">
+            <div class="review-label-red"><i class="bi bi-diagram-2"></i> SUB KBLI LEVEL 5</div>
+            <div class="review-val-text" id="revHasilSubKBLI">-</div>
+          </div>
+          <div class="col-12">
+            <div class="review-label-red"><i class="bi bi-tree"></i> TUJUAN LINGKUNGAN UTAMA</div>
+            <div class="review-val-text" id="revHasilTujuan">-</div>
+          </div>
+        </div>
+        <hr class="my-3" style="border-color: #e2e8f0;">
+        <div>
+          <div class="d-flex align-items-center gap-2 mb-2">
+            <i class="bi bi-info-circle-fill text-danger fs-5"></i>
+            <span class="fw-bold text-danger fs-6">Definisi</span>
+          </div>
+          <p class="text-secondary small mb-0 lh-base" id="revHasilDefinisi">-</p>
+        </div>
+      </div>
+
+      <!-- MULTI-BUBBLE STEPPER DI ATAS HALAMAN HASIL -->
+      <div class="stepper-card-ojk">
+        <div class="d-flex justify-content-between align-items-center flex-wrap gap-3">
+          <div class="stepper-trail-list" id="areaStepperTrailHasil"></div>
+          <button type="button" class="btn-petunjuk-ojk ms-auto" onclick="bukaPetunjuk()">
+            <i class="bi bi-info-circle me-1"></i> Petunjuk Pengisian
+          </button>
+        </div>
+        <div class="stepper-progress-track">
+          <div class="stepper-progress-fill" style="width: 100%;"></div>
+        </div>
+      </div>
+
+      <div class="card-ojk">
+        <div class="result-tabs-container">
+          <button class="result-tab-btn active-tab" id="tabBtnHasil" onclick="pindahTabHasil('HASIL')">Hasil Penilaian</button>
+          <button class="result-tab-btn" id="tabBtnDetail" onclick="pindahTabHasil('DETAIL')">Detail Simulasi Penilaian</button>
+        </div>
+
+        <!-- TAB 1: HASIL PENILAIAN -->
+        <div id="viewTabHasil">
+          <div class="summary-section-box">
+            <div class="summary-section-title">Ringkasan Aktivitas</div>
+            <table class="summary-data-table">
+              <tr><td class="label-col">Posisi Penilaian</td><td class="colon-col">:</td><td class="val-col" id="resTanggal">-</td></tr>
+              <tr><td class="label-col">Skala Usaha</td><td class="colon-col">:</td><td class="val-col" id="resSkala">-</td></tr>
+              <tr><td class="label-col">Sektor</td><td class="colon-col">:</td><td class="val-col" id="resSektor">-</td></tr>
+              <tr><td class="label-col">KBLI Level 1</td><td class="colon-col">:</td><td class="val-col" id="resLvl1">-</td></tr>
+              <tr><td class="label-col">KBLI Level 2</td><td class="colon-col">:</td><td class="val-col" id="resLvl2">-</td></tr>
+              <tr><td class="label-col">KBLI Level 3</td><td class="colon-col">:</td><td class="val-col" id="resLvl3">-</td></tr>
+              <tr><td class="label-col">KBLI Level 4</td><td class="colon-col">:</td><td class="val-col" id="resLvl4">-</td></tr>
+              <tr><td class="label-col">KBLI Level 5</td><td class="colon-col">:</td><td class="val-col" id="resLvl5">-</td></tr>
+              <tr><td class="label-col">Tujuan Lingkungan Utama</td><td class="colon-col">:</td><td class="val-col" id="resEO">-</td></tr>
+            </table>
+          </div>
+
+          <div class="summary-section-box">
+            <div class="summary-section-title d-flex align-items-center gap-2" style="color:#0f172a;">
+              <i class="bi bi-card-checklist"></i> Hasil Penilaian
+            </div>
+            <div id="listEvaluasiHierarki"></div>
+          </div>
+
+          <div class="text-center">
+            <div class="fw-bold mb-2 text-dark fs-5">Hasil Per-Posisi Penilaian: <span id="txtHasilSingkat">-</span></div>
+            <div class="banner-hasil-box" id="boxBannerHasil">-</div>
+          </div>
+
+          <div class="d-flex justify-content-center align-items-center gap-3 mt-4 mb-5">
+            <button class="btn btn-reset" onclick="bukaModalKonfirmasiReset()"><i class="bi bi-arrow-clockwise me-1"></i> Reset</button>
+            <button class="btn btn-back" onclick="kembaliDariHasil()"><i class="bi bi-arrow-left me-1"></i> Sebelumnya</button>
+            <button class="btn btn-unduh-pdf" id="btnUnduhLaporan" onclick="unduhLaporanPDF()"><i class="bi bi-download me-1"></i> Unduh PDF</button>
+          </div>
+        </div>
+
+        <!-- TAB 2: DETAIL SIMULASI PENILAIAN -->
+        <div id="viewTabDetail" style="display:none;">
+          <div class="summary-section-box">
+            <div class="summary-section-title">Detail Simulasi Penilaian</div>
+            <div id="areaDetailSimulasiCards"></div>
+          </div>
+
+          <div class="d-flex justify-content-center align-items-center gap-3 mt-4 mb-5">
+            <button class="btn btn-reset" onclick="bukaModalKonfirmasiReset()"><i class="bi bi-arrow-clockwise me-1"></i> Reset</button>
+            <button class="btn btn-back" onclick="pindahTabHasil('HASIL')"><i class="bi bi-arrow-left me-1"></i> Kembali ke Ringkasan</button>
+            <button class="btn btn-unduh-pdf" onclick="unduhLaporanPDF()"><i class="bi bi-download me-1"></i> Unduh PDF</button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+  </div>
+
+  <!-- POP-UP MODAL 1: KONFIRMASI RESET -->
+  <div id="modalKonfirmasiReset" class="custom-modal-backdrop" style="display:none;">
+    <div class="custom-modal-box">
+      <div class="modal-circle-icon-large info-circle"><i class="bi bi-info-lg"></i></div>
+      <div class="modal-confirm-question">Apakah anda yakin ingin<br>reset?</div>
+      <div class="d-flex justify-content-center gap-3">
+        <button type="button" class="btn-modal-confirm-yes" onclick="konfirmasiResetIya()">IYA</button>
+        <button type="button" class="btn-modal-confirm-no" onclick="tutupModalKonfirmasiReset()">TIDAK</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- POP-UP MODAL 2: BERHASIL MELAKUKAN RESET -->
+  <div id="modalBerhasilReset" class="custom-modal-backdrop" style="display:none;">
+    <div class="custom-modal-box">
+      <div class="modal-circle-icon-large success-circle"><i class="bi bi-check-lg"></i></div>
+      <div class="modal-success-heading">Berhasil</div>
+      <div class="modal-success-subheading">Berhasil melakukan reset</div>
+      <div class="d-flex justify-content-center">
+        <button type="button" class="btn-modal-success-ok" onclick="tutupModalBerhasilReset()">OK</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- OVERLAY PRATINJAU & EKSPOR DOKUMEN PDF -->
+  <div id="pdfOverlayContainer">
+    <div id="pdfFloatingToolbar" class="d-flex justify-content-between align-items-center bg-white px-4 py-3 mb-3 mx-auto rounded shadow" style="width:794px;">
+      <div class="fw-bold text-dark">
+        <i class="bi bi-file-earmark-pdf-fill text-danger me-2"></i><span id="txtStatusPdfToolbar">Menyiapkan unduhan PDF otomatis...</span>
+      </div>
+      <div class="d-flex gap-2">
+        <button type="button" class="btn btn-sm btn-next px-3 py-1" onclick="eksekusiDownloadBlobPDF()">
+          <i class="bi bi-download me-1"></i>Simpan File PDF
+        </button>
+        <button type="button" class="btn btn-sm btn-outline-dark px-3 py-1 rounded-pill fw-bold" onclick="window.print()">
+          <i class="bi bi-printer me-1"></i>Cetak / Save as PDF
+        </button>
+        <button type="button" class="btn btn-sm btn-secondary px-3 py-1 rounded-pill fw-bold" onclick="tutupPratinjauPDF()">
+          Tutup
+        </button>
+      </div>
+    </div>
+    <div id="pdfExportArea"></div>
+  </div>
+
+  <!-- Footer Coklat Khas Bank Jago dengan Alamat Resmi Bank Jago -->
+  <footer class="footer text-center">
+    <div class="main-wrapper">
+      <p class="mb-1"><strong>PT Bank Jago Tbk</strong> &bull; Menara BTPN Lt. 46, Jl. Dr. Ide Anak Agung Gde Agung Kav. 5.5–5.6, Mega Kuningan, Jakarta Selatan 12950</p>
+      <p class="mb-0" style="color: #FDE68A; opacity: 0.9;">&copy; 2026 PT Bank Jago Tbk &mdash; Simulator Taksonomi Keuangan Berkelanjutan Indonesia (TKBI). Berizin dan Diawasi oleh OJK &amp; Bank Indonesia.</p>
+    </div>
+  </footer>
+
+  <script>
+    // =========================================================================
+    // KONFIGURASI BACKEND API (GANTI DENGAN URL /exec APPS SCRIPT ANDA)
+    // =========================================================================
+    const APPS_SCRIPT_URL = "https://script.google.com/macros/s/AKfycbwYGmiORqhD3wttROtczvBXmJgkIPW1IQk4GCJB9fvW4O7iQAaANMR4NO2o0_ldJ4gb/exec";
+
+    const state = {
+      step: 0,
+      subStep: "SDT",
+      skala: "UMKM",
+      namaInstitusi: "",
+      tanggal: "",
+      sektor: "",
+      kodeKBLI: "",
+      namaKBLI: "",
+      deskripsiKBLI: "",
+      tujuanLingkungan: "EO1",
+      jalurTSC: "HIJAU",
+      pernahMasukTSCTransisi: false,
+      jalurRMT: "LOLOS_DNSH",
+      statusHasil: "Hijau",
+      langkahTerakhirSebelumHasil: "SOSIAL",
+      jawaban: {},
+      catatan: {},
+      nonUmkmDataSheet: null
+    };
+
+    const BANK_SDT_UMKM = {
+      EO1: {
+        judul: "Aktivitas tersebut mencegah/mengurangi emisi GRK atau mendorong pemangku kepentingan dan/atau Aktivitas lain untuk memitigasi perubahan iklim",
+        petunjuk: "Apakah Aktivitas tersebut mencegah atau mengurangi emisi GRK atau mendorong pemangku kepentingan dan/atau Aktivitas lain untuk memitigasi perubahan iklim?",
+        pertanyaan: [
+          { id: "sdt_eo1_1", teks: "1. Apakah Aktivitas mencegah atau membantu dalam mengurangi emisi GRK? (Contoh: menghemat penggunaan listrik, menggunakan energi terbarukan, efisiensi bahan bakar operasional)" },
+          { id: "sdt_eo1_2", teks: "2. Apakah Aktivitas tersebut membantu pemangku kepentingan lainnya (termasuk masyarakat) dan/atau Aktivitas lainnya untuk memitigasi perubahan iklim? (Contoh: bangunan ramah lingkungan, penyediaan sarana hijau)" }
+        ],
+        pemisah: "atau",
+        referensi: "-",
+        keterangan: "Prinsip pemenuhan berbasis ATAU (cukup salah satu kriteria terpenuhi untuk lolos ke tahap evaluasi berikutnya)."
+      },
+      EO2: {
+        judul: "Aktivitas tersebut menerapkan langkah-langkah untuk meningkatkan ketahanan entitas usaha terhadap perubahan iklim atau mendorong pemangku kepentingan dan/atau Aktivitas lain untuk meningkatkan ketahanan terhadap perubahan iklim",
+        petunjuk: "Apakah Aktivitas tersebut menerapkan langkah-langkah untuk meningkatkan ketahanan entitas usaha terhadap perubahan iklim atau mendorong pemangku kepentingan dan/atau Aktivitas lain untuk meningkatkan ketahanan terhadap perubahan iklim?",
+        pertanyaan: [
+          { id: "sdt_eo2_1", teks: "1. Apakah kebijakan dan strategi bisnis entitas usaha secara umum tidak bertentangan atau menghambat keselarasan dengan prinsip-prinsip EO2?" },
+          { id: "sdt_eo2_2", teks: "2. Bagaimana Aktivitas berkontribusi pada ketahanan entitas usaha terhadap dampak fisik yang merugikan dari perubahan iklim saat ini dan di masa depan? (contoh: perbaikan infrastruktur anti-banjir, proteksi air)" },
+          { id: "sdt_eo2_3", teks: "3. Apakah Aktivitas membantu pemangku kepentingan lainnya (masyarakat sekitar) untuk mengurangi atau mengelola risiko fisik bencana iklim?" }
+        ],
+        pemisah: "atau",
+        referensi: "-",
+        keterangan: "Fokus pada pengurangan kerentanan fisik terhadap bahaya iklim kronis maupun akut."
+      },
+      EO3: {
+        judul: "Aktivitas tersebut berkontribusi langsung atau membantu pelestarian keanekaragaman hayati dan ekosistem alami",
+        petunjuk: "Apakah Aktivitas tersebut berkontribusi langsung atau membantu pelestarian keanekaragaman hayati dan ekosistem alami?",
+        pertanyaan: [
+          { id: "sdt_eo3_1", teks: "1. Apakah Aktivitas berkontribusi langsung dalam melindungi, memulihkan, atau mengurangi efek negatif pada keanekaragaman hayati dan ekosistem alami?" },
+          { id: "sdt_eo3_2", teks: "2. Apakah Aktivitas membantu pemangku kepentingan lain atau masyarakat dalam upaya pelestarian ekosistem alami sekitar?" }
+        ],
+        pemisah: "atau",
+        referensi: "-",
+        keterangan: "Kepatuhan terhadap batas zonasi kawasan lindung dan konservasi flora/fauna."
+      },
+      EO4: {
+        judul: "Aktivitas tersebut menerapkan prinsip ekonomi sirkular atau hierarki pengelolaan limbah",
+        petunjuk: "Apakah Aktivitas tersebut menerapkan prinsip ekonomi sirkular atau hierarki pengelolaan limbah?",
+        pertanyaan: [
+          { id: "sdt_eo4_1", teks: "1. Efisiensi Sumber Daya: Apakah memperpanjang masa pakai produk (reuse, refurbish, remanufacture) atau meningkatkan efisiensi dengan mendaur ulang bahan baku?" },
+          { id: "sdt_eo4_2", teks: "2. Pengelolaan Limbah: Apakah Aktivitas menerapkan hierarki urutan prioritas pengelolaan limbah (pencegahan, pemanfaatan ulang, daur ulang) dan mencegah pembakaran/pembuangan liar?" },
+          { id: "sdt_eo4_3", teks: "3. Apakah Aktivitas mendorong pemangku kepentingan lain untuk membangun ketahanan sumber daya dan transisi menuju ekonomi sirkular?" }
+        ],
+        pemisah: "atau",
+        referensi: "-",
+        keterangan: "Pencegahan timbulan sampah ke TPA dan pemanfaatan kembali material."
+      }
+    };
+
+    const BANK_DNSH_EO = {
+      EO1: {
+        judul: "Kriteria DNSH EO1",
+        petunjuk: "Memenuhi kriteria berikut:",
+        pertanyaan: [
+          { id: "dnsh_eo1_1", teks: "1. Apakah Aktivitas paling sedikit memiliki upaya untuk mendukung pengurangan emisi GRK? (Contoh: menghemat penggunaan listrik, menggunakan energi terbarukan)" }
+        ],
+        pemisah: "",
+        referensi: "-",
+        keterangan: "Prinsip Significant Harm\n• Aktivitas menghasilkan emisi GRK yang signifikan\n\nPertimbangan yang digunakan dalam Panduan Umum\n• ASEAN Taxonomy for Sustainable Finance\n• Enhanced NDC Indonesia\n• Perpres No. 98 Tahun 2021 tentang Nilai Ekonomi Karbon"
+      },
+      EO2: {
+        judul: "Kriteria DNSH EO2",
+        petunjuk: "Memenuhi kriteria berikut:",
+        pertanyaan: [
+          { id: "dnsh_eo2_1", teks: "1. Apakah Aktivitas mendukung ketahanan manusia/alam atas dampak perubahan iklim? (Contoh: perbaikan infrastruktur untuk ketahanan terhadap kenaikan permukaan laut dan perlindungan banjir)" },
+          { id: "dnsh_eo2_2", teks: "2. Apakah Aktivitas tersebut menjaga kondisi dan ketahanan ekosistem di sekitar? (Contoh: melakukan penanaman pohon atau reboisasi)" }
+        ],
+        pemisah: "atau",
+        referensi: "-",
+        keterangan: "Prinsip Significant Harm\n• Aktivitas meningkatkan kerentanan atau memindahkan risiko iklim ke pihak lain (maladaptation)\n\nPertimbangan yang digunakan dalam Panduan Umum\n• ASEAN Taxonomy for Sustainable Finance\n• Dokumen RAN-API Bappenas & Kerentanan Iklim SIDIK KLHK"
+      },
+      EO3: {
+        judul: "Kriteria DNSH EO3",
+        petunjuk: "Memenuhi kriteria berikut:",
+        pertanyaan: [
+          { id: "dnsh_eo3_1", teks: "1. Apakah Aktivitas memiliki Persetujuan Lingkungan sekurang-kurangnya berupa SPPL (atau AMDAL/UKL-UPL jika diwajibkan)?" },
+          { id: "dnsh_eo3_2", teks: "2. Apakah Aktivitas tersebut menjaga kondisi dan ketahanan ekosistem di sekitar serta tidak melakukan kegiatan di kawasan bernilai konservasi tinggi tanpa izin?" }
+        ],
+        pemisah: "dan",
+        referensi: "-",
+        keterangan: "Prinsip Significant Harm\n• Menyebabkan kerusakan terhadap ekosistem alami dan kawasan konservasi tinggi\n\nPertimbangan yang digunakan dalam Panduan Umum\n• UU No. 32 Tahun 2009 tentang Perlindungan dan Pengelolaan Lingkungan Hidup\n• PP No. 22 Tahun 2021 tentang Penyelenggaraan Perlindungan dan Pengelolaan LH"
+      },
+      EO4: {
+        judul: "Kriteria DNSH EO4",
+        petunjuk: "Memenuhi kriteria berikut:",
+        pertanyaan: [
+          { id: "dnsh_eo4_1", teks: "1. Apakah Aktivitas menerapkan prinsip-prinsip dasar ekonomi sirkuler seperti penggunaan produksi dan konsumsi yang efisien, pengurangan dampak lingkungan dan meminimalisir pemborosan produk, bahan dan sumber daya lainnya, pengolahan limbah?" }
+        ],
+        pemisah: "",
+        referensi: "-",
+        keterangan: "Prinsip Significant Harm\n• Aktivitas menyebabkan pemborosan sumber daya air/material dan pembuangan liar limbah tanpa izin\n\nPertimbangan yang digunakan dalam Panduan Umum\n• UU No. 18 Tahun 2008 tentang Pengelolaan Sampah\n• Pedoman Transisi Ekonomi Sirkular TKBI OJK"
+      }
+    };
+
+    const BANK_RMT = {
+      RMT_2a: {
+        judul: "Upaya perbaikan/RMT telah dilaksanakan pada saat dilakukan penilaian.",
+        petunjuk: "Upaya perbaikan/RMT telah dilaksanakan pada saat dilakukan penilaian.",
+        pertanyaan: [
+          { id: "rmt_2a_1", teks: "1. Apakah aktivitas ekonomi memulihkan dampak negatif melalui berbagai tindakan antara lain seperti kepatuhan terhadap ketentuan/kebijakan terkait lingkungan hidup, kepatuhan terhadap kebijakan dan proses internal yang relevan, dan/atau menerapkan upaya-upaya tambahan lain untuk mengurangi dampak negatif yang timbul?" },
+          { id: "rmt_2a_2", teks: "2. Apakah tindakan yang dilakukan berkontribusi terhadap upaya remediasi (misalnya dapat mencegah atau meminimalkan kerugian/dampak negatif yang timbul)?" },
+          { id: "rmt_2a_3", teks: "3. Jika aktivitas ekonomi tersebut baru dan belum dimulai, apakah telah terdapat rencana upaya perbaikan dalam mengatasi potensi kerugian/dampak negatif yang mungkin timbul ke depan?" }
+        ],
+        pemisah: "dan",
+        referensi: "-",
+        keterangan: "-"
+      },
+      RMT_2b: {
+        judul: "Tidak lagi menimbulkan kerugian/dampak negatif yang signifikan bagi EO lain pada saat dilakukan penilaian.",
+        petunjuk: "Apakah aktivitas ekonomi tidak lagi menimbulkan kerugian/dampak negatif (kerugian/dampak negatif residual) yang signifikan bagi EO lain pada saat dilakukan penilaian?",
+        pertanyaan: [
+          { id: "rmt_2b_1", teks: "1. Kerugian/dampak negatif residual mengacu pada segala kerugian yang masih timbul bahkan setelah melakukan berbagai tindakan antara lain seperti kepatuhan terhadap ketentuan/kebijakan terkait lingkungan hidup, kepatuhan terhadap kebijakan dan proses internal yang relevan, dan/atau menerapkan upaya-upaya tambahan lain di luar yang telah dipersyaratkan dalam ketentuan" }
+        ],
+        pemisah: "",
+        referensi: "-",
+        keterangan: "-"
+      },
+      RMT_2c: {
+        judul: "Dalam hal belum terdapat upaya perbaikan atau masih merugikan/berdampak negatif terhadap EO lainnya, maka perlu ditetapkan rencana upaya perbaikan yang konkrit guna mengatasi kerugian/dampak negatif residual dalam jangka waktu tertentu (misalnya dalam 5 tahun)",
+        petunjuk: "Dalam hal belum terdapat upaya perbaikan atau masih merugikan/berdampak negatif terhadap EO lainnya, maka perlu ditetapkan rencana upaya perbaikan yang konkrit guna mengatasi kerugian/dampak negatif residual dalam jangka waktu tertentu (misalnya dalam 5 tahun)?",
+        pertanyaan: [
+          { id: "rmt_2c_1", teks: "1. Apakah terdapat upaya perbaikan yang direncanakan sesuai dengan jangka waktu yang ditentukan?" },
+          { id: "rmt_2c_2", teks: "2. Apakah upaya perbaikan dan penilaian yang dilakukan telah tepat/proporsional berdasarkan skala operasi bisnis dan tolak ukur industri?" },
+          { id: "rmt_2c_3", teks: "3. Siapa saja pemangku kepentingan yang terlibat secara langsung dalam rantai pasok aktivitas ekonomi tersebut? Tindakan apa saja yang telah diusulkan dan kontribusinya terhadap upaya remediasi (misalnya dapat mencegah atau meminimalkan kerugian/dampak negatif yang timbul)?" }
+        ],
+        pemisah: "dan",
+        referensi: "-",
+        keterangan: "-"
+      }
+    };
+
+    window.addEventListener('DOMContentLoaded', function() {
+      const inpTgl = document.getElementById('inputTanggal');
+      if (inpTgl) inpTgl.valueAsDate = new Date();
+      inisialisasiSektorDefault();
+    });
+
+    function inisialisasiSektorDefault() {
+      const daftar8Sektor = [
+        "Energi",
+        "Konstruksi dan Real Estate (C&RE)",
+        "Pengangkutan dan Pergudangan (T&S)",
+        "Pertanian, Kehutanan, dan Perikanan (AFF)",
+        "Informasi dan Komunikasi (IC)",
+        "Manufaktur (IPPU)",
+        "Profesional, Ilmiah, dan Teknis (PST)",
+        "Pengelolaan Air, Pengelolaan Air Limbah, Pengelolaan Sampah, dan Remediasi (WSSWMR)"
+      ];
+      let sel = document.getElementById('selectSektor');
+      if (sel) {
+        sel.innerHTML = '<option value="">-- Pilih Sektor KBLI --</option>';
+        daftar8Sektor.forEach(s => {
+          sel.innerHTML += `<option value="${s}">${s}</option>`;
+        });
+      }
+    }
+
+    function bersihkanSemuaDataFormulir() {
+      state.namaInstitusi = "";
+      state.sektor = "";
+      state.kodeKBLI = "";
+      state.namaKBLI = "";
+      state.deskripsiKBLI = "";
+      state.tujuanLingkungan = "EO1";
+      state.jalurTSC = "HIJAU";
+      state.pernahMasukTSCTransisi = false;
+      state.jalurRMT = "LOLOS_DNSH";
+      state.statusHasil = "Hijau";
+      state.jawaban = {};
+      state.catatan = {};
+      state.nonUmkmDataSheet = null;
+
+      let inpNama = document.getElementById('inputNamaInstitusi');
+      if (inpNama) inpNama.value = "";
+      let inpTgl = document.getElementById('inputTanggal');
+      if (inpTgl) inpTgl.valueAsDate = new Date();
+      let selSektor = document.getElementById('selectSektor');
+      if (selSektor) selSektor.value = "";
+      let lblKBLI = document.getElementById('labelKBLITerpilih');
+      if (lblKBLI) {
+        lblKBLI.innerText = "Pilih KBLI";
+        lblKBLI.className = "text-muted";
+      }
+      let inpDesk = document.getElementById('inputDeskripsiKBLI');
+      if (inpDesk) inpDesk.value = "";
+      
+      perbaruiOpsiTujuanLingkungan();
+
+      let chkDisc = document.getElementById('chkDisclaimer');
+      if (chkDisc) chkDisc.checked = false;
+      let btnDisc = document.getElementById('btnNextDisclaimer');
+      if (btnDisc) btnDisc.disabled = true;
+      let nodeKBLI = document.getElementById('kontainerNodeKBLI');
+      if (nodeKBLI) nodeKBLI.innerHTML = "";
+    }
+
+    function bukaModalKonfirmasiReset() {
+      document.getElementById('modalKonfirmasiReset').style.display = 'flex';
+    }
+
+    function tutupModalKonfirmasiReset() {
+      document.getElementById('modalKonfirmasiReset').style.display = 'none';
+    }
+
+    function konfirmasiResetIya() {
+      tutupModalKonfirmasiReset();
+      bersihkanSemuaDataFormulir();
+      navigasiStep(2);
+      document.getElementById('modalBerhasilReset').style.display = 'flex';
+    }
+
+    function tutupModalBerhasilReset() {
+      document.getElementById('modalBerhasilReset').style.display = 'none';
+    }
+
+    function resetKeMenuAwal() {
+      if (confirm("Kembali ke menu pemilihan skala usaha? Seluruh data simulasi akan dikosongkan.")) {
+        bersihkanSemuaDataFormulir();
+        navigasiStep(0);
+      }
+    }
+
+    function pilihSkala(kat) {
+      bersihkanSemuaDataFormulir();
+      state.skala = kat;
+      document.getElementById('txtJudulDisclaimer').innerHTML = `<i class="bi bi-shield-exclamation me-2"></i>Penafian (Disclaimer) - Simulator ${kat}`;
+      inisialisasiSektorDefault();
+      navigasiStep(1);
+    }
+
+    function toggleDisclaimer() {
+      let chk = document.getElementById('chkDisclaimer');
+      document.getElementById('btnNextDisclaimer').disabled = !chk.checked;
+    }
+
+    function navigasiStep(stepTujuan) {
+      document.getElementById('viewStep0').style.display = 'none';
+      document.getElementById('viewStep1').style.display = 'none';
+      document.getElementById('viewStep2').style.display = 'none';
+      document.getElementById('viewStepSurvei').style.display = 'none';
+      document.getElementById('viewStepHasil').style.display = 'none';
+
+      if (stepTujuan === 0) document.getElementById('viewStep0').style.display = 'flex';
+      else if (stepTujuan === 1) document.getElementById('viewStep1').style.display = 'block';
+      else if (stepTujuan === 2) document.getElementById('viewStep2').style.display = 'block';
+      else if (stepTujuan === 3) document.getElementById('viewStepSurvei').style.display = 'block';
+      else if (stepTujuan === 7) document.getElementById('viewStepHasil').style.display = 'block';
+
+      state.step = stepTujuan;
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    }
+
+    function toggleKBLIDropdown() {
+      if (!document.getElementById('selectSektor').value) {
+        alert("Silakan pilih Sektor KBLI terlebih dahulu!");
+        return;
+      }
+      let dd = document.getElementById('dropdownPohonKBLI');
+      dd.style.display = (dd.style.display === 'block') ? 'none' : 'block';
+    }
+
+    document.addEventListener('click', function(e) {
+      let box = document.getElementById('boxKBLIDisplay');
+      let dd = document.getElementById('dropdownPohonKBLI');
+      if (box && dd && !box.contains(e.target) && !dd.contains(e.target)) {
+        dd.style.display = 'none';
+      }
+    });
+
+    function muatPohonKBLISektor() {
+      state.sektor = document.getElementById('selectSektor').value;
+      let area = document.getElementById('kontainerNodeKBLI');
+      document.getElementById('labelKBLITerpilih').innerText = "Pilih KBLI";
+      document.getElementById('labelKBLITerpilih').className = "text-muted";
+      document.getElementById('inputDeskripsiKBLI').value = "";
+      state.kodeKBLI = "";
+      state.namaKBLI = "";
+
+      perbaruiOpsiTujuanLingkungan();
+
+      if (!state.sektor || typeof parseRawKBLI === 'undefined') {
+        area.innerHTML = "<div class='p-3 text-secondary small'>Silakan pilih Sektor KBLI terlebih dahulu.</div>";
+        return;
+      }
+
+      let list = parseRawKBLI(state.sektor);
+      let html = "";
+      list.forEach(item => {
+        let arrow = (item.level < 5) ? '<span class="tree-node-arrow">▾</span> ' : '';
+        html += `<div class="tree-node tree-lvl-${item.level}" onclick="pilihItemKBLI('${item.text.replace(/'/g, "\\'")}')">${arrow}${item.text}</div>`;
+      });
+      area.innerHTML = html;
+    }
+
+    function filterPohonKBLI() {
+      let q = document.getElementById('cariInputKBLI').value.toLowerCase();
+      let nodes = document.querySelectorAll('#kontainerNodeKBLI .tree-node');
+      nodes.forEach(n => {
+        n.style.display = n.innerText.toLowerCase().includes(q) ? 'block' : 'none';
+      });
+    }
+
+    function pilihItemKBLI(teks) {
+      state.kodeKBLI = teks;
+      let infoKBLI = (typeof dapatkanHierarkiDanDeskripsiKBLI === 'function')
+        ? dapatkanHierarkiDanDeskripsiKBLI(state.sektor, teks)
+        : { sub: teks.replace(/^\d{3,5}\s*[-–:]\s*/, '').trim(), deskripsi: `Kelompok ini mencakup aktivitas usaha dan operasional yang sesuai dengan klasifikasi resmi ${teks} berdasarkan Taksonomi untuk Keuangan Berkelanjutan Indonesia (TKBI).` };
+
+      state.namaKBLI = infoKBLI.sub || teks.replace(/^\d{3,5}\s*[-–:]\s*/, '').trim();
+      state.deskripsiKBLI = infoKBLI.deskripsi;
+
+      document.getElementById('labelKBLITerpilih').innerText = teks;
+      document.getElementById('labelKBLITerpilih').className = "text-dark fw-bold";
+      document.getElementById('inputDeskripsiKBLI').value = state.deskripsiKBLI;
+      document.getElementById('dropdownPohonKBLI').style.display = 'none';
+
+      perbaruiOpsiTujuanLingkungan();
+
+      if (state.skala === 'Non UMKM') {
+        ambilKriteriaNonUMKMFrontend();
+      }
+    }
+
+    function getActiveKBLICodeKey() {
+      let str = (state.kodeKBLI || "").toString();
+      let m = str.match(/\b\d{5}\b/) || str.match(/\b112\b/);
+      if (m) return m[0];
+      let sLow = str.toLowerCase();
+      if (sLow.indexOf("gedung baru") !== -1 || sLow.indexOf("existing/renovasi") !== -1) return "41015";
+      if (sLow.indexOf("stasiun pengisian") !== -1 || sLow.indexOf("instalasi listrik") !== -1) return "43211";
+      if (sLow.indexOf("menunjang angkutan darat") !== -1 || sLow.indexOf("mobilitas pribadi") !== -1 || sLow.indexOf("terminal darat") !== -1) return "52211";
+      if (sLow.indexOf("kawasan pemukiman") !== -1 || sLow.indexOf("mbr") !== -1) return "68110";
+      if (sLow.indexOf("angkutan laut") !== -1 || sLow.indexOf("retrofit") !== -1) return "50131";
+      if (sLow.indexOf("peralatan efisiensi energi") !== -1 || sLow.indexOf("peralatan listrik") !== -1) return "27510";
+      return "";
+    }
+
+    function perbaruiOpsiTujuanLingkungan() {
+      let selEO = document.getElementById('selectEO');
+      if (!selEO) return;
+
+      const masterEO = [
+        { id: "EO1", label: "EO1: Mitigasi Perubahan Iklim" },
+        { id: "EO2", label: "EO2: Adaptasi Perubahan Iklim" },
+        { id: "EO3", label: "EO3: Perlindungan Ekosistem dan Keanekaragaman Hayati" },
+        { id: "EO4", label: "EO4: Ketahanan Sumber Daya dan Transisi menuju Ekonomi Sirkular" }
+      ];
+
+      let codeKey = getActiveKBLICodeKey();
+      let allowedEOs = ["EO1", "EO2", "EO3", "EO4"];
+
+      if (state.skala === 'Non UMKM' && codeKey && typeof TSC_PRIORITAS_KBLI !== 'undefined' && TSC_PRIORITAS_KBLI[codeKey]) {
+        if (TSC_PRIORITAS_KBLI[codeKey].eoSupport && TSC_PRIORITAS_KBLI[codeKey].eoSupport.length > 0) {
+          allowedEOs = TSC_PRIORITAS_KBLI[codeKey].eoSupport;
+        }
+      }
+
+      selEO.innerHTML = "";
+      allowedEOs.forEach(eoId => {
+        let found = masterEO.find(m => m.id === eoId);
+        if (found) {
+          selEO.innerHTML += `<option value="${found.id}">${found.label}</option>`;
+        }
+      });
+
+      if (!allowedEOs.includes(state.tujuanLingkungan)) {
+        state.tujuanLingkungan = allowedEOs[0] || "EO1";
+      }
+      selEO.value = state.tujuanLingkungan;
+    }
+
+    function onEOChanged() {
+      state.tujuanLingkungan = document.getElementById('selectEO').value;
+      if (state.skala === 'Non UMKM') {
+        ambilKriteriaNonUMKMFrontend();
+      }
+    }
+
+    function ambilKriteriaNonUMKMFrontend() {
+      if (state.skala === 'Non UMKM' && state.kodeKBLI) {
+        if (APPS_SCRIPT_URL && !APPS_SCRIPT_URL.includes("AKfycb...")) {
+          fetch(APPS_SCRIPT_URL + "?action=ambilKriteriaNonUMKM&kodeKBLI=" + encodeURIComponent(state.kodeKBLI) + "&eo=" + encodeURIComponent(state.tujuanLingkungan))
+            .then(res => res.json())
+            .then(json => {
+              if (json && json.status === "success" && json.data) {
+                state.nonUmkmDataSheet = json.data;
+                let codeKey = getActiveKBLICodeKey();
+                let isPrioritas = (codeKey && typeof TSC_PRIORITAS_KBLI !== 'undefined' && TSC_PRIORITAS_KBLI[codeKey]);
+                if (!isPrioritas && json.data.eoSupport && json.data.eoSupport.length > 0) {
+                  let selEO = document.getElementById('selectEO');
+                  const masterEO = [
+                    { id: "EO1", label: "EO1: Mitigasi Perubahan Iklim" },
+                    { id: "EO2", label: "EO2: Adaptasi Perubahan Iklim" },
+                    { id: "EO3", label: "EO3: Perlindungan Ekosistem dan Keanekaragaman Hayati" },
+                    { id: "EO4", label: "EO4: Ketahanan Sumber Daya dan Transisi menuju Ekonomi Sirkular" }
+                  ];
+                  selEO.innerHTML = "";
+                  json.data.eoSupport.forEach(eoId => {
+                    let found = masterEO.find(m => m.id === eoId);
+                    if (found) selEO.innerHTML += `<option value="${found.id}">${found.label}</option>`;
+                  });
+                  if (!json.data.eoSupport.includes(state.tujuanLingkungan)) {
+                    state.tujuanLingkungan = json.data.eoSupport[0];
+                  }
+                  selEO.value = state.tujuanLingkungan;
+                }
+              }
+            })
+            .catch(err => console.log("Info API Kriteria Non UMKM:", err));
+        }
+      }
+    }
+
+    function formatTanggalIndonesia(tglString) {
+      if (!tglString) return "-";
+      const parts = tglString.split('-');
+      if (parts.length !== 3) return tglString;
+      const bulan = ["Januari","Februari","Maret","April","Mei","Juni","Juli","Agustus","September","Oktober","November","Desember"];
+      return `${parseInt(parts[2], 10)} ${bulan[parseInt(parts[1], 10) - 1]} ${parts[0]}`;
+    }
+
+    function bukaPetunjuk() {
+      alert("Petunjuk Pengisian:\n1. Jawab setiap pertanyaan kriteria dengan mencentang kotak di sebelah kanan.\n2. Perhatikan kata sambung 'dan' atau 'atau' di antara setiap butir maupun blok kriteria.\n3. Bilah status di bawah kartu menunjukkan secara otomatis apakah tahapan telah Terpenuhi atau Tidak Terpenuhi.");
+    }
+
+    function mulaiKuesionerSurvei() {
+      let nama = document.getElementById('inputNamaInstitusi').value.trim();
+      let sektor = document.getElementById('selectSektor').value;
+      if (!nama) { alert("Nama Institusi/Perusahaan wajib diisi!"); return; }
+      if (!sektor) { alert("Pilih Sektor KBLI terlebih dahulu!"); return; }
+      if (!state.kodeKBLI) { alert("Pilih aktivitas KBLI terlebih dahulu!"); return; }
+
+      state.namaInstitusi = nama;
+      state.tanggal = document.getElementById('inputTanggal').value;
+      state.sektor = sektor;
+      state.tujuanLingkungan = document.getElementById('selectEO').value;
+
+      const eoMap = {
+        "EO1": "Mitigasi Perubahan Iklim",
+        "EO2": "Adaptasi Perubahan Iklim",
+        "EO3": "Perlindungan Ekosistem dan Keanekaragaman Hayati",
+        "EO4": "Ketahanan Sumber Daya dan Transisi menuju Ekonomi Sirkular"
+      };
+
+      let infoKBLI = (typeof dapatkanHierarkiDanDeskripsiKBLI === 'function')
+        ? dapatkanHierarkiDanDeskripsiKBLI(state.sektor, state.kodeKBLI)
+        : { lvl5: state.kodeKBLI, sub: state.namaKBLI || "-", deskripsi: state.deskripsiKBLI || "-" };
+
+      let tglFmt = formatTanggalIndonesia(state.tanggal);
+      let eoText = eoMap[state.tujuanLingkungan] || state.tujuanLingkungan;
+
+      ['', 'Hasil'].forEach(prefix => {
+        document.getElementById(`rev${prefix}Nama`).innerText = state.namaInstitusi;
+        document.getElementById(`rev${prefix}Tanggal`).innerText = tglFmt;
+        document.getElementById(`rev${prefix}Skala`).innerText = state.skala;
+        document.getElementById(`rev${prefix}Sektor`).innerText = state.sektor;
+        document.getElementById(`rev${prefix}KBLI`).innerText = infoKBLI.lvl5.replace(/\s*-\s*/, '-');
+        document.getElementById(`rev${prefix}SubKBLI`).innerText = infoKBLI.sub || state.namaKBLI || "-";
+        document.getElementById(`rev${prefix}Tujuan`).innerText = eoText;
+        document.getElementById(`rev${prefix}Definisi`).innerText = infoKBLI.deskripsi || state.deskripsiKBLI || "-";
+      });
+
+      state.subStep = (state.skala === "UMKM") ? "SDT" : "TSC_HIJAU";
+      state.jalurTSC = "HIJAU";
+      state.pernahMasukTSCTransisi = false;
+      state.jalurRMT = "LOLOS_DNSH";
+      state.jawaban = {};
+      state.catatan = {};
+
+      navigasiStep(3);
+      renderSubStepForm();
+    }
+
+    function bangunJejakStepper(sedangDiHasil) {
+      let pills = [];
+      let isTransisiPath = (state.jalurTSC === "TRANSISI" || state.pernahMasukTSCTransisi || state.subStep === "TSC_TRANSISI");
+
+      if (state.skala === "UMKM") {
+        pills.push({ num: "1", label: "SDT", color: "green" });
+
+        if (["DNSH", "RMT_2a", "RMT_2b", "RMT_2c", "SOSIAL"].includes(state.subStep) || (sedangDiHasil && state.jalurTSC !== "GAGAL_TSC")) {
+          pills.push({ num: "2", label: "DNSH", color: "green" });
+        }
+        if (["RMT_2a", "RMT_2b", "RMT_2c"].includes(state.subStep) || ( state.jalurRMT !== "LOLOS_DNSH" && state.jalurTSC !== "GAGAL_TSC" && (state.subStep === "SOSIAL" || sedangDiHasil) )) {
+          pills.push({ num: "3", label: "RMT 2a", color: "green" });
+          if (state.subStep === "RMT_2b" || state.jalurRMT === "LOLOS_RMT_2b") {
+            pills.push({ num: "4", label: "RMT 2b", color: "green" });
+          }
+          if (state.subStep === "RMT_2c" || state.jalurRMT === "LOLOS_RMT_2c" || state.jalurRMT === "GAGAL_RMT") {
+            pills.push({ num: "5", label: "RMT 2c", color: "yellow" });
+          }
+        }
+        if (state.subStep === "SOSIAL" || (sedangDiHasil && state.jalurTSC !== "GAGAL_TSC" && state.jalurRMT !== "GAGAL_RMT")) {
+          let colSos = (state.jalurRMT === "LOLOS_RMT_2c") ? "yellow" : "green";
+          pills.push({ num: "6", label: "Aspek\nSosial", color: colSos });
+        }
+        if (sedangDiHasil) {
+          let colRes = (state.statusHasil === "Transisi" || state.jalurRMT === "LOLOS_RMT_2c") ? "yellow" : "green";
+          pills.push({ num: "7", label: "Hasil", color: colRes });
+        }
+      } else {
+        pills.push({ num: "1", label: "TSC\nHijau", color: "green" });
+
+        if (isTransisiPath) {
+          if (["TSC_TRANSISI", "DNSH", "RMT_2a", "RMT_2b", "RMT_2c", "SOSIAL"].includes(state.subStep) || sedangDiHasil) {
+            pills.push({ num: "6", label: "TSC\nTransisi", color: "yellow" });
+          }
+          if (["DNSH", "RMT_2a", "RMT_2b", "RMT_2c", "SOSIAL"].includes(state.subStep) || (sedangDiHasil && state.jalurTSC !== "GAGAL_TSC")) {
+            pills.push({ num: "7", label: "DNSH\nTransisi", color: "yellow" });
+          }
+          if (["RMT_2a", "RMT_2b", "RMT_2c"].includes(state.subStep) || (state.jalurRMT !== "LOLOS_DNSH" && state.jalurTSC !== "GAGAL_TSC" && (state.subStep === "SOSIAL" || sedangDiHasil))) {
+            pills.push({ num: "8", label: "RMT 4a", color: "yellow" });
+            if (state.subStep === "RMT_2b" || state.jalurRMT === "LOLOS_RMT_2b") {
+              pills.push({ num: "9", label: "RMT 4b", color: "yellow" });
+            }
+            if (state.subStep === "RMT_2c" || state.jalurRMT === "LOLOS_RMT_2c" || state.jalurRMT === "GAGAL_RMT") {
+              pills.push({ num: "10", label: "RMT 4c", color: "yellow" });
+            }
+          }
+          if (state.subStep === "SOSIAL" || (sedangDiHasil && state.jalurTSC !== "GAGAL_TSC" && state.jalurRMT !== "GAGAL_RMT")) {
+            pills.push({ num: "11", label: "Aspek\nSosial", color: "yellow" });
+          }
+          if (sedangDiHasil) {
+            pills.push({ num: "12", label: "Hasil", color: "yellow" });
+          }
+        } else {
+          if (["DNSH", "RMT_2a", "RMT_2b", "RMT_2c", "SOSIAL"].includes(state.subStep) || (sedangDiHasil && state.jalurTSC !== "GAGAL_TSC")) {
+            pills.push({ num: "2", label: "DNSH", color: "green" });
+          }
+          if (["RMT_2a", "RMT_2b", "RMT_2c"].includes(state.subStep) || (state.jalurRMT !== "LOLOS_DNSH" && state.jalurTSC !== "GAGAL_TSC" && (state.subStep === "SOSIAL" || sedangDiHasil))) {
+            pills.push({ num: "3", label: "RMT 2a", color: "green" });
+            if (state.subStep === "RMT_2b" || state.jalurRMT === "LOLOS_RMT_2b") {
+              pills.push({ num: "4", label: "RMT 2b", color: "green" });
+            }
+            if (state.subStep === "RMT_2c" || state.jalurRMT === "LOLOS_RMT_2c" || state.jalurRMT === "GAGAL_RMT") {
+              pills.push({ num: "5", label: "RMT 2c", color: "yellow" });
+            }
+          }
+          if (state.subStep === "SOSIAL" || (sedangDiHasil && state.jalurTSC !== "GAGAL_TSC" && state.jalurRMT !== "GAGAL_RMT")) {
+            let colSos = (state.jalurRMT === "LOLOS_RMT_2c") ? "yellow" : "green";
+            pills.push({ num: "11", label: "Aspek\nSosial", color: colSos });
+          }
+          if (sedangDiHasil) {
+            let colRes = (state.statusHasil === "Transisi" || state.jalurRMT === "LOLOS_RMT_2c") ? "yellow" : "green";
+            pills.push({ num: "12", label: "Hasil", color: colRes });
+          }
+        }
+      }
+
+      let html = "";
+      pills.forEach(p => {
+        let badgeClass = (p.color === "yellow") ? "step-circle-badge-large badge-yellow-transisi" : "step-circle-badge-large";
+        let labelFormatted = p.label.replace(/\n/g, '<br>');
+        html += `
+          <div class="step-pill-wrapper">
+            <div class="${badgeClass}">${p.num}</div>
+            <div class="step-pill-label-multi">${labelFormatted}</div>
+          </div>
+        `;
+      });
+
+      let pct = 25;
+      if (sedangDiHasil) pct = 100;
+      else if (state.subStep === "SDT" || state.subStep === "TSC_HIJAU") pct = 22;
+      else if (state.subStep === "TSC_TRANSISI") pct = 38;
+      else if (state.subStep === "DNSH") pct = 52;
+      else if (state.subStep.startsWith("RMT")) pct = 68;
+      else if (state.subStep === "SOSIAL") pct = 82;
+
+      let targetEl = document.getElementById(sedangDiHasil ? 'areaStepperTrailHasil' : 'areaStepperTrailSurvei');
+      if (targetEl) targetEl.innerHTML = html;
+
+      if (!sedangDiHasil) {
+        let barEl = document.getElementById('barProgressSurvei');
+        if (barEl) barEl.style.width = pct + "%";
+      }
+    }
+
+    function renderMekanismeBlocksHTML(mekanismeList, idPrefix) {
+      let html = "";
+      if (!mekanismeList || mekanismeList.length === 0) return html;
+
+      mekanismeList.forEach((pBlock, pIdx) => {
+        if (pIdx > 0 && pBlock.logic) {
+          let lblLogicP = (pBlock.logic.toUpperCase() === 'OR') ? 'atau' : 'dan';
+          if (!pBlock.kriteria || pBlock.kriteria.length === 0) {
+            html += `<div class="fw-bold small text-secondary my-2">${lblLogicP}</div>`;
+          } else {
+            html += `<div class="sdt-divider my-3">${lblLogicP}</div>`;
+          }
+        }
+
+        let headingText = pBlock.text || pBlock.heading || "Memenuhi kriteria berikut:";
+        html += `<div class="fw-bold small text-dark mt-2 mb-2" style="white-space: pre-line; line-height: 1.55;">${headingText}</div>`;
+
+        if (pBlock.kriteria && Array.isArray(pBlock.kriteria) && pBlock.kriteria.length > 0) {
+          pBlock.kriteria.forEach((k, kIdx) => {
+            if (kIdx > 0 && k.logic) {
+              let lblLogicK = (k.logic.toUpperCase() === 'OR') ? 'atau' : 'dan';
+              html += `<div class="sdt-divider">${lblLogicK}</div>`;
+            }
+
+            let hasSubs = (k.subs && Array.isArray(k.subs) && k.subs.length > 0);
+            let kNumber = k.no ? `${k.no}. ` : "";
+
+            if (!hasSubs) {
+              let chkId = `${idPrefix}_p${pIdx}_k${kIdx}`;
+              html += `
+                <div class="sdt-option">
+                  <label class="sdt-option-text" for="${chkId}" style="white-space: pre-line;">${kNumber}${k.text}</label>
+                  <input type="checkbox" class="sdt-checkbox" id="${chkId}" onchange="simpanStateJawaban()">
+                </div>
+              `;
+            } else {
+              html += `
+                <div class="p-3 mb-2 rounded border bg-white">
+                  <div class="sdt-option mb-2" style="border-color:#e2e8f0;">
+                    <span class="sdt-option-text" style="white-space: pre-line;">${kNumber}${k.text}</span>
+                  </div>
+                  <div class="ps-3">
+              `;
+              k.subs.forEach((s, sIdx) => {
+                if (sIdx > 0 && s.logic) {
+                  let lblLogicS = (s.logic.toUpperCase() === 'OR') ? 'atau' : 'dan';
+                  html += `<div class="sdt-divider">${lblLogicS}</div>`;
+                }
+                let subId = `${idPrefix}_p${pIdx}_k${kIdx}_s${sIdx}`;
+                let sNumber = s.no ? `${s.no}. ` : "";
+                html += `
+                  <div class="sdt-option bg-white">
+                    <label class="sdt-option-text" for="${subId}" style="white-space: pre-line;">${sNumber}${s.text}</label>
+                    <input type="checkbox" class="sdt-checkbox" id="${subId}" onchange="simpanStateJawaban()">
+                  </div>
+                `;
+              });
+              html += `
+                  </div>
+                </div>
+              `;
+            }
+          });
+        }
+      });
+
+      return html;
+    }
+
+    function evaluasiMekanismeBlocks(mekanismeList, idPrefix) {
+      if (!mekanismeList || mekanismeList.length === 0) return false;
+
+      let activeBlocks = [];
+      mekanismeList.forEach((pBlock, pIdx) => {
+        if (pBlock.kriteria && Array.isArray(pBlock.kriteria) && pBlock.kriteria.length > 0) {
+          activeBlocks.push({ pBlock, pIdx });
+        }
+      });
+
+      if (activeBlocks.length === 0) return false;
+
+      let pResults = activeBlocks.map(({ pBlock, pIdx }) => {
+        let kResults = pBlock.kriteria.map((k, kIdx) => {
+          let hasSubs = (k.subs && Array.isArray(k.subs) && k.subs.length > 0);
+          if (!hasSubs) {
+            let chkId = `${idPrefix}_p${pIdx}_k${kIdx}`;
+            return { ok: !!state.jawaban[chkId], logic: (k.logic || "AND").toUpperCase() };
+          } else {
+            let sResults = k.subs.map((s, sIdx) => {
+              let subId = `${idPrefix}_p${pIdx}_k${kIdx}_s${sIdx}`;
+              return { ok: !!state.jawaban[subId], logic: (s.logic || "AND").toUpperCase() };
+            });
+            let subEval = gabungkanLogikaBerurutan(sResults);
+            return { ok: subEval, logic: (k.logic || "AND").toUpperCase() };
+          }
+        });
+
+        let kEval = gabungkanLogikaBerurutan(kResults);
+        return { ok: kEval, logic: (pBlock.logic || "AND").toUpperCase() };
+      });
+
+      return gabungkanLogikaBerurutan(pResults);
+    }
+
+    function gabungkanLogikaBerurutan(arrItems) {
+      if (!arrItems || arrItems.length === 0) return false;
+      let hasOr = arrItems.slice(1).some(item => item.logic === "OR");
+      let hasAnd = arrItems.slice(1).some(item => item.logic === "AND" || item.logic === "");
+
+      if (hasOr && !hasAnd) {
+        return arrItems.some(item => item.ok);
+      }
+      if (!hasOr && hasAnd) {
+        return arrItems.every(item => item.ok);
+      }
+
+      let acc = arrItems[0].ok;
+      for (let i = 1; i < arrItems.length; i++) {
+        if (arrItems[i].logic === "OR") {
+          acc = acc || arrItems[i].ok;
+        } else {
+          acc = acc && arrItems[i].ok;
+        }
+      }
+      return acc;
+    }
+
+    function renderSubStepForm() {
+      let area = document.getElementById('kontainerKartuPertanyaan');
+      area.innerHTML = "";
+
+      bangunJejakStepper(false);
+
+      if (state.subStep === "SDT") {
+        let data = BANK_SDT_UMKM[state.tujuanLingkungan] || BANK_SDT_UMKM.EO1;
+        renderKartuPertanyaan(area, data, "sdt_chk", data.pemisah, "cat_sdt");
+
+      } else if (state.subStep === "TSC_HIJAU") {
+        let dataTSC = dapatkanTSCNonUMKM(state.sektor, state.kodeKBLI, state.nonUmkmDataSheet, state.tujuanLingkungan);
+        renderKartuTSCNonUMKM(area, dataTSC, "HIJAU");
+
+      } else if (state.subStep === "TSC_TRANSISI") {
+        let dataTSC = dapatkanTSCNonUMKM(state.sektor, state.kodeKBLI, state.nonUmkmDataSheet, state.tujuanLingkungan);
+        renderKartuTSCNonUMKM(area, dataTSC, "TRANSISI");
+
+      } else if (state.subStep === "DNSH") {
+        let targetEO = ["EO1", "EO2", "EO3", "EO4"].filter(e => e !== state.tujuanLingkungan);
+        targetEO.forEach(eoKey => {
+          if (state.skala === "Non UMKM" && typeof MASTER_DNSH_NONUMKM !== 'undefined' && MASTER_DNSH_NONUMKM[eoKey]) {
+            renderKartuDNSHNonUMKM(area, MASTER_DNSH_NONUMKM[eoKey], eoKey);
+          } else {
+            let data = BANK_DNSH_EO[eoKey];
+            renderKartuPertanyaan(area, data, `dnsh_${eoKey}_chk`, data.pemisah, `cat_dnsh_${eoKey}`);
+          }
+        });
+
+      } else if (state.subStep === "RMT_2a") {
+        renderKartuPertanyaan(area, BANK_RMT.RMT_2a, "rmt2a_chk", "dan", "cat_rmt2a");
+
+      } else if (state.subStep === "RMT_2b") {
+        renderKartuPertanyaan(area, BANK_RMT.RMT_2b, "rmt2b_chk", "", "cat_rmt2b");
+
+      } else if (state.subStep === "RMT_2c") {
+        renderKartuPertanyaan(area, BANK_RMT.RMT_2c, "rmt2c_chk", "dan", "cat_rmt2c");
+
+      } else if (state.subStep === "SOSIAL") {
+        if (state.skala === "UMKM") {
+          KARTU_ASPEK_SOSIAL_UMKM.forEach((card, idx) => {
+            let box = document.createElement('div');
+            box.className = "sdt-form-container";
+
+            let optionsHTML = `<div class="fw-bold small text-dark mt-2 mb-2">${card.prompt || "Apakah memenuhi kriteria di bawah ini"}</div>`;
+            card.items.forEach((itemText, iIdx) => {
+              let chkId = `sos_u_${idx}_${iIdx}`;
+              optionsHTML += `
+                <div class="sdt-option">
+                  <label class="sdt-option-text" for="${chkId}">${itemText}</label>
+                  <input type="checkbox" class="sdt-checkbox sos_u_chk" id="${chkId}" onchange="simpanStateJawaban()">
+                </div>
+              `;
+              if (iIdx < card.items.length - 1 && card.divider) {
+                optionsHTML += `<div class="sdt-divider">${card.divider}</div>`;
+              }
+            });
+
+            box.innerHTML = `
+              <div class="sdt-card-title">${card.judul}</div>
+              <div class="sdt-card-subtitle">${card.subJudul}</div>
+              <hr class="my-3" style="border-color:#e2e8f0;">
+              <div class="mb-3">${optionsHTML}</div>
+              <div class="info-block-box">
+                <div class="info-block-label">Referensi</div>
+                <div class="info-block-desc">${card.referensi || "-"}</div>
+                <div class="info-block-label">Keterangan</div>
+                <div class="info-block-desc">${card.keterangan || "-"}</div>
+                <div class="info-block-label">Catatan</div>
+                <textarea class="sdt-textarea" placeholder="" id="cat_sos_${idx}"></textarea>
+              </div>
+            `;
+            area.appendChild(box);
+          });
+        } else {
+          MASTER_SOSIAL_NONUMKM.forEach((card, idx) => {
+            let box = document.createElement('div');
+            box.className = "sdt-form-container";
+            let bodyHTML = renderMekanismeBlocksHTML(card.mekanisme, `sos_nu_${idx}`);
+
+            box.innerHTML = `
+              <div class="sdt-card-title">${card.judul}</div>
+              <div class="sdt-card-subtitle">${card.subJudul || ""}</div>
+              <hr class="my-3" style="border-color:#e2e8f0;">
+              <div class="mb-3">${bodyHTML}</div>
+              <div class="info-block-box">
+                <div class="info-block-label">Referensi</div>
+                <div class="info-block-desc">${card.referensi || "-"}</div>
+                <div class="info-block-label">Keterangan</div>
+                <div class="info-block-desc">${card.keterangan || "-"}</div>
+                <div class="info-block-label">Catatan</div>
+                <textarea class="sdt-textarea" placeholder="" id="cat_sos_${idx}"></textarea>
+              </div>
+            `;
+            area.appendChild(box);
+          });
+        }
+      }
+
+      let barisIndikatorBawah = document.createElement('div');
+      barisIndikatorBawah.className = "sdt-result-bar";
+      barisIndikatorBawah.id = "areaIndikatorHasilSementara";
+      barisIndikatorBawah.innerHTML = `
+        Hasil Sementara Penilaian: <span class="status-tidak-terpenuhi" id="txtIndikatorHasilSementara">Tidak Terpenuhi</span>
+      `;
+      area.appendChild(barisIndikatorBawah);
+
+      pulihkanStateJawaban();
+      perbaruiIndikatorHasilSementara();
+      window.scrollTo({ top: 120, behavior: 'smooth' });
+    }
+
+    function renderKartuPertanyaan(parentEl, data, chkClass, pemisah, catId) {
+      let box = document.createElement('div');
+      box.className = "sdt-form-container";
+
+      let optionsHTML = "";
+      data.pertanyaan.forEach((p, idx) => {
+        optionsHTML += `
+          <div class="sdt-option">
+            <label class="sdt-option-text" for="${p.id}" style="white-space: pre-line;">${p.teks}</label>
+            <input type="checkbox" class="sdt-checkbox ${chkClass}" id="${p.id}" onchange="simpanStateJawaban()">
+          </div>
+        `;
+        if (idx < data.pertanyaan.length - 1 && pemisah) {
+          optionsHTML += `<div class="sdt-divider">${pemisah}</div>`;
+        }
+      });
+
+      box.innerHTML = `
+        <div class="sdt-card-title">${data.judul}</div>
+        <hr class="my-3" style="border-color:#e2e8f0;">
+        <div class="fw-bold small text-dark mb-3">${data.subJudul || data.petunjuk || ""}</div>
+        <div class="mb-3">${optionsHTML}</div>
+        <div class="info-block-box">
+          <div class="info-block-label">Referensi</div>
+          <div class="info-block-desc">${data.referensi || "-"}</div>
+          <div class="info-block-label">Keterangan</div>
+          <div class="info-block-desc">${data.keterangan || "-"}</div>
+          <div class="info-block-label">Catatan</div>
+          <textarea class="sdt-textarea" placeholder="" id="${catId}"></textarea>
+        </div>
+      `;
+      parentEl.appendChild(box);
+    }
+
+    function renderKartuDNSHNonUMKM(parentEl, data, eoKey) {
+      let box = document.createElement('div');
+      box.className = "sdt-form-container";
+
+      let bodyHTML = renderMekanismeBlocksHTML(data.mekanisme, `dnsh_nu_${eoKey}`);
+
+      box.innerHTML = `
+        <div class="sdt-card-title">${data.nama || ('Kriteria DNSH ' + eoKey)}</div>
+        <hr class="my-3" style="border-color:#e2e8f0;">
+        <div class="mb-3">${bodyHTML}</div>
+        <div class="info-block-box">
+          <div class="info-block-label">Referensi</div>
+          <div class="info-block-desc">${data.referensi || "-"}</div>
+          <div class="info-block-label">Keterangan</div>
+          <div class="info-block-desc">${data.keterangan || "-"}</div>
+          <div class="info-block-label">Catatan</div>
+          <textarea class="sdt-textarea" placeholder="" id="cat_dnsh_${eoKey}"></textarea>
+        </div>
+      `;
+      parentEl.appendChild(box);
+    }
+
+    function renderKartuTSCNonUMKM(parentEl, dataTSC, modeKlasifikasi) {
+      let box = document.createElement('div');
+      box.className = "sdt-form-container";
+
+      let judulMerahOJK = (modeKlasifikasi === "TRANSISI")
+        ? "Tujuan Lingkungan Utama - Klasifikasi Transisi"
+        : "Tujuan Lingkungan Utama - Klasifikasi Hijau";
+
+      let optionsHTML = (modeKlasifikasi === "TRANSISI")
+        ? renderMekanismeBlocksHTML(dataTSC.pertanyaanTransisi, "tsc_t")
+        : renderMekanismeBlocksHTML(dataTSC.pertanyaanHijau, "tsc_h");
+
+      let catKey = (modeKlasifikasi === "TRANSISI") ? "cat_tsc_t" : "cat_tsc_h";
+
+      box.innerHTML = `
+        <div class="sdt-card-title">${judulMerahOJK}</div>
+        <hr class="my-3" style="border-color:#e2e8f0;">
+        <div class="mb-3">${optionsHTML}</div>
+        <div class="info-block-box">
+          <div class="info-block-label">Referensi</div>
+          <div class="info-block-desc">${dataTSC.referensi || "-"}</div>
+          <div class="info-block-label">Keterangan</div>
+          <div class="info-block-desc">${dataTSC.keterangan || "-"}</div>
+          <div class="info-block-label">Catatan</div>
+          <textarea class="sdt-textarea" placeholder="" id="${catKey}"></textarea>
+        </div>
+      `;
+      parentEl.appendChild(box);
+    }
+
+    function simpanStateJawaban() {
+      document.querySelectorAll('.sdt-checkbox').forEach(c => {
+        state.jawaban[c.id] = c.checked;
+      });
+      document.querySelectorAll('.sdt-textarea').forEach(t => {
+        if (t.id) state.catatan[t.id] = t.value;
+      });
+      perbaruiIndikatorHasilSementara();
+    }
+
+    function pulihkanStateJawaban() {
+      for (let id in state.jawaban) {
+        let el = document.getElementById(id);
+        if (el) el.checked = state.jawaban[id];
+      }
+      for (let id in state.catatan) {
+        let el = document.getElementById(id);
+        if (el) el.value = state.catatan[id];
+      }
+    }
+
+    function cekLolosTSCHijau() {
+      let dataTSC = dapatkanTSCNonUMKM(state.sektor, state.kodeKBLI, state.nonUmkmDataSheet, state.tujuanLingkungan);
+      if (dataTSC.pertanyaanHijau && dataTSC.pertanyaanHijau.length > 0) {
+        return evaluasiMekanismeBlocks(dataTSC.pertanyaanHijau, "tsc_h");
+      }
+      return false;
+    }
+
+    function cekLolosTSCTransisi() {
+      let dataTSC = dapatkanTSCNonUMKM(state.sektor, state.kodeKBLI, state.nonUmkmDataSheet, state.tujuanLingkungan);
+      if (dataTSC.pertanyaanTransisi && dataTSC.pertanyaanTransisi.length > 0) {
+        return evaluasiMekanismeBlocks(dataTSC.pertanyaanTransisi, "tsc_t");
+      }
+      return false;
+    }
+
+    function memilikiTSCTransisi() {
+      let dataTSC = dapatkanTSCNonUMKM(state.sektor, state.kodeKBLI, state.nonUmkmDataSheet, state.tujuanLingkungan);
+      return !!(dataTSC && dataTSC.pertanyaanTransisi && dataTSC.pertanyaanTransisi.length > 0);
+    }
+
+    function cekLolosDNSHPerEO(eoKey) {
+      if (state.skala === "Non UMKM") {
+        let d = (typeof MASTER_DNSH_NONUMKM !== 'undefined' && MASTER_DNSH_NONUMKM[eoKey]) ? MASTER_DNSH_NONUMKM[eoKey] : null;
+        if (!d) return false;
+        return evaluasiMekanismeBlocks(d.mekanisme, `dnsh_nu_${eoKey}`);
+      } else {
+        let d = BANK_DNSH_EO[eoKey];
+        let qList = d ? (d.pertanyaan || []) : [];
+        let chks = qList.map(p => !!state.jawaban[p.id]);
+        if (chks.length === 0) return false;
+        return (d && d.pemisah === "atau") ? chks.some(Boolean) : chks.every(Boolean);
+      }
+    }
+
+    function cekLolosDNSH() {
+      let targetEO = ["EO1", "EO2", "EO3", "EO4"].filter(e => e !== state.tujuanLingkungan);
+      return targetEO.every(eoKey => cekLolosDNSHPerEO(eoKey));
+    }
+
+    function cekLolosSosialPerKartu(idx) {
+      if (state.skala === "UMKM") {
+        let card = KARTU_ASPEK_SOSIAL_UMKM[idx];
+        if (!card) return false;
+        return card.items.every((_, iIdx) => !!state.jawaban[`sos_u_${idx}_${iIdx}`]);
+      } else {
+        let card = MASTER_SOSIAL_NONUMKM[idx];
+        if (!card) return false;
+        return evaluasiMekanismeBlocks(card.mekanisme, `sos_nu_${idx}`);
+      }
+    }
+
+    function cekLolosSosialSemua() {
+      let listSos = (state.skala === "UMKM") ? KARTU_ASPEK_SOSIAL_UMKM : MASTER_SOSIAL_NONUMKM;
+      return listSos.every((_, idx) => cekLolosSosialPerKartu(idx));
+    }
+
+    function perbaruiIndikatorHasilSementara() {
+      let txtIndikator = document.getElementById('txtIndikatorHasilSementara');
+      if (!txtIndikator) return;
+
+      let lolos = false;
+
+      if (state.subStep === "SDT") {
+        let chks = Array.from(document.querySelectorAll('.sdt_chk'));
+        lolos = chks.some(c => c.checked);
+      } else if (state.subStep === "TSC_HIJAU") {
+        lolos = cekLolosTSCHijau();
+      } else if (state.subStep === "TSC_TRANSISI") {
+        lolos = cekLolosTSCTransisi();
+      } else if (state.subStep === "DNSH") {
+        lolos = cekLolosDNSH();
+      } else if (state.subStep === "RMT_2a") {
+        let rmt2aChks = Array.from(document.querySelectorAll('.rmt2a_chk'));
+        lolos = rmt2aChks.length > 0 && rmt2aChks.every(c => c.checked);
+      } else if (state.subStep === "RMT_2b") {
+        let chk2b = document.getElementById('rmt_2b_1');
+        lolos = chk2b && chk2b.checked;
+      } else if (state.subStep === "RMT_2c") {
+        let rmt2cChks = Array.from(document.querySelectorAll('.rmt2c_chk'));
+        lolos = rmt2cChks.length > 0 && rmt2cChks.every(c => c.checked);
+      } else if (state.subStep === "SOSIAL") {
+        lolos = cekLolosSosialSemua();
+      }
+
+      if (lolos) {
+        txtIndikator.className = "status-terpenuhi";
+        txtIndikator.innerText = "Terpenuhi";
+      } else {
+        txtIndikator.className = "status-tidak-terpenuhi";
+        txtIndikator.innerText = "Tidak Terpenuhi";
+      }
+    }
+
+    function majuSubStep() {
+      simpanStateJawaban();
+
+      if (state.subStep === "SDT") {
+        let chks = Array.from(document.querySelectorAll('.sdt_chk'));
+        let lolos = chks.some(c => c.checked);
+        if (lolos) {
+          state.jalurTSC = "HIJAU";
+          state.subStep = "DNSH";
+          renderSubStepForm();
+        } else {
+          state.jalurTSC = "GAGAL_TSC";
+          state.statusHasil = "Merah";
+          state.langkahTerakhirSebelumHasil = "SDT";
+          tampilkanLayarHasilAkhir();
+        }
+        return;
+      }
+
+      if (state.subStep === "TSC_HIJAU") {
+        let lolosHijau = cekLolosTSCHijau();
+        if (lolosHijau) {
+          state.jalurTSC = "HIJAU";
+          state.pernahMasukTSCTransisi = false;
+          state.subStep = "DNSH";
+          renderSubStepForm();
+        } else {
+          if (memilikiTSCTransisi()) {
+            state.pernahMasukTSCTransisi = true;
+            state.subStep = "TSC_TRANSISI";
+            renderSubStepForm();
+          } else {
+            state.jalurTSC = "GAGAL_TSC";
+            state.statusHasil = "Merah";
+            state.langkahTerakhirSebelumHasil = "TSC_HIJAU";
+            tampilkanLayarHasilAkhir();
+          }
+        }
+        return;
+      }
+
+      if (state.subStep === "TSC_TRANSISI") {
+        let lolosTransisi = cekLolosTSCTransisi();
+        if (lolosTransisi) {
+          state.jalurTSC = "TRANSISI";
+          state.subStep = "DNSH";
+          renderSubStepForm();
+        } else {
+          state.jalurTSC = "GAGAL_TSC";
+          state.statusHasil = "Merah";
+          state.langkahTerakhirSebelumHasil = "TSC_TRANSISI";
+          tampilkanLayarHasilAkhir();
+        }
+        return;
+      }
+
+      if (state.subStep === "DNSH") {
+        let dnshLolos = cekLolosDNSH();
+
+        if (dnshLolos) {
+          state.jalurRMT = "LOLOS_DNSH";
+          state.subStep = "SOSIAL";
+        } else {
+          state.subStep = "RMT_2a";
+        }
+        renderSubStepForm();
+        return;
+      }
+
+      if (state.subStep === "RMT_2a") {
+        let rmt2aChks = Array.from(document.querySelectorAll('.rmt2a_chk'));
+        let rmt2aLolos = rmt2aChks.length > 0 && rmt2aChks.every(c => c.checked);
+
+        if (rmt2aLolos) state.subStep = "RMT_2b";
+        else state.subStep = "RMT_2c";
+        renderSubStepForm();
+        return;
+      }
+
+      if (state.subStep === "RMT_2b") {
+        let chk2b = document.getElementById('rmt_2b_1');
+        let rmt2bLolos = chk2b && chk2b.checked;
+
+        if (rmt2bLolos) {
+          state.jalurRMT = "LOLOS_RMT_2b";
+          state.subStep = "SOSIAL";
+        } else {
+          state.subStep = "RMT_2c";
+        }
+        renderSubStepForm();
+        return;
+      }
+
+      if (state.subStep === "RMT_2c") {
+        let rmt2cChks = Array.from(document.querySelectorAll('.rmt2c_chk'));
+        let rmt2cLolos = rmt2cChks.length > 0 && rmt2cChks.every(c => c.checked);
+
+        if (rmt2cLolos) {
+          state.jalurRMT = "LOLOS_RMT_2c";
+          state.subStep = "SOSIAL";
+          renderSubStepForm();
+        } else {
+          state.jalurRMT = "GAGAL_RMT";
+          state.statusHasil = "Merah";
+          state.langkahTerakhirSebelumHasil = "RMT_2c";
+          tampilkanLayarHasilAkhir();
+        }
+        return;
+      }
+
+      if (state.subStep === "SOSIAL") {
+        let sosLolos = cekLolosSosialSemua();
+        state.langkahTerakhirSebelumHasil = "SOSIAL";
+
+        if (!sosLolos) {
+          state.statusHasil = "Merah";
+        } else {
+          if (state.jalurTSC === "TRANSISI" || state.jalurRMT === "LOLOS_RMT_2c") {
+            state.statusHasil = "Transisi";
+          } else {
+            state.statusHasil = "Hijau";
+          }
+        }
+        tampilkanLayarHasilAkhir();
+      }
+    }
+
+    function mundurSubStep() {
+      simpanStateJawaban();
+      if (state.subStep === "SDT" || state.subStep === "TSC_HIJAU") {
+        navigasiStep(2);
+      } else if (state.subStep === "TSC_TRANSISI") {
+        state.subStep = "TSC_HIJAU";
+        renderSubStepForm();
+      } else if (state.subStep === "DNSH") {
+        if (state.skala === "UMKM") state.subStep = "SDT";
+        else state.subStep = (state.jalurTSC === "TRANSISI") ? "TSC_TRANSISI" : "TSC_HIJAU";
+        renderSubStepForm();
+      } else if (state.subStep === "RMT_2a") {
+        state.subStep = "DNSH";
+        renderSubStepForm();
+      } else if (state.subStep === "RMT_2b") {
+        state.subStep = "RMT_2a";
+        renderSubStepForm();
+      } else if (state.subStep === "RMT_2c") {
+        state.subStep = (state.jawaban['rmt_2a_1'] && state.jawaban['rmt_2a_2'] && state.jawaban['rmt_2a_3']) ? "RMT_2b" : "RMT_2a";
+        renderSubStepForm();
+      } else if (state.subStep === "SOSIAL") {
+        if (state.jalurRMT === "LOLOS_RMT_2c") state.subStep = "RMT_2c";
+        else if (state.jalurRMT === "LOLOS_RMT_2b") state.subStep = "RMT_2b";
+        else state.subStep = "DNSH";
+        renderSubStepForm();
+      }
+    }
+
+    function getKBLILevels(kbliText, sektorName) {
+      if (typeof dapatkanHierarkiDanDeskripsiKBLI === 'function') {
+        return dapatkanHierarkiDanDeskripsiKBLI(sektorName, kbliText);
+      }
+      let clean = (kbliText || "").trim();
+      return {
+        lvl1: "C - Industri Pengolahan",
+        lvl2: "10 - Industri Makanan",
+        lvl3: "106 - Industri Penggilingan Padi-Padian, Tepung dan Pati",
+        lvl4: "1061 - Industri Penggilingan Serelia dan Biji-Bijian Lainnya",
+        lvl5: clean
+      };
+    }
+
+    function kumpulkanDetailJawaban() {
+      let detail = [];
+
+      function extractFromMekanisme(mekanismeList, idPrefix, tahapan, subTahapan, catText) {
+        if (!mekanismeList || !Array.isArray(mekanismeList)) return;
+        mekanismeList.forEach((pBlock, pIdx) => {
+          let blockHeader = pBlock.text || pBlock.heading || "";
+          if (pBlock.kriteria && Array.isArray(pBlock.kriteria)) {
+            pBlock.kriteria.forEach((k, kIdx) => {
+              let hasSubs = (k.subs && Array.isArray(k.subs) && k.subs.length > 0);
+              let kNum = k.no ? `${k.no}` : `${kIdx + 1}`;
+              if (!hasSubs) {
+                let chkId = `${idPrefix}_p${pIdx}_k${kIdx}`;
+                let isChecked = !!state.jawaban[chkId];
+                detail.push({
+                  tahapan: tahapan,
+                  subTahapan: subTahapan,
+                  nomorButir: `Kriteria ${kNum}`,
+                  teksPertanyaan: k.text || blockHeader || "-",
+                  statusPemenuhan: isChecked ? "Memenuhi" : "Tidak Memenuhi",
+                  catatan: catText || "-"
+                });
+              } else {
+                k.subs.forEach((s, sIdx) => {
+                  let subId = `${idPrefix}_p${pIdx}_k${kIdx}_s${sIdx}`;
+                  let sNum = s.no ? `${s.no}` : `${kNum}.${sIdx + 1}`;
+                  let isChecked = !!state.jawaban[subId];
+                  detail.push({
+                    tahapan: tahapan,
+                    subTahapan: subTahapan,
+                    nomorButir: `Kriteria ${sNum}`,
+                    teksPertanyaan: `${k.text ? k.text + ' - ' : ''}${s.text || '-'}`,
+                    statusPemenuhan: isChecked ? "Memenuhi" : "Tidak Memenuhi",
+                    catatan: catText || "-"
+                  });
+                });
+              }
+            });
+          }
+        });
+      }
+
+      function extractFromStandardCard(pertanyaanList, chkPrefix, tahapan, subTahapan, catText) {
+        if (!pertanyaanList || !Array.isArray(pertanyaanList)) return;
+        pertanyaanList.forEach((p, idx) => {
+          let chkId = p.id || `${chkPrefix}_${idx}`;
+          let isChecked = !!state.jawaban[chkId];
+          detail.push({
+            tahapan: tahapan,
+            subTahapan: subTahapan,
+            nomorButir: `Butir ${idx + 1}`,
+            teksPertanyaan: (p.teks || p.text || "-").replace(/^\d+[\.\)]\s*/, ''),
+            statusPemenuhan: isChecked ? "Memenuhi" : "Tidak Memenuhi",
+            catatan: catText || "-"
+          });
+        });
+      }
+
+      if (state.skala === "UMKM") {
+        let sdt = BANK_SDT_UMKM[state.tujuanLingkungan] || BANK_SDT_UMKM.EO1;
+        let cat = (state.catatan['cat_sdt'] || "").trim();
+        extractFromStandardCard(sdt.pertanyaan, "sdt_chk", "SDT", sdt.judul || "Kriteria SDT", cat);
+      } else {
+        let dataTSC = dapatkanTSCNonUMKM(state.sektor, state.kodeKBLI, state.nonUmkmDataSheet, state.tujuanLingkungan);
+        let catH = (state.catatan['cat_tsc_h'] || "").trim();
+        extractFromMekanisme(dataTSC.pertanyaanHijau, "tsc_h", "TSC Hijau", "Tujuan Lingkungan Utama - Hijau", catH);
+
+        if (state.pernahMasukTSCTransisi || state.jalurTSC === "TRANSISI") {
+          let catT = (state.catatan['cat_tsc_t'] || "").trim();
+          extractFromMekanisme(dataTSC.pertanyaanTransisi, "tsc_t", "TSC Transisi", "Tujuan Lingkungan Utama - Transisi", catT);
+        }
+      }
+
+      if (state.jalurTSC !== "GAGAL_TSC") {
+        let targetEO = ["EO1", "EO2", "EO3", "EO4"].filter(e => e !== state.tujuanLingkungan);
+        targetEO.forEach(eoKey => {
+          let catDnsh = (state.catatan[`cat_dnsh_${eoKey}`] || "").trim();
+          if (state.skala === "Non UMKM" && typeof MASTER_DNSH_NONUMKM !== 'undefined' && MASTER_DNSH_NONUMKM[eoKey]) {
+            let d = MASTER_DNSH_NONUMKM[eoKey];
+            extractFromMekanisme(d.mekanisme, `dnsh_nu_${eoKey}`, "DNSH", d.nama || `DNSH ${eoKey}`, catDnsh);
+          } else {
+            let d = BANK_DNSH_EO[eoKey];
+            if (d) {
+              extractFromStandardCard(d.pertanyaan, `dnsh_${eoKey}_chk`, "DNSH", d.judul || `DNSH ${eoKey}`, catDnsh);
+            }
+          }
+        });
+
+        if (state.jalurRMT !== "LOLOS_DNSH") {
+          let cat2a = (state.catatan['cat_rmt2a'] || "").trim();
+          extractFromStandardCard(BANK_RMT.RMT_2a.pertanyaan, "rmt2a_chk", "RMT", "RMT 2a (Tindakan Pemulihan)", cat2a);
+
+          let rmt2aOk = !!(state.jawaban['rmt_2a_1'] && state.jawaban['rmt_2a_2'] && state.jawaban['rmt_2a_3']);
+          if (rmt2aOk) {
+            let cat2b = (state.catatan['cat_rmt2b'] || "").trim();
+            extractFromStandardCard(BANK_RMT.RMT_2b.pertanyaan, "rmt2b_chk", "RMT", "RMT 2b (Dampak Residual Tuntas)", cat2b);
+          }
+
+          if (state.jalurRMT === "LOLOS_RMT_2c" || state.jalurRMT === "GAGAL_RMT") {
+            let cat2c = (state.catatan['cat_rmt2c'] || "").trim();
+            extractFromStandardCard(BANK_RMT.RMT_2c.pertanyaan, "rmt2c_chk", "RMT", "RMT 2c (Rencana Perbaikan 5 Tahun)", cat2c);
+          }
+        }
+
+        if (state.jalurRMT !== "GAGAL_RMT") {
+          if (state.skala === "UMKM") {
+            KARTU_ASPEK_SOSIAL_UMKM.forEach((card, idx) => {
+              let catSos = (state.catatan[`cat_sos_${idx}`] || "").trim();
+              card.items.forEach((itemText, iIdx) => {
+                let chkId = `sos_u_${idx}_${iIdx}`;
+                let isChecked = !!state.jawaban[chkId];
+                detail.push({
+                  tahapan: "Aspek Sosial",
+                  subTahapan: card.judul,
+                  nomorButir: `Butir ${iIdx + 1}`,
+                  teksPertanyaan: itemText,
+                  statusPemenuhan: isChecked ? "Memenuhi" : "Tidak Memenuhi",
+                  catatan: catSos || "-"
+                });
+              });
+            });
+          } else {
+            MASTER_SOSIAL_NONUMKM.forEach((card, idx) => {
+              let catSos = (state.catatan[`cat_sos_${idx}`] || "").trim();
+              extractFromMekanisme(card.mekanisme, `sos_nu_${idx}`, "Aspek Sosial", card.judul, catSos);
+            });
+          }
+        }
+      }
+
+      return detail;
+    }
+
+    function tampilkanLayarHasilAkhir() {
+      navigasiStep(7);
+      bangunJejakStepper(true);
+
+      let lvls = getKBLILevels(state.kodeKBLI, state.sektor);
+
+      document.getElementById('resTanggal').innerText = formatTanggalIndonesia(state.tanggal);
+      document.getElementById('resSkala').innerText = state.skala;
+      document.getElementById('resSektor').innerText = state.sektor;
+      document.getElementById('resLvl1').innerText = lvls.lvl1;
+      document.getElementById('resLvl2').innerText = lvls.lvl2;
+      document.getElementById('resLvl3').innerText = lvls.lvl3;
+      document.getElementById('resLvl4').innerText = lvls.lvl4;
+      document.getElementById('resLvl5').innerText = lvls.lvl5;
+
+      const eoMap = {
+        "EO1": "Mitigasi Perubahan Iklim",
+        "EO2": "Adaptasi Perubahan Iklim",
+        "EO3": "Perlindungan Ekosistem dan Keanekaragaman Hayati",
+        "EO4": "Ketahanan Sumber Daya dan Transisi menuju Ekonomi Sirkular"
+      };
+      document.getElementById('resEO').innerText = eoMap[state.tujuanLingkungan] || state.tujuanLingkungan;
+
+      let banner = document.getElementById('boxBannerHasil');
+      let txtHasilSingkat = document.getElementById('txtHasilSingkat');
+
+      let labelHasil = "";
+      if (state.statusHasil === "Hijau") {
+        labelHasil = "Hijau";
+        banner.className = "banner-hasil-box banner-selaras";
+      } else if (state.statusHasil === "Transisi") {
+        labelHasil = "Transisi";
+        banner.className = "banner-hasil-box banner-transisi";
+      } else {
+        labelHasil = "Tidak Memenuhi Klasifikasi";
+        banner.className = "banner-hasil-box banner-tidak-memenuhi";
+      }
+      banner.innerText = labelHasil;
+      txtHasilSingkat.innerText = labelHasil;
+
+      let listHtml = "";
+
+      if (state.skala === "UMKM") {
+        let sdtOk = ["sdt_eo1_1", "sdt_eo1_2", "sdt_eo2_1", "sdt_eo2_2", "sdt_eo2_3", "sdt_eo3_1", "sdt_eo3_2", "sdt_eo4_1", "sdt_eo4_2", "sdt_eo4_3"].some(id => state.jawaban[id]);
+        let badgeSdt = sdtOk ? '<span class="fw-bold text-success">Terpenuhi</span>' : '<span class="fw-bold text-danger">Tidak Terpenuhi</span>';
+
+        listHtml += `
+          <div class="result-group-header">
+            <span>- SDT</span>
+            ${badgeSdt}
+          </div>
+          <div class="result-sub-card ms-3">
+            <div class="result-sub-card-text">${BANK_SDT_UMKM[state.tujuanLingkungan] ? BANK_SDT_UMKM[state.tujuanLingkungan].judul : "Kriteria SDT"}</div>
+            ${badgeSdt}
+          </div>
+        `;
+      } else {
+        let hOk = cekLolosTSCHijau();
+        let badgeH = hOk ? '<span class="fw-bold text-success">Terpenuhi</span>' : '<span class="fw-bold text-danger">Tidak Terpenuhi</span>';
+        listHtml += `
+          <div class="result-group-header">
+            <span>- TSC Hijau</span>
+            ${badgeH}
+          </div>
+          <div class="result-sub-card ms-3">
+            <div class="result-sub-card-text">Tujuan Lingkungan Utama - Klasifikasi Hijau</div>
+            ${badgeH}
+          </div>
+        `;
+
+        if (state.pernahMasukTSCTransisi || state.jalurTSC === "TRANSISI") {
+          let tOk = cekLolosTSCTransisi();
+          let badgeT = tOk ? '<span class="fw-bold text-success">Terpenuhi</span>' : '<span class="fw-bold text-danger">Tidak Terpenuhi</span>';
+          listHtml += `
+            <div class="result-group-header mt-2">
+              <span>- TSC Transisi</span>
+              ${badgeT}
+            </div>
+            <div class="result-sub-card ms-3">
+              <div class="result-sub-card-text">Tujuan Lingkungan Utama - Klasifikasi Transisi</div>
+              ${badgeT}
+            </div>
+          `;
+        }
+      }
+
+      if (state.jalurTSC !== "GAGAL_TSC") {
+        let dnshSemuaLolos = (state.jalurRMT === "LOLOS_DNSH");
+        let badgeDnshText = dnshSemuaLolos ? '<span class="fw-bold text-success">Terpenuhi</span>' : '<span class="fw-bold text-danger">Tidak Terpenuhi</span>';
+        let labelDnshHeader = (state.skala === "Non UMKM" && state.jalurTSC === "TRANSISI") ? "- DNSH Transisi" : "- DNSH";
+        let greenBorderClass = dnshSemuaLolos ? "border-success" : "";
+
+        listHtml += `
+          <div class="result-group-header mt-2 ${greenBorderClass}">
+            <span>${labelDnshHeader}</span>
+            ${badgeDnshText}
+          </div>
+        `;
+
+        let targetEO = ["EO1", "EO2", "EO3", "EO4"].filter(e => e !== state.tujuanLingkungan);
+        targetEO.forEach(eoKey => {
+          let eoLolos = cekLolosDNSHPerEO(eoKey);
+          let badgeEo = eoLolos ? '<span class="fw-bold text-success">Terpenuhi</span>' : '<span class="fw-bold text-danger">Tidak Terpenuhi</span>';
+
+          listHtml += `
+            <div class="result-sub-card ms-3">
+              <div class="result-sub-card-text">Kriteria DNSH ${eoKey}</div>
+              ${badgeEo}
+            </div>
+          `;
+        });
+
+        if (state.jalurRMT !== "LOLOS_DNSH") {
+          let rmt2aOk = !!(state.jawaban['rmt_2a_1'] && state.jawaban['rmt_2a_2'] && state.jawaban['rmt_2a_3']);
+          let badge2a = rmt2aOk ? '<span class="fw-bold text-success">Terpenuhi</span>' : '<span class="fw-bold text-danger">Tidak Terpenuhi</span>';
+          listHtml += `
+            <div class="result-group-header mt-2">
+              <span>- RMT 2a</span>
+              ${badge2a}
+            </div>
+            <div class="result-sub-card ms-3">
+              <div class="result-sub-card-text">${BANK_RMT.RMT_2a.judul}</div>
+              ${badge2a}
+            </div>
+          `;
+
+          if (rmt2aOk) {
+            let rmt2bOk = !!state.jawaban['rmt_2b_1'];
+            let badge2b = rmt2bOk ? '<span class="fw-bold text-success">Terpenuhi</span>' : '<span class="fw-bold text-danger">Tidak Terpenuhi</span>';
+            listHtml += `
+              <div class="result-group-header mt-2">
+                <span>- RMT 2b</span>
+                ${badge2b}
+              </div>
+              <div class="result-sub-card ms-3">
+                <div class="result-sub-card-text">${BANK_RMT.RMT_2b.judul}</div>
+                ${badge2b}
+              </div>
+            `;
+          }
+
+          if (state.jalurRMT === "LOLOS_RMT_2c" || state.jalurRMT === "GAGAL_RMT") {
+            let rmt2cOk = !!(state.jawaban['rmt_2c_1'] && state.jawaban['rmt_2c_2'] && state.jawaban['rmt_2c_3']);
+            let badge2c = rmt2cOk ? '<span class="fw-bold text-success">Terpenuhi</span>' : '<span class="fw-bold text-danger">Tidak Terpenuhi</span>';
+            listHtml += `
+              <div class="result-group-header mt-2">
+                <span>- RMT 2c</span>
+                ${badge2c}
+              </div>
+              <div class="result-sub-card ms-3">
+                <div class="result-sub-card-text">${BANK_RMT.RMT_2c.judul}</div>
+                ${badge2c}
+              </div>
+            `;
+          }
+        }
+
+        if (state.jalurRMT !== "GAGAL_RMT") {
+          let listSos = (state.skala === "UMKM") ? KARTU_ASPEK_SOSIAL_UMKM : MASTER_SOSIAL_NONUMKM;
+          let sosSemuaLolos = cekLolosSosialSemua();
+          let badgeSosText = sosSemuaLolos ? '<span class="fw-bold text-success">Terpenuhi</span>' : '<span class="fw-bold text-danger">Tidak Terpenuhi</span>';
+
+          listHtml += `
+            <div class="result-group-header mt-2">
+              <span>- Aspek Sosial</span>
+              ${badgeSosText}
+            </div>
+          `;
+
+          listSos.forEach((pilar, pIdx) => {
+            let pilarOk = cekLolosSosialPerKartu(pIdx);
+            let badgePil = pilarOk ? '<span class="fw-bold text-success">Terpenuhi</span>' : '<span class="fw-bold text-danger">Tidak Terpenuhi</span>';
+
+            listHtml += `
+              <div class="result-sub-card ms-3">
+                <div>
+                  <div class="result-sub-card-title">${pilar.judul}</div>
+                  <div class="result-sub-card-desc">${pilar.subJudul || ""}</div>
+                </div>
+                ${badgePil}
+              </div>
+            `;
+          });
+        }
+      }
+
+      document.getElementById('listEvaluasiHierarki').innerHTML = listHtml;
+      renderDetailSimulasiCards();
+
+      let detailJawabanList = kumpulkanDetailJawaban();
+
+      let labelCatatanMap = {
+        'cat_sdt': 'Kriteria SDT',
+        'cat_tsc_h': 'TSC Hijau',
+        'cat_tsc_t': 'TSC Transisi',
+        'cat_dnsh_EO1': 'DNSH EO1',
+        'cat_dnsh_EO2': 'DNSH EO2',
+        'cat_dnsh_EO3': 'DNSH EO3',
+        'cat_dnsh_EO4': 'DNSH EO4',
+        'cat_rmt2a': 'RMT 2a',
+        'cat_rmt2b': 'RMT 2b',
+        'cat_rmt2c': 'RMT 2c'
+      };
+
+      let catatanBersih = [];
+      for (let k in state.catatan) {
+        let val = (state.catatan[k] || "").trim();
+        if (val) {
+          let label = labelCatatanMap[k];
+          if (!label && k.startsWith('cat_sos_')) {
+            let num = parseInt(k.replace('cat_sos_', ''), 10) + 1;
+            label = `Aspek Sosial (Pilar ${num})`;
+          }
+          catatanBersih.push(`[${label || k}]: ${val}`);
+        }
+      }
+
+      let stringCatatanRapi = catatanBersih.length > 0 ? catatanBersih.join('\n') : '-';
+
+      const payloadSimpan = {
+        namaInstitusi: state.namaInstitusi,
+        tanggal: state.tanggal,
+        skalaUsaha: state.skala,
+        sektor: state.sektor,
+        kodeKBLI: lvls.lvl5,
+        tujuanLingkungan: state.tujuanLingkungan,
+        hasilPenilaian: labelHasil,
+        evaluasiDetail: `${state.jalurTSC} | ${state.jalurRMT}`,
+        catatan: stringCatatanRapi,
+        detailJawaban: detailJawabanList
+      };
+
+      // PEREKAMAN KE GOOGLE SHEETS VIA FETCH POST (BEBAS DARI KENDALA GOOGLE DRIVE)
+      if (APPS_SCRIPT_URL && !APPS_SCRIPT_URL.includes("AKfycb...")) {
+        fetch(APPS_SCRIPT_URL, {
+          method: "POST",
+          mode: "no-cors",
+          headers: { "Content-Type": "text/plain" },
+          body: JSON.stringify(payloadSimpan)
+        })
+        .then(() => {
+          console.log("Data berhasil dikirim ke Google Sheets.");
+        })
+        .catch(err => {
+          console.error("Gagal mengirim data:", err);
+        });
+      }
+    }
+
+    function renderDetailMekanismeBlocksHTML(mekanismeList, idPrefix) {
+      let html = "";
+      if (!mekanismeList || mekanismeList.length === 0) return html;
+
+      mekanismeList.forEach((pBlock, pIdx) => {
+        if (pIdx > 0 && pBlock.logic) {
+          let lblLogicP = (pBlock.logic.toUpperCase() === 'OR') ? 'atau' : 'dan';
+          html += `<div class="sdt-divider my-2 fw-bold text-secondary">${lblLogicP}</div>`;
+        }
+        let headingText = pBlock.text || pBlock.heading || "Memenuhi kriteria berikut:";
+        html += `<div class="fw-bold small text-dark mt-2 mb-2" style="white-space: pre-line;">${headingText}</div>`;
+
+        if (pBlock.kriteria && Array.isArray(pBlock.kriteria) && pBlock.kriteria.length > 0) {
+          pBlock.kriteria.forEach((k, kIdx) => {
+            if (kIdx > 0 && k.logic) {
+              html += `<div class="sdt-divider">${k.logic.toUpperCase() === 'OR' ? 'atau' : 'dan'}</div>`;
+            }
+            let hasSubs = (k.subs && Array.isArray(k.subs) && k.subs.length > 0);
+            let kNumber = k.no ? `${k.no}. ` : "";
+
+            if (!hasSubs) {
+              let chkId = `${idPrefix}_p${pIdx}_k${kIdx}`;
+              let ans = state.jawaban[chkId] ? '<span class="fw-bold text-success">Ya</span>' : '<span class="fw-bold text-danger">Tidak</span>';
+              html += `
+                <div class="sdt-option">
+                  <span class="sdt-option-text" style="white-space: pre-line;">${kNumber}${k.text}</span>
+                  ${ans}
+                </div>
+              `;
+            } else {
+              html += `<div class="p-3 mb-2 rounded border bg-white"><div class="fw-semibold small text-dark mb-2" style="white-space: pre-line;">${kNumber}${k.text}</div>`;
+              k.subs.forEach((s, sIdx) => {
+                if (sIdx > 0 && s.logic) {
+                  html += `<div class="sdt-divider">${s.logic.toUpperCase() === 'OR' ? 'atau' : 'dan'}</div>`;
+                }
+                let subId = `${idPrefix}_p${pIdx}_k${kIdx}_s${sIdx}`;
+                let ans = state.jawaban[subId] ? '<span class="fw-bold text-success">Ya</span>' : '<span class="fw-bold text-danger">Tidak</span>';
+                html += `
+                  <div class="sdt-option bg-white">
+                    <span class="sdt-option-text" style="white-space: pre-line;">${s.no ? s.no + '. ' : ''}${s.text}</span>
+                    ${ans}
+                  </div>
+                `;
+              });
+              html += `</div>`;
+            }
+          });
+        }
+      });
+      return html;
+    }
+
+    function renderDetailSimulasiCards() {
+      let area = document.getElementById('areaDetailSimulasiCards');
+      let html = "";
+
+      if (state.skala === "UMKM") {
+        let sdtData = BANK_SDT_UMKM[state.tujuanLingkungan] || BANK_SDT_UMKM.EO1;
+        html += `
+          <div class="sdt-form-container">
+            <div class="sdt-card-title">${sdtData.judul}</div>
+            <div class="sdt-card-subtitle">${sdtData.petunjuk || ""}</div>
+        `;
+        sdtData.pertanyaan.forEach((p, idx) => {
+          let ans = state.jawaban[p.id] ? '<span class="fw-bold text-success">Ya</span>' : '<span class="fw-bold text-danger">Tidak</span>';
+          html += `
+            <div class="sdt-option">
+              <span class="sdt-option-text">${p.teks}</span>
+              ${ans}
+            </div>
+          `;
+          if (idx < sdtData.pertanyaan.length - 1 && sdtData.pemisah) {
+            html += `<div class="sdt-divider">${sdtData.pemisah}</div>`;
+          }
+        });
+        html += `
+            <div class="info-block-box">
+              <div class="info-block-label">Referensi</div>
+              <div class="info-block-desc">${sdtData.referensi || "-"}</div>
+              <div class="info-block-label">Keterangan</div>
+              <div class="info-block-desc">${sdtData.keterangan || "-"}</div>
+              <div class="info-block-label">Catatan</div>
+              <div class="text-secondary small fst-italic">${state.catatan['cat_sdt'] || "-"}</div>
+            </div>
+          </div>
+        `;
+      } else {
+        let sdtData = dapatkanTSCNonUMKM(state.sektor, state.kodeKBLI, state.nonUmkmDataSheet, state.tujuanLingkungan);
+        html += `
+          <div class="sdt-form-container">
+            <div class="sdt-card-title">Tujuan Lingkungan Utama - Klasifikasi Hijau</div>
+            <hr class="my-3" style="border-color:#e2e8f0;">
+            ${renderDetailMekanismeBlocksHTML(sdtData.pertanyaanHijau, "tsc_h")}
+            <div class="info-block-box">
+              <div class="info-block-label">Referensi</div>
+              <div class="info-block-desc">${sdtData.referensi || "-"}</div>
+              <div class="info-block-label">Keterangan</div>
+              <div class="info-block-desc">${sdtData.keterangan || "-"}</div>
+              <div class="info-block-label">Catatan</div>
+              <div class="text-secondary small fst-italic">${state.catatan['cat_tsc_h'] || "-"}</div>
+            </div>
+          </div>
+        `;
+
+        if (state.pernahMasukTSCTransisi || state.jalurTSC === "TRANSISI") {
+          html += `
+            <div class="sdt-form-container">
+              <div class="sdt-card-title">Tujuan Lingkungan Utama - Klasifikasi Transisi</div>
+              <hr class="my-3" style="border-color:#e2e8f0;">
+              ${renderDetailMekanismeBlocksHTML(sdtData.pertanyaanTransisi, "tsc_t")}
+              <div class="info-block-box">
+                <div class="info-block-label">Referensi</div>
+                <div class="info-block-desc">${sdtData.referensi || "-"}</div>
+                <div class="info-block-label">Keterangan</div>
+                <div class="info-block-desc">${sdtData.keterangan || "-"}</div>
+                <div class="info-block-label">Catatan</div>
+                <div class="text-secondary small fst-italic">${state.catatan['cat_tsc_t'] || "-"}</div>
+              </div>
+            </div>
+          `;
+        }
+      }
+
+      if (state.jalurTSC !== "GAGAL_TSC") {
+        let targetEO = ["EO1", "EO2", "EO3", "EO4"].filter(e => e !== state.tujuanLingkungan);
+        targetEO.forEach(eoKey => {
+          if (state.skala === "Non UMKM" && typeof MASTER_DNSH_NONUMKM !== 'undefined' && MASTER_DNSH_NONUMKM[eoKey]) {
+            let dnshData = MASTER_DNSH_NONUMKM[eoKey];
+            html += `
+              <div class="sdt-form-container">
+                <div class="sdt-card-title">${dnshData.nama}</div>
+                <hr class="my-3" style="border-color:#e2e8f0;">
+                ${renderDetailMekanismeBlocksHTML(dnshData.mekanisme, `dnsh_nu_${eoKey}`)}
+                <div class="info-block-box">
+                  <div class="info-block-label">Referensi</div>
+                  <div class="info-block-desc">${dnshData.referensi || "-"}</div>
+                  <div class="info-block-label">Keterangan</div>
+                  <div class="info-block-desc">${dnshData.keterangan || "-"}</div>
+                  <div class="info-block-label">Catatan</div>
+                  <div class="text-secondary small fst-italic">${state.catatan[`cat_dnsh_${eoKey}`] || "-"}</div>
+                </div>
+              </div>
+            `;
+          } else {
+            let dnshData = BANK_DNSH_EO[eoKey];
+            html += `
+              <div class="sdt-form-container">
+                <div class="sdt-card-title">${dnshData.judul}</div>
+                <hr class="my-3" style="border-color:#e2e8f0;">
+            `;
+            dnshData.pertanyaan.forEach((p, idx) => {
+              let ans = state.jawaban[p.id] ? '<span class="fw-bold text-success">Ya</span>' : '<span class="fw-bold text-danger">Tidak</span>';
+              html += `
+                <div class="sdt-option">
+                  <span class="sdt-option-text">${p.teks}</span>
+                  ${ans}
+                </div>
+              `;
+              if (idx < dnshData.pertanyaan.length - 1 && dnshData.pemisah) {
+                html += `<div class="sdt-divider">${dnshData.pemisah}</div>`;
+              }
+            });
+            html += `
+                <div class="info-block-box">
+                  <div class="info-block-label">Referensi</div>
+                  <div class="info-block-desc">${dnshData.referensi || "-"}</div>
+                  <div class="info-block-label">Keterangan</div>
+                  <div class="info-block-desc">${dnshData.keterangan || "-"}</div>
+                  <div class="info-block-label">Catatan</div>
+                  <div class="text-secondary small fst-italic">${state.catatan[`cat_dnsh_${eoKey}`] || "-"}</div>
+                </div>
+              </div>
+            `;
+          }
+        });
+
+        if (state.jalurRMT !== "GAGAL_RMT") {
+          let listSos = (state.skala === "UMKM") ? KARTU_ASPEK_SOSIAL_UMKM : MASTER_SOSIAL_NONUMKM;
+          listSos.forEach((card, idx) => {
+            html += `
+              <div class="sdt-form-container">
+                <div class="sdt-card-title">${card.judul}</div>
+                <div class="sdt-card-subtitle">${card.subJudul || ""}</div>
+                <hr class="my-3" style="border-color:#e2e8f0;">
+            `;
+            if (state.skala === "UMKM") {
+              card.items.forEach((itemText, iIdx) => {
+                let chkId = `sos_u_${idx}_${iIdx}`;
+                let ans = state.jawaban[chkId] ? '<span class="fw-bold text-success">Ya</span>' : '<span class="fw-bold text-danger">Tidak</span>';
+                html += `
+                  <div class="sdt-option">
+                    <span class="sdt-option-text">${itemText}</span>
+                    ${ans}
+                  </div>
+                `;
+                if (iIdx < card.items.length - 1 && card.divider) {
+                  html += `<div class="sdt-divider">${card.divider}</div>`;
+                }
+              });
+            } else {
+              html += renderDetailMekanismeBlocksHTML(card.mekanisme, `sos_nu_${idx}`);
+            }
+            html += `
+                <div class="info-block-box">
+                  <div class="info-block-label">Referensi</div>
+                  <div class="info-block-desc">${card.referensi || "-"}</div>
+                  <div class="info-block-label">Keterangan</div>
+                  <div class="info-block-desc">${card.keterangan || "-"}</div>
+                  <div class="info-block-label">Catatan</div>
+                  <div class="text-secondary small fst-italic">${state.catatan[`cat_sos_${idx}`] || "-"}</div>
+                </div>
+              </div>
+            `;
+          });
+        }
+      }
+
+      area.innerHTML = html;
+    }
+
+    function pindahTabHasil(tabName) {
+      if (tabName === 'HASIL') {
+        document.getElementById('tabBtnHasil').className = "result-tab-btn active-tab";
+        document.getElementById('tabBtnDetail').className = "result-tab-btn";
+        document.getElementById('viewTabHasil').style.display = "block";
+        document.getElementById('viewTabDetail').style.display = "none";
+      } else {
+        document.getElementById('tabBtnHasil').className = "result-tab-btn";
+        document.getElementById('tabBtnDetail').className = "result-tab-btn active-tab";
+        document.getElementById('viewTabHasil').style.display = "none";
+        document.getElementById('viewTabDetail').style.display = "block";
+      }
+      window.scrollTo({ top: 150, behavior: 'smooth' });
+    }
+
+    function kembaliDariHasil() {
+      state.subStep = state.langkahTerakhirSebelumHasil || "SOSIAL";
+      navigasiStep(3);
+      renderSubStepForm();
+    }
+
+    // =========================================================================
+    // GENERATOR & EKSPORTIR PDF (DENGAN LOGO BANK JAGO)
+    // =========================================================================
+    function getHtmlLogoBankJagoPDF() {
+      return `
+        <div style="display:flex; align-items:center; gap:12px;">
+          <svg height="38" viewBox="0 0 400 150" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <circle cx="24" cy="24" r="15" fill="#FEAE27"/>
+            <circle cx="60" cy="24" r="15" fill="#FEAE27"/>
+            <circle cx="96" cy="24" r="15" fill="#FEAE27"/>
+            <path d="M108 56 C108 48 102 42 95 42 C88 42 82 48 82 56 V74 C82 85 73 93 60 93 C47 93 38 85 38 74 V70 H12 V75 C12 100 32 117 60 117 C88 117 108 100 108 75 V56 Z" fill="#FEAE27"/>
+            <path fill-rule="evenodd" clip-rule="evenodd" d="M180 48 H203 V114 H180 V105 C174 113 164 117 152 117 C131 117 116 101 116 81 C116 61 131 45 152 45 C164 45 174 49 180 57 V48 Z M159 95 C170 95 178 89 178 81 C178 73 170 67 159 67 C148 67 140 73 140 81 C140 89 148 95 159 95 Z" fill="#FEAE27"/>
+            <path fill-rule="evenodd" clip-rule="evenodd" d="M276 48 H299 V110 C299 132 281 146 254 146 C233 146 217 136 213 121 H238 C241 126 246 128 254 128 C267 128 275 121 275 110 V103 C269 111 259 115 247 115 C226 115 211 100 211 80 C211 60 226 45 247 45 C259 45 269 49 276 57 V48 Z M255 94 C266 94 274 88 274 80 C274 72 266 66 255 66 C244 66 236 72 236 80 C236 88 244 94 255 94 Z" fill="#FEAE27"/>
+            <path fill-rule="evenodd" clip-rule="evenodd" d="M348 117 C371 117 389 101 389 81 C389 61 371 45 348 45 C325 45 307 61 307 81 C307 101 325 117 348 117 Z M348 95 C358 95 365 89 365 81 C365 73 358 67 348 67 C338 67 331 73 331 81 C331 89 338 95 348 95 Z" fill="#FEAE27"/>
+          </svg>
+          <div style="border-left: 2px solid #e2e8f0; padding-left: 10px;">
+            <div style="font-size:10pt; font-weight:800; color:#4A2511; line-height:1.1; font-family:'Open Sans', sans-serif;">PT Bank Jago Tbk</div>
+            <div style="font-size:7pt; font-weight:700; color:#F58220; letter-spacing:0.5px; text-transform:uppercase; font-family:'Open Sans', sans-serif;">TKBI Self-Assessment Simulator</div>
+          </div>
+        </div>
+      `;
+    }
+
+    function tutupPratinjauPDF() {
+      document.getElementById('pdfOverlayContainer').style.display = 'none';
+    }
+
+    function unduhLaporanPDF() {
+      let now = new Date();
+      let pad = (n) => (n < 10 ? '0' + n : n);
+      let tglStr = `${now.getDate()} ${["Januari","Februari","Maret","April","Mei","Juni","Juli","Agustus","September","Oktober","November","Desember"][now.getMonth()]} ${now.getFullYear()} ${pad(now.getHours())}.${pad(now.getMinutes())}`;
+      let lvls = getKBLILevels(state.kodeKBLI, state.sektor);
+      let statusFinalTeks = document.getElementById('txtHasilSingkat').innerText;
+      let hasilHtml = document.getElementById('listEvaluasiHierarki').innerHTML;
+
+      let targetPDF = document.getElementById('pdfExportArea');
+      let logoHtml = getHtmlLogoBankJagoPDF();
+
+      let badgeBg = "#19b159";
+      if (state.statusHasil === "Transisi") badgeBg = "#f59e0b";
+      else if (state.statusHasil !== "Hijau") badgeBg = "#64748b";
+
+      targetPDF.innerHTML = `
+        <div class="pdf-page-container">
+          <div class="pdf-header-row">
+            ${logoHtml}
+            <div style="text-align: right; font-size: 8.5pt; color: #475569;">
+              <div>Dicetak pada : ${tglStr}</div>
+              <div>PT Bank Jago Tbk &bull; Internal TKBI Assessment</div>
+            </div>
+          </div>
+
+          <div class="pdf-penafian-box">
+            <div class="pdf-penafian-bar">! PENAFIAN (DISCLAIMER)</div>
+            <div class="pdf-penafian-text">
+              Simulasi ini dibuat untuk keperluan asesmen internal Taksonomi Keuangan Berkelanjutan Indonesia (TKBI) di lingkungan PT Bank Jago Tbk dan tetap mengacu pada Buku Panduan TKBI resmi Otoritas Jasa Keuangan (OJK).
+            </div>
+          </div>
+
+          <div class="pdf-section-title-bar">Ringkasan Aktivitas</div>
+          <table style="width: 100%; font-size: 9pt; margin-bottom: 18px; border-collapse: collapse;">
+            <tr><td style="width: 220px; color:#475569; padding: 5px 0; border-bottom:1px solid #f1f5f9;">Nama Institusi / Debitur</td><td style="width: 15px; border-bottom:1px solid #f1f5f9;">:</td><td style="padding: 5px 0; border-bottom:1px solid #f1f5f9;"><strong>${state.namaInstitusi}</strong></td></tr>
+            <tr><td style="color:#475569; padding: 5px 0; border-bottom:1px solid #f1f5f9;">Posisi Penilaian</td><td style="border-bottom:1px solid #f1f5f9;">:</td><td style="padding: 5px 0; border-bottom:1px solid #f1f5f9;"><strong>${formatTanggalIndonesia(state.tanggal)}</strong></td></tr>
+            <tr><td style="color:#475569; padding: 5px 0; border-bottom:1px solid #f1f5f9;">Skala Usaha</td><td style="border-bottom:1px solid #f1f5f9;">:</td><td style="padding: 5px 0; border-bottom:1px solid #f1f5f9;"><strong>${state.skala}</strong></td></tr>
+            <tr><td style="color:#475569; padding: 5px 0; border-bottom:1px solid #f1f5f9;">Sektor</td><td style="border-bottom:1px solid #f1f5f9;">:</td><td style="padding: 5px 0; border-bottom:1px solid #f1f5f9;"><strong>${state.sektor}</strong></td></tr>
+            <tr><td style="color:#475569; padding: 5px 0; border-bottom:1px solid #f1f5f9;">KBLI Level 1</td><td style="border-bottom:1px solid #f1f5f9;">:</td><td style="padding: 5px 0; border-bottom:1px solid #f1f5f9;"><strong>${lvls.lvl1}</strong></td></tr>
+            <tr><td style="color:#475569; padding: 5px 0; border-bottom:1px solid #f1f5f9;">KBLI Level 2</td><td style="border-bottom:1px solid #f1f5f9;">:</td><td style="padding: 5px 0; border-bottom:1px solid #f1f5f9;"><strong>${lvls.lvl2}</strong></td></tr>
+            <tr><td style="color:#475569; padding: 5px 0; border-bottom:1px solid #f1f5f9;">KBLI Level 3</td><td style="border-bottom:1px solid #f1f5f9;">:</td><td style="padding: 5px 0; border-bottom:1px solid #f1f5f9;"><strong>${lvls.lvl3}</strong></td></tr>
+            <tr><td style="color:#475569; padding: 5px 0; border-bottom:1px solid #f1f5f9;">KBLI Level 4</td><td style="border-bottom:1px solid #f1f5f9;">:</td><td style="padding: 5px 0; border-bottom:1px solid #f1f5f9;"><strong>${lvls.lvl4}</strong></td></tr>
+            <tr><td style="color:#475569; padding: 5px 0; border-bottom:1px solid #f1f5f9;">KBLI Level 5</td><td style="border-bottom:1px solid #f1f5f9;">:</td><td style="padding: 5px 0; border-bottom:1px solid #f1f5f9;"><strong>${lvls.lvl5}</strong></td></tr>
+            <tr><td style="color:#475569; padding: 5px 0;">Tujuan Lingkungan Utama</td><td>:</td><td style="padding: 5px 0;"><strong>${document.getElementById('resEO').innerText}</strong></td></tr>
+          </table>
+
+          <div class="pdf-section-title-bar">Rincian Evaluasi Tahapan</div>
+          <div style="font-size: 8.5pt; margin-bottom: 20px;">
+            ${hasilHtml}
+          </div>
+
+          <div style="background-color: ${badgeBg}; color: #ffffff; border-radius: 8px; padding: 16px; text-align: center; margin-top: 18px;">
+            <div style="font-size: 9pt; font-weight: 700; opacity: 0.95;">Hasil Per-Posisi Penilaian:</div>
+            <div style="font-size: 15pt; font-weight: 800; margin-top: 4px;">${statusFinalTeks}</div>
+          </div>
+        </div>
+      `;
+
+      let overlay = document.getElementById('pdfOverlayContainer');
+      overlay.style.display = 'block';
+      document.getElementById('txtStatusPdfToolbar').innerText = "Mengunduh file PDF secara otomatis...";
+
+      setTimeout(function() {
+        eksekusiDownloadBlobPDF();
+      }, 300);
+    }
+
+    function eksekusiDownloadBlobPDF() {
+      let now = new Date();
+      let pad = (n) => (n < 10 ? '0' + n : n);
+      let fileTimestamp = `${now.getFullYear()}${pad(now.getMonth()+1)}${pad(now.getDate())}_${pad(now.getHours())}${pad(now.getMinutes())}`;
+      let namaBersih = (state.namaInstitusi || "Debitur").replace(/[^a-zA-Z0-9]/g, "_");
+      let fileName = `Hasil_TKBI_BankJago_${namaBersih}_${fileTimestamp}.pdf`;
+
+      let targetPDF = document.getElementById('pdfExportArea');
+      let statusTxt = document.getElementById('txtStatusPdfToolbar');
+      if (statusTxt) statusTxt.innerText = "Sedang memproses file PDF...";
+
+      if (typeof html2pdf === 'undefined') {
+        if (statusTxt) statusTxt.innerText = "Silakan klik 'Cetak / Save as PDF' untuk menyimpan.";
+        window.print();
+        return;
+      }
+
+      var opt = {
+        margin: [6, 0, 6, 0],
+        filename: fileName,
+        image: { type: 'jpeg', quality: 0.98 },
+        html2canvas: {
+          scale: 2,
+          useCORS: true,
+          logging: false,
+          scrollY: 0,
+          scrollX: 0
+        },
+        jsPDF: { unit: 'mm', format: 'a4', orientation: 'portrait' }
+      };
+
+      html2pdf().set(opt).from(targetPDF).outputPdf('blob').then(function(pdfBlob) {
+        let blobUrl = URL.createObjectURL(pdfBlob);
+        let a = document.createElement('a');
+        a.href = blobUrl;
+        a.download = fileName;
+        document.body.appendChild(a);
+        a.click();
+        document.body.removeChild(a);
+        setTimeout(() => URL.revokeObjectURL(blobUrl), 5000);
+
+        if (statusTxt) {
+          statusTxt.innerHTML = `<span class="text-success"><i class="bi bi-check-circle-fill me-1"></i>File PDF berhasil diunduh (${fileName})!</span>`;
+        }
+      }).catch(function(err) {
+        console.error("Gagal membuat Blob PDF:", err);
+        if (statusTxt) {
+          statusTxt.innerText = "Gunakan tombol 'Cetak / Save as PDF' di kanan untuk menyimpan.";
+        }
+        window.print();
+      });
+    }
+  </script>
+
+  <!-- Script Otomatis Translator ID / EN -->
+  <script type="text/javascript">
+    function googleTranslateElementInit() {
+      new google.translate.TranslateElement({
+        pageLanguage: 'id',
+        includedLanguages: 'en,id',
+        autoDisplay: false
+      }, 'google_translate_element');
+    }
+
+    function ubahBahasa(kodeBahasa) {
+      var selectElem = document.querySelector(".goog-te-combo");
+      if (!selectElem) {
+        alert("Layanan penerjemah sedang dimuat, silakan klik kembali dalam beberapa detik.");
+        return;
+      }
+
+      selectElem.value = kodeBahasa;
+      selectElem.dispatchEvent(new Event('change'));
+
+      var btnID = document.getElementById('btnLangID');
+      var btnEN = document.getElementById('btnLangEN');
+
+      if (kodeBahasa === 'en') {
+        if (btnEN) { btnEN.className = "active fw-bold"; }
+        if (btnID) { btnID.className = "text-white text-decoration-none"; }
+      } else {
+        if (btnID) { btnID.className = "active fw-bold"; }
+        if (btnEN) { btnEN.className = "text-white text-decoration-none"; }
+      }
+    }
+  </script>
+  <script type="text/javascript" src="//translate.google.com/translate_a/element.js?cb=googleTranslateElementInit"></script>
+
+</body>
+</html>
