@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>TKBI Simulator - PT Bank Jago Tbk</title>
+  <title>TKBI & Emisi Debitur Simulator - PT Bank Jago Tbk</title>
   
   <!-- Bootstrap & Icons -->
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
@@ -47,9 +47,9 @@
           <path fill-rule="evenodd" clip-rule="evenodd" d="M276 48 H299 V110 C299 132 281 146 254 146 C233 146 217 136 213 121 H238 C241 126 246 128 254 128 C267 128 275 121 275 110 V103 C269 111 259 115 247 115 C226 115 211 100 211 80 C211 60 226 45 247 45 C259 45 269 49 276 57 V48 Z M255 94 C266 94 274 88 274 80 C274 72 266 66 255 66 C244 66 236 72 236 80 C236 88 244 94 255 94 Z" fill="#FEAE27"/>
           <path fill-rule="evenodd" clip-rule="evenodd" d="M348 117 C371 117 389 101 389 81 C389 61 371 45 348 45 C325 45 307 61 307 81 C307 101 325 117 348 117 Z M348 95 C358 95 365 89 365 81 C365 73 358 67 348 67 C338 67 331 73 331 81 C331 89 338 95 348 95 Z" fill="#FEAE27"/>
         </svg>
-        <span class="ms-3 fw-bold text-danger fs-5 border-start ps-3">TKBI SIMULATOR</span>
+        <span class="ms-3 fw-bold text-danger fs-5 border-start ps-3">TKBI & EMISI SIMULATOR</span>
       </a>
-      <span class="badge bg-light text-secondary border px-3 py-2 small fw-semibold">Taxonomy Navigator</span>
+      <span class="badge bg-light text-secondary border px-3 py-2 small fw-semibold">Jago ESG Navigator</span>
     </div>
   </nav>
 
@@ -58,14 +58,14 @@
     <!-- STEP 0: PILIH SKALA USAHA -->
     <div id="viewStep0" class="row justify-content-center">
       <div class="col-lg-9 text-center">
-        <h2 class="fw-bold mb-2 text-dark">Simulator Taksonomi Keuangan Berkelanjutan Indonesia (TKBI)</h2>
-        <p class="text-secondary mb-4">Pilih skala usaha entitas debitur untuk memulai penilaian mandiri (self-assessment)</p>
+        <h2 class="fw-bold mb-2 text-dark">Simulator Taksonomi Keuangan Berkelanjutan Indonesia (TKBI) & Data Emisi</h2>
+        <p class="text-secondary mb-4">Pilih skala usaha entitas debitur untuk memulai asesmen keberlanjutan dan inventarisasi emisi GRK[cite: 4]</p>
         <div class="row g-4 justify-content-center">
           <div class="col-md-6">
             <div class="scale-selection-card" onclick="pilihSkala('UMKM')">
               <div class="scale-icon-circle"><i class="bi bi-shop"></i></div>
               <h4 class="fw-bold text-dark">Simulator UMKM</h4>
-              <p class="text-secondary small">Penilaian prinsip umum berbasis <em>Sector-Agnostic Decision Tree</em> (SDT) untuk Usaha Mikro, Kecil, dan Menengah.</p>
+              <p class="text-secondary small">Penilaian prinsip umum berbasis <em>Sector-Agnostic Decision Tree</em> (SDT) untuk Usaha Mikro, Kecil, dan Menengah[cite: 6].</p>
               <button class="btn btn-next w-100">Mulai Simulator UMKM <i class="bi bi-arrow-right ms-1"></i></button>
             </div>
           </div>
@@ -73,7 +73,7 @@
             <div class="scale-selection-card" onclick="pilihSkala('Non UMKM')">
               <div class="scale-icon-circle"><i class="bi bi-buildings"></i></div>
               <h4 class="fw-bold text-dark">Simulator Non UMKM</h4>
-              <p class="text-secondary small">Penilaian kriteria teknis kuantitatif berbasis <em>Technical Screening Criteria</em> (TSC) untuk skala Korporasi.</p>
+              <p class="text-secondary small">Penilaian kriteria teknis kuantitatif berbasis <em>Technical Screening Criteria</em> (TSC) untuk skala Korporasi[cite: 6].</p>
               <button class="btn btn-next w-100">Mulai Simulator Non UMKM <i class="bi bi-arrow-right ms-1"></i></button>
             </div>
           </div>
@@ -86,45 +86,58 @@
       <div class="card-ojk">
         <h4 class="fw-bold text-danger mb-3" id="txtJudulDisclaimer"><i class="bi bi-shield-exclamation me-2"></i>Penafian (Disclaimer)</h4>
         <div class="p-3 bg-light rounded border mb-4 text-secondary small" style="line-height: 1.6;">
-          Aplikasi ini dibuat untuk keperluan simulasi dan asesmen internal Taksonomi Keuangan Berkelanjutan Indonesia (TKBI). Hasil simulasi berfungsi sebagai alat bantu evaluasi dan tetap mengacu pada Buku Panduan TKBI resmi Otoritas Jasa Keuangan (OJK) sebagai rujukan utama.
+          Aplikasi ini dibuat untuk keperluan simulasi dan asesmen internal Taksonomi Keuangan Berkelanjutan Indonesia (TKBI) serta inventarisasi jejak karbon (GHG Protocol Scope 1, 2, dan 3) di lingkungan PT Bank Jago Tbk[cite: 4, 6]. Hasil simulasi berfungsi sebagai alat bantu evaluasi kelayakan pembiayaan berkelanjutan dan tetap mengacu pada Buku Panduan TKBI resmi Otoritas Jasa Keuangan (OJK) sebagai rujukan utama[cite: 6].
         </div>
         <div class="form-check mb-4">
           <input class="form-check-input" type="checkbox" id="chkDisclaimer" onchange="toggleDisclaimer()">
           <label class="form-check-label fw-bold text-dark" for="chkDisclaimer">
-            Dengan ini saya menyatakan telah membaca, memahami, dan memenuhi syarat dan ketentuan yang berlaku.
+            Dengan ini saya menyatakan telah membaca, memahami, dan memenuhi syarat dan ketentuan yang berlaku[cite: 6].
           </label>
         </div>
         <div class="d-flex justify-content-between">
           <button class="btn btn-back" onclick="navigasiStep(0)"><i class="bi bi-arrow-left me-2"></i>Kembali</button>
-          <button class="btn btn-next" id="btnNextDisclaimer" disabled onclick="navigasiStep(2)">Selanjutnya<i class="bi bi-arrow-right ms-2"></i></button>
+          <button class="btn btn-next" id="btnNextDisclaimer" disabled onclick="navigasiStep(2)">Selanjutnya <i class="bi bi-arrow-right ms-2"></i></button>
         </div>
       </div>
     </div>
 
-    <!-- STEP 2: FORM IDENTITAS ENTITAS & KBLI -->
+    <!-- STEP 2: DATA DIRI TERPADU (GABUNGAN TKBI & POIN A) -->
     <div id="viewStep2" style="display:none;">
       <div class="card-ojk">
         <div class="d-flex justify-content-between align-items-center mb-4 border-bottom pb-3">
-          <h4 class="fw-bold text-danger mb-0"><i class="bi bi-person-vcard me-2"></i>Informasi Entitas dan Aktivitas Usaha</h4>
+          <div>
+            <h4 class="fw-bold text-danger mb-1"><i class="bi bi-person-vcard me-2"></i>Informasi Umum Entitas & Aktivitas Usaha</h4>
+            <div class="text-secondary small">Bagian A: Profil perusahaan, aktivitas KBLI, dan fokus keberlanjutan[cite: 4, 6]</div>
+          </div>
           <span class="badge bg-light text-secondary border">Wajib Diisi (<span class="text-danger">*</span>)</span>
         </div>
+        
         <div class="row g-3">
           <div class="col-md-6">
-            <label class="form-label fw-bold">Nama Institusi / Perusahaan <span class="text-danger">*</span></label>
-            <input type="text" class="form-control" id="inputNamaInstitusi" placeholder="Masukkan nama Institusi / Perusahaan">
+            <label class="form-label fw-bold">Nama Perusahaan / Institusi <span class="text-danger">*</span></label>
+            <input type="text" class="form-control" id="inputNamaInstitusi" placeholder="Contoh: PT Sumber Makmur Lestari">
           </div>
           <div class="col-md-6">
-            <label class="form-label fw-bold">Pilih tanggal posisi penilaian <span class="text-danger">*</span></label>
+            <label class="form-label fw-bold">Nomor CIF (Customer Information File) <span class="text-danger">*</span></label>
+            <input type="text" class="form-control" id="inputCIF" placeholder="Contoh: CIF-99281726">
+          </div>
+          <div class="col-md-6">
+            <label class="form-label fw-bold">Nama PIC & Jabatan <span class="text-danger">*</span></label>
+            <input type="text" class="form-control" id="inputPIC" placeholder="Contoh: Budi_Data Analyst">
+          </div>
+          <div class="col-md-6">
+            <label class="form-label fw-bold">Pilih Tanggal Posisi Penilaian <span class="text-danger">*</span></label>
             <input type="date" class="form-control" id="inputTanggal">
           </div>
+
           <div class="col-md-6">
-            <label class="form-label fw-bold">Pilih Sektor KBLI <span class="text-danger">*</span></label>
+            <label class="form-label fw-bold">Pilih Sektor Usaha (KBLI) <span class="text-danger">*</span></label>
             <select class="form-select" id="selectSektor" onchange="muatPohonKBLISektor()">
               <option value="">-- Pilih Sektor KBLI --</option>
             </select>
           </div>
           <div class="col-md-6">
-            <label class="form-label fw-bold">Pilih KBLI <span class="text-danger">*</span></label>
+            <label class="form-label fw-bold">Pilih Aktivitas KBLI 5-Digit <span class="text-danger">*</span></label>
             <div class="kbli-picker-container">
               <div class="kbli-select-display" id="boxKBLIDisplay" onclick="toggleKBLIDropdown()">
                 <span id="labelKBLITerpilih" class="text-muted">Pilih KBLI</span>
@@ -135,7 +148,7 @@
                 <div class="kbli-tree-search">
                   <input type="text" class="form-control form-control-sm" id="cariInputKBLI" placeholder="🔍 Cari nama atau kode KBLI..." onkeyup="filterPohonKBLI()">
                 </div>
-                <div class="kbli-tree-container" id="kontainerNodeKBLI"></div>
+                <div class="kontainerNodeKBLI kbli-tree-container" id="kontainerNodeKBLI"></div>
               </div>
             </div>
           </div>
@@ -143,8 +156,21 @@
             <label class="form-label fw-bold">Deskripsi KBLI</label>
             <textarea class="form-control bg-light" id="inputDeskripsiKBLI" rows="2" readonly placeholder="-"></textarea>
           </div>
-          <div class="col-md-12">
-            <label class="form-label fw-bold">Pilih Tujuan Lingkungan Utama <span class="text-danger">*</span></label>
+
+          <div class="col-md-6">
+            <label class="form-label fw-bold">Jumlah Karyawan Tetap (Orang) <span class="text-danger">*</span></label>
+            <input type="number" min="1" step="1" class="form-control" id="inputKaryawan" placeholder="Contoh: 45">
+          </div>
+          <div class="col-md-6">
+            <label class="form-label fw-bold">Apakah perusahaan menyusun Laporan Keberlanjutan / ESG? <span class="text-danger">*</span></label>
+            <select class="form-select" id="selectESG">
+              <option value="Tidak">Tidak</option>
+              <option value="Ya">Ya</option>
+            </select>
+          </div>
+
+          <div class="col-12">
+            <label class="form-label fw-bold">Pilih Tujuan Lingkungan Utama (TKBI) <span class="text-danger">*</span></label>
             <select class="form-select" id="selectEO" onchange="onEOChanged()">
               <option value="EO1">EO1: Mitigasi Perubahan Iklim</option>
               <option value="EO2">EO2: Adaptasi Perubahan Iklim</option>
@@ -153,14 +179,272 @@
             </select>
           </div>
         </div>
+
         <div class="d-flex justify-content-between mt-4">
           <button class="btn btn-back" onclick="navigasiStep(1)"><i class="bi bi-arrow-left me-2"></i>Kembali</button>
-          <button class="btn btn-next" onclick="mulaiKuesionerSurvei()">Mulai Simulasi <i class="bi bi-arrow-right ms-2"></i></button>
+          <button class="btn btn-next" onclick="validasiDanLanjutStep3()">Lanjut ke Kuesioner Emisi <i class="bi bi-arrow-right ms-2"></i></button>
         </div>
       </div>
     </div>
 
-    <!-- STEP 3 S.D. 6: SURVEI PERTANYAAN DINAMIS -->
+    <!-- STEP 3: KUESIONER EMISI & KEBIJAKAN LINGKUNGAN (POIN B S.D. E) -->
+    <div id="viewStep3" style="display:none;">
+      
+      <!-- Bagian B: Kebijakan dan Strategi Lingkungan -->
+      <div class="card-ojk">
+        <h4 class="fw-bold text-danger mb-2"><i class="bi bi-compass me-2"></i>B. Kebijakan dan Strategi Lingkungan</h4>
+        <p class="text-secondary small mb-3">Informasi mengenai komitmen perusahaan terhadap mitigasi perubahan iklim dan transisi rendah karbon[cite: 4].</p>
+        
+        <div class="mb-4">
+          <label class="form-label fw-bold">1. Apakah perusahaan memiliki kebijakan atau strategi terkait mitigasi perubahan iklim dan pengurangan emisi Gas Rumah Kaca (GRK)? <span class="text-danger">*</span></label>
+          <select class="form-select" id="selectKebijakanGRK">
+            <option value="Tidak">Tidak</option>
+            <option value="Ya">Ya</option>
+          </select>
+          <div class="guidance-box mt-2">
+            <strong>👉 Keterangan:</strong> Contoh kebijakan iklim: Mengurangi emisi (penggunaan lampu hemat energi, efisiensi bahan bakar, transportasi ramah lingkungan) atau Menghapus emisi sisa (penanaman pohon, restorasi ekosistem, teknologi penangkapan karbon)[cite: 4].
+          </div>
+        </div>
+
+        <div class="mb-3">
+          <label class="form-label fw-bold">2. Apakah perusahaan memiliki rencana transisi menuju ekonomi rendah karbon? <span class="text-danger">*</span></label>
+          <select class="form-select" id="selectRencanaTransisi" onchange="toggleRencanaTransisi()">
+            <option value="Tidak">Tidak</option>
+            <option value="Ya">Ya</option>
+          </select>
+        </div>
+
+        <!-- Wadah jika memiliki rencana transisi (Poin B.7) -->
+        <div id="boxDetailTransisi" style="display:none;" class="p-3 bg-light rounded border mb-2">
+          <div class="mb-3">
+            <label class="form-label fw-bold">Strategi utama yang dilakukan:</label>
+            <textarea class="form-control" id="inputStrategiTransisi" rows="2" placeholder="Contoh: Menggunakan solar panel atap dan mengganti kendaraan operasional dengan kendaraan listrik[cite: 4]."></textarea>
+          </div>
+          <div class="row g-3">
+            <div class="col-md-6">
+              <label class="form-label fw-bold">Perkiraan Waktu Investasi:</label>
+              <select class="form-select" id="selectWaktuInvestasi">
+                <option value="1–3 tahun">1–3 tahun</option>
+                <option value=">3–5 tahun">>3–5 tahun</option>
+                <option value=">5 tahun">>5 tahun</option>
+              </select>
+            </div>
+            <div class="col-md-6">
+              <label class="form-label fw-bold">Nilai Investasi yang Dilakukan (Rupiah):</label>
+              <input type="text" class="form-control" id="inputNilaiInvestasi" placeholder="Ketik nominal angka..." oninput="handleFormatInteger(this, 'previewInvestasi')">
+              <div class="shortcut-multiplier-bar">
+                <span class="shortcut-label">Bantu Nol:</span>
+                <button type="button" class="btn-multiplier" onclick="setShortcutNominal('inputNilaiInvestasi', 1000000, 'previewInvestasi')">Juta</button>
+                <button type="button" class="btn-multiplier" onclick="setShortcutNominal('inputNilaiInvestasi', 1000000000, 'previewInvestasi')">Miliar</button>
+                <button type="button" class="btn-multiplier" onclick="setShortcutNominal('inputNilaiInvestasi', 1000000000000, 'previewInvestasi')">Triliun</button>
+                <button type="button" class="btn-multiplier text-danger" onclick="resetShortcutNominal('inputNilaiInvestasi', 'previewInvestasi')">Reset</button>
+              </div>
+              <div class="nominal-preview-note" id="previewInvestasi"></div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Bagian C: Data Emisi Scope 1 & Scope 2 -->
+      <div class="card-ojk">
+        <h4 class="fw-bold text-danger mb-2"><i class="bi bi-lightning-charge me-2"></i>C. Data Emisi Energi Operasional (Scope 1 & 2)</h4>
+        
+        <div class="guidance-box">
+          <strong>📖 Petunjuk Pengisian:</strong>
+          <ul class="mb-0 ps-3 mt-1">
+            <li><strong>Pilih yang Termudah:</strong> Cukup isi salah satu satuan yang tersedia (Volume/Energi ATAU Nilai Rupiah pertahun), atau isi keduanya jika ada data lengkap[cite: 4].</li>
+            <li><strong>Gunakan Estimasi:</strong> Gunakan data historis 1 tahun terakhir (Januari–Desember). Jika tidak ada, gunakan rata-rata bulanan dikali 12[cite: 4].</li>
+            <li><strong>Sumber Data:</strong> Laporan pembelian BBM kendaraan/genset dan tagihan listrik PLN bulanan[cite: 4].</li>
+          </ul>
+        </div>
+
+        <div class="row g-4">
+          <!-- Bensin -->
+          <div class="col-md-6">
+            <div class="p-3 border rounded bg-white h-100">
+              <div class="fw-bold text-dark mb-2"><i class="bi bi-fuel-pump me-1 text-danger"></i> 1. Bensin (Kendaraan Operasional)</div>
+              <div class="mb-2">
+                <label class="small text-secondary fw-semibold">Konsumsi per Tahun (Liter):</label>
+                <div class="input-group-unit">
+                  <input type="text" class="form-control" id="inputBensinLiter" placeholder="0" oninput="filterHanyaAngka(this)">
+                  <span class="input-unit-badge">Liter</span>
+                </div>
+              </div>
+              <div>
+                <label class="small text-secondary fw-semibold">Biaya Pembelian per Tahun (Rp):</label>
+                <input type="text" class="form-control" id="inputBensinRp" placeholder="0" oninput="handleFormatInteger(this, 'prevBensinRp')">
+                <div class="shortcut-multiplier-bar">
+                  <button type="button" class="btn-multiplier" onclick="setShortcutNominal('inputBensinRp', 1000000, 'prevBensinRp')">Juta</button>
+                  <button type="button" class="btn-multiplier" onclick="setShortcutNominal('inputBensinRp', 1000000000, 'prevBensinRp')">Miliar</button>
+                  <button type="button" class="btn-multiplier text-danger" onclick="resetShortcutNominal('inputBensinRp', 'prevBensinRp')">Reset</button>
+                </div>
+                <div class="nominal-preview-note" id="prevBensinRp"></div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Solar -->
+          <div class="col-md-6">
+            <div class="p-3 border rounded bg-white h-100">
+              <div class="fw-bold text-dark mb-2"><i class="bi bi-truck me-1 text-danger"></i> 2. Solar (Genset/Truk/Alat Berat)</div>
+              <div class="mb-2">
+                <label class="small text-secondary fw-semibold">Konsumsi per Tahun (Liter):</label>
+                <div class="input-group-unit">
+                  <input type="text" class="form-control" id="inputSolarLiter" placeholder="0" oninput="filterHanyaAngka(this)">
+                  <span class="input-unit-badge">Liter</span>
+                </div>
+              </div>
+              <div>
+                <label class="small text-secondary fw-semibold">Biaya Pembelian per Tahun (Rp):</label>
+                <input type="text" class="form-control" id="inputSolarRp" placeholder="0" oninput="handleFormatInteger(this, 'prevSolarRp')">
+                <div class="shortcut-multiplier-bar">
+                  <button type="button" class="btn-multiplier" onclick="setShortcutNominal('inputSolarRp', 1000000, 'prevSolarRp')">Juta</button>
+                  <button type="button" class="btn-multiplier" onclick="setShortcutNominal('inputSolarRp', 1000000000, 'prevSolarRp')">Miliar</button>
+                  <button type="button" class="btn-multiplier text-danger" onclick="resetShortcutNominal('inputSolarRp', 'prevSolarRp')">Reset</button>
+                </div>
+                <div class="nominal-preview-note" id="prevSolarRp"></div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Listrik PLN -->
+          <div class="col-md-6">
+            <div class="p-3 border rounded bg-white h-100">
+              <div class="fw-bold text-dark mb-2"><i class="bi bi-plug me-1 text-danger"></i> 3. Listrik PLN (Kantor/Pabrik)</div>
+              <div class="mb-2">
+                <label class="small text-secondary fw-semibold">Konsumsi per Tahun (kWh):</label>
+                <div class="input-group-unit">
+                  <input type="text" class="form-control" id="inputListrikKwh" placeholder="0" oninput="filterHanyaAngka(this)">
+                  <span class="input-unit-badge">kWh</span>
+                </div>
+              </div>
+              <div>
+                <label class="small text-secondary fw-semibold">Biaya Tagihan Listrik per Tahun (Rp):</label>
+                <input type="text" class="form-control" id="inputListrikRp" placeholder="0" oninput="handleFormatInteger(this, 'prevListrikRp')">
+                <div class="shortcut-multiplier-bar">
+                  <button type="button" class="btn-multiplier" onclick="setShortcutNominal('inputListrikRp', 1000000, 'prevListrikRp')">Juta</button>
+                  <button type="button" class="btn-multiplier" onclick="setShortcutNominal('inputListrikRp', 1000000000, 'prevListrikRp')">Miliar</button>
+                  <button type="button" class="btn-multiplier text-danger" onclick="resetShortcutNominal('inputListrikRp', 'prevListrikRp')">Reset</button>
+                </div>
+                <div class="nominal-preview-note" id="prevListrikRp"></div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Energi Terbarukan -->
+          <div class="col-md-6">
+            <div class="p-3 border rounded bg-white h-100">
+              <div class="fw-bold text-dark mb-2"><i class="bi bi-sun me-1 text-danger"></i> 4. Energi Terbarukan (Solar Panel/EV)</div>
+              <div class="mb-2">
+                <label class="small text-secondary fw-semibold">Konsumsi per Tahun (kWh):</label>
+                <div class="input-group-unit">
+                  <input type="text" class="form-control" id="inputEbtKwh" placeholder="0" oninput="filterHanyaAngka(this)">
+                  <span class="input-unit-badge">kWh</span>
+                </div>
+              </div>
+              <div>
+                <label class="small text-secondary fw-semibold">Biaya Investasi/Operasional EBT (Rp):</label>
+                <input type="text" class="form-control" id="inputEbtRp" placeholder="0" oninput="handleFormatInteger(this, 'prevEbtRp')">
+                <div class="shortcut-multiplier-bar">
+                  <button type="button" class="btn-multiplier" onclick="setShortcutNominal('inputEbtRp', 1000000, 'prevEbtRp')">Juta</button>
+                  <button type="button" class="btn-multiplier" onclick="setShortcutNominal('inputEbtRp', 1000000000, 'prevEbtRp')">Miliar</button>
+                  <button type="button" class="btn-multiplier text-danger" onclick="resetShortcutNominal('inputEbtRp', 'prevEbtRp')">Reset</button>
+                </div>
+                <div class="nominal-preview-note" id="prevEbtRp"></div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Bagian D: Data Emisi Scope 3 (Tabel Dinamis Perjalanan Dinas) -->
+      <div class="card-ojk">
+        <div class="d-flex justify-content-between align-items-center mb-2">
+          <div>
+            <h4 class="fw-bold text-danger mb-0"><i class="bi bi-airplane me-2"></i>D. Data Emisi Scope 3 (Perjalanan Bisnis)</h4>
+            <div class="text-secondary small">Estimasi jumlah perjalanan dinas karyawan dalam 1 tahun terakhir[cite: 4].</div>
+          </div>
+        </div>
+
+        <div class="guidance-box my-3">
+          Klik tombol <strong>"+ Tambah Rute Perjalanan"</strong> jika perusahaan melakukan perjalanan bisnis dinas dengan moda transportasi udara, laut, atau darat antarkota/luar negeri[cite: 4].
+        </div>
+
+        <div id="wadahBarisScope3" class="scope3-container">
+          <!-- Baris dinamis akan di-render di sini oleh JavaScript -->
+        </div>
+
+        <button type="button" class="btn-add-row" onclick="tambahBarisScope3()">
+          <i class="bi bi-plus-circle-fill"></i> Tambah Rute Perjalanan Dinas
+        </button>
+      </div>
+
+      <!-- Bagian E: Validasi Data -->
+      <div class="card-ojk">
+        <h4 class="fw-bold text-danger mb-2"><i class="bi bi-patch-check me-2"></i>E. Validasi Data Emisi</h4>
+        <div class="row g-3">
+          <div class="col-md-6">
+            <label class="form-label fw-bold">Apakah data emisi yang diberikan telah diverifikasi oleh pihak ketiga independen? <span class="text-danger">*</span></label>
+            <select class="form-select" id="selectVerifikasi" onchange="toggleLembagaVerifikasi()">
+              <option value="Tidak">Tidak</option>
+              <option value="Ya">Ya</option>
+            </select>
+          </div>
+          <div class="col-md-6" id="boxLembagaVerifikasi" style="display:none;">
+            <label class="form-label fw-bold">Sebutkan Nama Lembaga Verifikator:</label>
+            <input type="text" class="form-control" id="inputLembagaVerifikasi" placeholder="Contoh: Sucofindo / Mutu Certification[cite: 4]">
+          </div>
+        </div>
+
+        <div class="d-flex justify-content-between mt-4">
+          <button class="btn btn-back" onclick="navigasiStep(2)"><i class="bi bi-arrow-left me-2"></i>Kembali ke Data Diri</button>
+          <button class="btn btn-next" onclick="selesaikanKuesionerEmisi()">Simpan & Masuk Layar Selesai <i class="bi bi-arrow-right ms-2"></i></button>
+        </div>
+      </div>
+
+    </div>
+
+    <!-- STEP 4: LAYAR PESAN SELESAI EMISI (INTERMEDIARY SCREEN) -->
+    <div id="viewStep4" style="display:none;">
+      <div class="transition-finish-card">
+        <div class="transition-icon-circle"><i class="bi bi-check-lg"></i></div>
+        <h3 class="fw-bold text-dark mb-2">Kuesioner Data Emisi & Kebijakan Lingkungan Telah Lengkap!</h3>
+        <p class="text-secondary max-w-600 mx-auto">
+          Terima kasih. Data inventarisasi energi dan profil transisi rendah karbon perusahaan Anda telah berhasil terekam[cite: 4]. Tahap berikutnya adalah melakukan pengujian keselarasan aktivitas usaha berdasarkan standar Taksonomi Keuangan Berkelanjutan Indonesia (TKBI OJK)[cite: 6].
+        </p>
+
+        <div class="transition-stats-box">
+          <div class="fw-bold text-dark mb-2 border-bottom pb-2"><i class="bi bi-card-checklist me-2 text-danger"></i>Ringkasan Data Emisi Terekam:</div>
+          <div class="transition-stat-item">
+            <span class="text-secondary">Entitas & CIF:</span>
+            <span class="fw-bold text-dark" id="transfNamaCIF">-</span>
+          </div>
+          <div class="transition-stat-item">
+            <span class="text-secondary">Sektor & KBLI:</span>
+            <span class="fw-bold text-dark" id="transfSektorKBLI">-</span>
+          </div>
+          <div class="transition-stat-item">
+            <span class="text-secondary">Konsumsi BBM (Scope 1):</span>
+            <span class="fw-bold text-dark" id="transfScope1">-</span>
+          </div>
+          <div class="transition-stat-item">
+            <span class="text-secondary">Konsumsi Listrik (Scope 2):</span>
+            <span class="fw-bold text-dark" id="transfScope2">-</span>
+          </div>
+          <div class="transition-stat-item">
+            <span class="text-secondary">Rute Perjalanan Dinas (Scope 3):</span>
+            <span class="fw-bold text-dark" id="transfScope3">-</span>
+          </div>
+        </div>
+
+        <div class="d-flex justify-content-center gap-3 mt-4">
+          <button class="btn btn-back px-4" onclick="navigasiStep(3)"><i class="bi bi-pencil me-1"></i> Edit Data Emisi</button>
+          <button class="btn btn-next px-4" onclick="mulaiKuesionerSurvei()"><i class="bi bi-play-circle me-1"></i> Mulai Kuesioner TKBI OJK <i class="bi bi-arrow-right ms-2"></i></button>
+        </div>
+      </div>
+    </div>
+
+    <!-- STEP 5: SURVEI PERTANYAAN DINAMIS TKBI (SDT / TSC -> DNSH -> RMT -> SOSIAL) -->
     <div id="viewStepSurvei" style="display:none;">
 
       <!-- Kartu Review Identitas & Definisi -->
@@ -231,7 +515,7 @@
       </div>
     </div>
 
-    <!-- STEP 7: HASIL PENILAIAN & DETAIL SIMULASI -->
+    <!-- STEP 6: HASIL PENILAIAN TERPADU & DETAIL SIMULASI -->
     <div id="viewStepHasil" style="display:none;">
 
       <!-- Kartu Review Identitas di Halaman Hasil -->
@@ -298,11 +582,28 @@
         <!-- TAB 1: HASIL PENILAIAN -->
         <div id="viewTabHasil">
           <div class="summary-section-box">
-            <div class="summary-section-title">Ringkasan Aktivitas</div>
+            <div class="summary-section-title">Ringkasan Profil Entitas & Emisi</div>
+            <table class="summary-data-table">
+              <tr><td class="label-col">Nama Perusahaan</td><td class="colon-col">:</td><td class="val-col" id="resNama">-</td></tr>
+              <tr><td class="label-col">Nomor CIF</td><td class="colon-col">:</td><td class="val-col" id="resCIF">-</td></tr>
+              <tr><td class="label-col">PIC & Jabatan</td><td class="colon-col">:</td><td class="val-col" id="resPIC">-</td></tr>
+              <tr><td class="label-col">Jumlah Karyawan Tetap</td><td class="colon-col">:</td><td class="val-col" id="resKaryawan">-</td></tr>
+              <tr><td class="label-col">Laporan Keberlanjutan / ESG</td><td class="colon-col">:</td><td class="val-col" id="resESG">-</td></tr>
+              <tr><td class="label-col">Kebijakan Mitigasi Iklim</td><td class="colon-col">:</td><td class="val-col" id="resKebijakan">-</td></tr>
+              <tr><td class="label-col">Rencana Transisi & Nilai Investasi</td><td class="colon-col">:</td><td class="val-col" id="resTransisi">-</td></tr>
+              <tr><td class="label-col">Konsumsi Bensin & Solar (Scope 1)</td><td class="colon-col">:</td><td class="val-col" id="resScope1">-</td></tr>
+              <tr><td class="label-col">Konsumsi Listrik PLN & EBT (Scope 2)</td><td class="colon-col">:</td><td class="val-col" id="resScope2">-</td></tr>
+              <tr><td class="label-col">Perjalanan Dinas (Scope 3)</td><td class="colon-col">:</td><td class="val-col" id="resScope3">-</td></tr>
+              <tr><td class="label-col">Verifikasi Pihak Ketiga</td><td class="colon-col">:</td><td class="val-col" id="resVerifikasi">-</td></tr>
+            </table>
+          </div>
+
+          <div class="summary-section-box">
+            <div class="summary-section-title">Ringkasan Aktivitas TKBI OJK</div>
             <table class="summary-data-table">
               <tr><td class="label-col">Posisi Penilaian</td><td class="colon-col">:</td><td class="val-col" id="resTanggal">-</td></tr>
               <tr><td class="label-col">Skala Usaha</td><td class="colon-col">:</td><td class="val-col" id="resSkala">-</td></tr>
-              <tr><td class="label-col">Sektor</td><td class="colon-col">:</td><td class="val-col" id="resSektor">-</td></tr>
+              <tr><td class="label-col">Sektor Usaha</td><td class="colon-col">:</td><td class="val-col" id="resSektor">-</td></tr>
               <tr><td class="label-col">KBLI Level 1</td><td class="colon-col">:</td><td class="val-col" id="resLvl1">-</td></tr>
               <tr><td class="label-col">KBLI Level 2</td><td class="colon-col">:</td><td class="val-col" id="resLvl2">-</td></tr>
               <tr><td class="label-col">KBLI Level 3</td><td class="colon-col">:</td><td class="val-col" id="resLvl3">-</td></tr>
@@ -314,7 +615,7 @@
 
           <div class="summary-section-box">
             <div class="summary-section-title d-flex align-items-center gap-2" style="color:#0f172a;">
-              <i class="bi bi-card-checklist"></i> Hasil Penilaian
+              <i class="bi bi-card-checklist"></i> Hasil Penilaian TKBI
             </div>
             <div id="listEvaluasiHierarki"></div>
           </div>
@@ -334,7 +635,7 @@
         <!-- TAB 2: DETAIL SIMULASI PENILAIAN -->
         <div id="viewTabDetail" style="display:none;">
           <div class="summary-section-box">
-            <div class="summary-section-title">Detail Simulasi Penilaian</div>
+            <div class="summary-section-title">Detail Simulasi Penilaian Kriteria</div>
             <div id="areaDetailSimulasiCards"></div>
           </div>
 
@@ -398,13 +699,13 @@
   <footer class="footer text-center">
     <div class="main-wrapper">
       <p class="mb-1"><strong>PT Bank Jago Tbk</strong> &bull; Menara BTPN Lt. 46, Jl. Dr. Ide Anak Agung Gde Agung Kav. 5.5–5.6, Mega Kuningan, Jakarta Selatan 12950</p>
-      <p class="mb-0" style="color: #FDE68A; opacity: 0.9;">&copy; 2026 PT Bank Jago Tbk &mdash; Simulator Taksonomi Keuangan Berkelanjutan Indonesia (TKBI). Berizin dan Diawasi oleh OJK &amp; Bank Indonesia.</p>
+      <p class="mb-0" style="color: #FDE68A; opacity: 0.9;">&copy; 2026 PT Bank Jago Tbk &mdash; Simulator Taksonomi Keuangan Berkelanjutan Indonesia (TKBI) &amp; Emisi Debitur. Berizin dan Diawasi oleh OJK &amp; Bank Indonesia.</p>
     </div>
   </footer>
 
   <script>
     // =========================================================================
-    // KONFIGURASI BACKEND API (GANTI DENGAN URL /exec APPS SCRIPT ANDA)
+    // KONFIGURASI BACKEND API APPS SCRIPT
     // =========================================================================
     const APPS_SCRIPT_URL = "https://script.google.com/macros/s/AKfycbwYGmiORqhD3wttROtczvBXmJgkIPW1IQk4GCJB9fvW4O7iQAaANMR4NO2o0_ldJ4gb/exec";
 
@@ -412,13 +713,36 @@
       step: 0,
       subStep: "SDT",
       skala: "UMKM",
+      // Data Diri (Poin A & TKBI)
       namaInstitusi: "",
+      cif: "",
+      pic: "",
       tanggal: "",
       sektor: "",
       kodeKBLI: "",
       namaKBLI: "",
       deskripsiKBLI: "",
+      karyawan: 0,
+      laporanESG: "Tidak",
       tujuanLingkungan: "EO1",
+      // Kuesioner Emisi (Poin B - E)
+      kebijakanGRK: "Tidak",
+      rencanaTransisi: "Tidak",
+      strategiTransisi: "",
+      waktuInvestasi: "1–3 tahun",
+      nilaiInvestasi: 0,
+      bensinLiter: 0,
+      bensinRp: 0,
+      solarLiter: 0,
+      solarRp: 0,
+      listrikKwh: 0,
+      listrikRp: 0,
+      ebtKwh: 0,
+      ebtRp: 0,
+      scope3Trips: [],
+      verifikasiPihakKetiga: "Tidak",
+      lembagaVerifikator: "-",
+      // Evaluasi TKBI OJK
       jalurTSC: "HIJAU",
       pernahMasukTSCTransisi: false,
       jalurRMT: "LOLOS_DNSH",
@@ -564,6 +888,9 @@
       const inpTgl = document.getElementById('inputTanggal');
       if (inpTgl) inpTgl.valueAsDate = new Date();
       inisialisasiSektorDefault();
+      if (document.querySelectorAll('.scope3-row-card').length === 0) {
+        tambahBarisScope3(); // Berikan 1 baris awal
+      }
     });
 
     function inisialisasiSektorDefault() {
@@ -586,12 +913,163 @@
       }
     }
 
+    // =========================================================================
+    // HELPER KHUSUS: INPUT ANGKA & SHORTCUT JUTA/M/T
+    // =========================================================================
+    function filterHanyaAngka(el) {
+      el.value = el.value.replace(/\D/g, '');
+    }
+
+    function formatRupiahDisplay(angka) {
+      if (!angka || isNaN(angka)) return "Rp 0";
+      return "Rp " + Number(angka).toLocaleString('id-ID');
+    }
+
+    function handleFormatInteger(el, previewId) {
+      el.value = el.value.replace(/\D/g, '');
+      let val = parseInt(el.value, 10);
+      let prevEl = document.getElementById(previewId);
+      if (prevEl) {
+        if (!isNaN(val) && val > 0) {
+          prevEl.innerText = "Terbaca: " + formatRupiahDisplay(val);
+        } else {
+          prevEl.innerText = "";
+        }
+      }
+    }
+
+    function setShortcutNominal(inputId, multiplier, previewId) {
+      let el = document.getElementById(inputId);
+      let raw = el.value.replace(/\D/g, '');
+      let base = parseInt(raw, 10) || 1;
+      
+      // Jika angka sebelumnya sudah sangat besar karena perkalian, sederhanakan ke base semula
+      if (base >= 1000000000000) base = Math.round(base / 1000000000000);
+      else if (base >= 1000000000) base = Math.round(base / 1000000000);
+      else if (base >= 1000000) base = Math.round(base / 1000000);
+
+      let finalVal = base * multiplier;
+      el.value = finalVal;
+      let prevEl = document.getElementById(previewId);
+      if (prevEl) {
+        prevEl.innerText = "Terbaca: " + formatRupiahDisplay(finalVal);
+      }
+    }
+
+    function resetShortcutNominal(inputId, previewId) {
+      let el = document.getElementById(inputId);
+      el.value = "";
+      let prevEl = document.getElementById(previewId);
+      if (prevEl) prevEl.innerText = "";
+    }
+
+    function toggleRencanaTransisi() {
+      let val = document.getElementById('selectRencanaTransisi').value;
+      document.getElementById('boxDetailTransisi').style.display = (val === 'Ya') ? 'block' : 'none';
+    }
+
+    function toggleLembagaVerifikasi() {
+      let val = document.getElementById('selectVerifikasi').value;
+      document.getElementById('boxLembagaVerifikasi').style.display = (val === 'Ya') ? 'block' : 'none';
+    }
+
+    // =========================================================================
+    // FITUR DINAMIS SCOPE 3: TAMBAH & HAPUS BARIS
+    // =========================================================================
+    const DAFTAR_KOTA_RUTE = [
+      "Jakarta - Surabaya",
+      "Jakarta - Bandung",
+      "Jakarta - Medan",
+      "Jakarta - Semarang",
+      "Jakarta - Makassar",
+      "Jakarta - Denpasar (Bali)",
+      "Jakarta - Palembang",
+      "Jakarta - Balikpapan",
+      "Jakarta - Batam",
+      "Jakarta - Yogyakarta",
+      "Surabaya - Makassar",
+      "Surabaya - Denpasar",
+      "Medan - Banda Aceh",
+      "Balikpapan - Samarinda",
+      "Jakarta - Singapura (ASEAN)",
+      "Jakarta - Kuala Lumpur (ASEAN)",
+      "Jakarta - Bangkok (ASEAN)",
+      "Jakarta - Manila (ASEAN)",
+      "Jakarta - Hanoi/HCMC (ASEAN)",
+      "Rute Lainnya (Domestik)",
+      "Rute Lainnya (Luar Negeri)"
+    ];
+
+    function tambahBarisScope3() {
+      let wadah = document.getElementById('wadahBarisScope3');
+      let rowId = "scope3_row_" + Date.now() + "_" + Math.floor(Math.random()*1000);
+      let card = document.createElement('div');
+      card.className = "scope3-row-card";
+      card.id = rowId;
+
+      let ruteOptions = DAFTAR_KOTA_RUTE.map(r => `<option value="${r}">${r}</option>`).join('');
+
+      card.innerHTML = `
+        <div class="row g-2 align-items-center">
+          <div class="col-md-4">
+            <label class="small text-secondary fw-semibold">Moda Transportasi:</label>
+            <select class="form-select form-select-sm scope3-moda">
+              <option value="Transportasi Udara - Pesawat">Transportasi Udara - Pesawat</option>
+              <option value="Transportasi Laut - Kapal (ferry/laut)">Transportasi Laut - Kapal (ferry/laut)</option>
+              <option value="Transportasi Darat - Bus/Travel">Transportasi Darat - Bus/Travel</option>
+            </select>
+          </div>
+          <div class="col-md-5">
+            <label class="small text-secondary fw-semibold">Rute / Kota Tujuan:</label>
+            <select class="form-select form-select-sm scope3-rute">
+              ${ruteOptions}
+            </select>
+          </div>
+          <div class="col-md-2">
+            <label class="small text-secondary fw-semibold">Jumlah Trip/Thn:</label>
+            <input type="number" min="1" step="1" class="form-control form-control-sm scope3-trip" placeholder="0">
+          </div>
+          <div class="col-md-1 text-end pt-3">
+            <button type="button" class="btn-remove-row" title="Hapus Rute" onclick="hapusBarisScope3('${rowId}')">
+              <i class="bi bi-trash"></i>
+            </button>
+          </div>
+        </div>
+      `;
+      wadah.appendChild(card);
+    }
+
+    function hapusBarisScope3(rowId) {
+      let el = document.getElementById(rowId);
+      if (el) el.remove();
+    }
+
+    function getDaftarScope3Data() {
+      let list = [];
+      document.querySelectorAll('.scope3-row-card').forEach(card => {
+        let moda = card.querySelector('.scope3-moda').value;
+        let rute = card.querySelector('.scope3-rute').value;
+        let trip = parseInt(card.querySelector('.scope3-trip').value, 10) || 0;
+        if (trip > 0) {
+          list.push({ moda: moda, rute: rute, trip: trip });
+        }
+      });
+      return list;
+    }
+
+    // =========================================================================
+    // NAVIGASI STEP & WORKFLOW
+    // =========================================================================
     function bersihkanSemuaDataFormulir() {
       state.namaInstitusi = "";
+      state.cif = "";
+      state.pic = "";
       state.sektor = "";
       state.kodeKBLI = "";
       state.namaKBLI = "";
       state.deskripsiKBLI = "";
+      state.karyawan = 0;
+      state.laporanESG = "Tidak";
       state.tujuanLingkungan = "EO1";
       state.jalurTSC = "HIJAU";
       state.pernahMasukTSCTransisi = false;
@@ -601,28 +1079,22 @@
       state.catatan = {};
       state.nonUmkmDataSheet = null;
 
-      let inpNama = document.getElementById('inputNamaInstitusi');
-      if (inpNama) inpNama.value = "";
-      let inpTgl = document.getElementById('inputTanggal');
-      if (inpTgl) inpTgl.valueAsDate = new Date();
-      let selSektor = document.getElementById('selectSektor');
-      if (selSektor) selSektor.value = "";
+      let inpNama = document.getElementById('inputNamaInstitusi'); if (inpNama) inpNama.value = "";
+      let inpCIF = document.getElementById('inputCIF'); if (inpCIF) inpCIF.value = "";
+      let inpPIC = document.getElementById('inputPIC'); if (inpPIC) inpPIC.value = "";
+      let inpKaryawan = document.getElementById('inputKaryawan'); if (inpKaryawan) inpKaryawan.value = "";
+      let selESG = document.getElementById('selectESG'); if (selESG) selESG.value = "Tidak";
+      let inpTgl = document.getElementById('inputTanggal'); if (inpTgl) inpTgl.valueAsDate = new Date();
+      let selSektor = document.getElementById('selectSektor'); if (selSektor) selSektor.value = "";
       let lblKBLI = document.getElementById('labelKBLITerpilih');
-      if (lblKBLI) {
-        lblKBLI.innerText = "Pilih KBLI";
-        lblKBLI.className = "text-muted";
-      }
-      let inpDesk = document.getElementById('inputDeskripsiKBLI');
-      if (inpDesk) inpDesk.value = "";
+      if (lblKBLI) { lblKBLI.innerText = "Pilih KBLI"; lblKBLI.className = "text-muted"; }
+      let inpDesk = document.getElementById('inputDeskripsiKBLI'); if (inpDesk) inpDesk.value = "";
       
       perbaruiOpsiTujuanLingkungan();
 
-      let chkDisc = document.getElementById('chkDisclaimer');
-      if (chkDisc) chkDisc.checked = false;
-      let btnDisc = document.getElementById('btnNextDisclaimer');
-      if (btnDisc) btnDisc.disabled = true;
-      let nodeKBLI = document.getElementById('kontainerNodeKBLI');
-      if (nodeKBLI) nodeKBLI.innerHTML = "";
+      let chkDisc = document.getElementById('chkDisclaimer'); if (chkDisc) chkDisc.checked = false;
+      let btnDisc = document.getElementById('btnNextDisclaimer'); if (btnDisc) btnDisc.disabled = true;
+      let nodeKBLI = document.getElementById('kontainerNodeKBLI'); if (nodeKBLI) nodeKBLI.innerHTML = "";
     }
 
     function bukaModalKonfirmasiReset() {
@@ -668,14 +1140,18 @@
       document.getElementById('viewStep0').style.display = 'none';
       document.getElementById('viewStep1').style.display = 'none';
       document.getElementById('viewStep2').style.display = 'none';
+      document.getElementById('viewStep3').style.display = 'none';
+      document.getElementById('viewStep4').style.display = 'none';
       document.getElementById('viewStepSurvei').style.display = 'none';
       document.getElementById('viewStepHasil').style.display = 'none';
 
       if (stepTujuan === 0) document.getElementById('viewStep0').style.display = 'flex';
       else if (stepTujuan === 1) document.getElementById('viewStep1').style.display = 'block';
       else if (stepTujuan === 2) document.getElementById('viewStep2').style.display = 'block';
-      else if (stepTujuan === 3) document.getElementById('viewStepSurvei').style.display = 'block';
-      else if (stepTujuan === 7) document.getElementById('viewStepHasil').style.display = 'block';
+      else if (stepTujuan === 3) document.getElementById('viewStep3').style.display = 'block';
+      else if (stepTujuan === 4) document.getElementById('viewStep4').style.display = 'block';
+      else if (stepTujuan === 5) document.getElementById('viewStepSurvei').style.display = 'block';
+      else if (stepTujuan === 6) document.getElementById('viewStepHasil').style.display = 'block';
 
       state.step = stepTujuan;
       window.scrollTo({ top: 0, behavior: 'smooth' });
@@ -854,18 +1330,76 @@
       alert("Petunjuk Pengisian:\n1. Jawab setiap pertanyaan kriteria dengan mencentang kotak di sebelah kanan.\n2. Perhatikan kata sambung 'dan' atau 'atau' di antara setiap butir maupun blok kriteria.\n3. Bilah status di bawah kartu menunjukkan secara otomatis apakah tahapan telah Terpenuhi atau Tidak Terpenuhi.");
     }
 
-    function mulaiKuesionerSurvei() {
+    // =========================================================================
+    // VALIDASI STEP 2 MENUJU STEP 3 (KUESIONER EMISI)
+    // =========================================================================
+    function validasiDanLanjutStep3() {
       let nama = document.getElementById('inputNamaInstitusi').value.trim();
+      let cif = document.getElementById('inputCIF').value.trim();
+      let pic = document.getElementById('inputPIC').value.trim();
       let sektor = document.getElementById('selectSektor').value;
-      if (!nama) { alert("Nama Institusi/Perusahaan wajib diisi!"); return; }
+      let karyawan = parseInt(document.getElementById('inputKaryawan').value, 10);
+
+      if (!nama) { alert("Nama Perusahaan / Institusi wajib diisi!"); return; }
+      if (!cif) { alert("Nomor CIF wajib diisi!"); return; }
+      if (!pic) { alert("Nama PIC & Jabatan wajib diisi!"); return; }
       if (!sektor) { alert("Pilih Sektor KBLI terlebih dahulu!"); return; }
       if (!state.kodeKBLI) { alert("Pilih aktivitas KBLI terlebih dahulu!"); return; }
+      if (isNaN(karyawan) || karyawan < 1) { alert("Jumlah Karyawan Tetap wajib diisi angka positif!"); return; }
 
       state.namaInstitusi = nama;
+      state.cif = cif;
+      state.pic = pic;
       state.tanggal = document.getElementById('inputTanggal').value;
       state.sektor = sektor;
+      state.karyawan = karyawan;
+      state.laporanESG = document.getElementById('selectESG').value;
       state.tujuanLingkungan = document.getElementById('selectEO').value;
 
+      navigasiStep(3);
+    }
+
+    // =========================================================================
+    // SIMPAN DATA STEP 3 MENUJU STEP 4 (LAYAR SELESAI EMISI)
+    // =========================================================================
+    function selesaikanKuesionerEmisi() {
+      state.kebijakanGRK = document.getElementById('selectKebijakanGRK').value;
+      state.rencanaTransisi = document.getElementById('selectRencanaTransisi').value;
+      state.strategiTransisi = document.getElementById('inputStrategiTransisi').value.trim();
+      state.waktuInvestasi = document.getElementById('selectWaktuInvestasi').value;
+      state.nilaiInvestasi = parseInt(document.getElementById('inputNilaiInvestasi').value.replace(/\D/g, ''), 10) || 0;
+
+      state.bensinLiter = parseInt(document.getElementById('inputBensinLiter').value.replace(/\D/g, ''), 10) || 0;
+      state.bensinRp = parseInt(document.getElementById('inputBensinRp').value.replace(/\D/g, ''), 10) || 0;
+      state.solarLiter = parseInt(document.getElementById('inputSolarLiter').value.replace(/\D/g, ''), 10) || 0;
+      state.solarRp = parseInt(document.getElementById('inputSolarRp').value.replace(/\D/g, ''), 10) || 0;
+
+      state.listrikKwh = parseInt(document.getElementById('inputListrikKwh').value.replace(/\D/g, ''), 10) || 0;
+      state.listrikRp = parseInt(document.getElementById('inputListrikRp').value.replace(/\D/g, ''), 10) || 0;
+      state.ebtKwh = parseInt(document.getElementById('inputEbtKwh').value.replace(/\D/g, ''), 10) || 0;
+      state.ebtRp = parseInt(document.getElementById('inputEbtRp').value.replace(/\D/g, ''), 10) || 0;
+
+      state.scope3Trips = getDaftarScope3Data();
+
+      state.verifikasiPihakKetiga = document.getElementById('selectVerifikasi').value;
+      state.lembagaVerifikator = (state.verifikasiPihakKetiga === "Ya")
+        ? (document.getElementById('inputLembagaVerifikasi').value.trim() || "Sucofindo")
+        : "-";
+
+      // Isi nilai kartu transisi di Step 4
+      document.getElementById('transfNamaCIF').innerText = `${state.namaInstitusi} (${state.cif})`;
+      document.getElementById('transfSektorKBLI').innerText = `${state.sektor} - ${state.kodeKBLI}`;
+      document.getElementById('transfScope1').innerText = `Bensin: ${state.bensinLiter.toLocaleString()} L | Solar: ${state.solarLiter.toLocaleString()} L`;
+      document.getElementById('transfScope2').innerText = `Listrik PLN: ${state.listrikKwh.toLocaleString()} kWh | EBT: ${state.ebtKwh.toLocaleString()} kWh`;
+      document.getElementById('transfScope3').innerText = `${state.scope3Trips.length} Rute Perjalanan Terdata`;
+
+      navigasiStep(4);
+    }
+
+    // =========================================================================
+    // MULAI KUESIONER TKBI OJK (STEP 5)
+    // =========================================================================
+    function mulaiKuesionerSurvei() {
       const eoMap = {
         "EO1": "Mitigasi Perubahan Iklim",
         "EO2": "Adaptasi Perubahan Iklim",
@@ -898,7 +1432,7 @@
       state.jawaban = {};
       state.catatan = {};
 
-      navigasiStep(3);
+      navigasiStep(5);
       renderSubStepForm();
     }
 
@@ -1116,20 +1650,13 @@
       let hasOr = arrItems.slice(1).some(item => item.logic === "OR");
       let hasAnd = arrItems.slice(1).some(item => item.logic === "AND" || item.logic === "");
 
-      if (hasOr && !hasAnd) {
-        return arrItems.some(item => item.ok);
-      }
-      if (!hasOr && hasAnd) {
-        return arrItems.every(item => item.ok);
-      }
+      if (hasOr && !hasAnd) return arrItems.some(item => item.ok);
+      if (!hasOr && hasAnd) return arrItems.every(item => item.ok);
 
       let acc = arrItems[0].ok;
       for (let i = 1; i < arrItems.length; i++) {
-        if (arrItems[i].logic === "OR") {
-          acc = acc || arrItems[i].ok;
-        } else {
-          acc = acc && arrItems[i].ok;
-        }
+        if (arrItems[i].logic === "OR") acc = acc || arrItems[i].ok;
+        else acc = acc && arrItems[i].ok;
       }
       return acc;
     }
@@ -1505,7 +2032,6 @@
 
       if (state.subStep === "DNSH") {
         let dnshLolos = cekLolosDNSH();
-
         if (dnshLolos) {
           state.jalurRMT = "LOLOS_DNSH";
           state.subStep = "SOSIAL";
@@ -1519,7 +2045,6 @@
       if (state.subStep === "RMT_2a") {
         let rmt2aChks = Array.from(document.querySelectorAll('.rmt2a_chk'));
         let rmt2aLolos = rmt2aChks.length > 0 && rmt2aChks.every(c => c.checked);
-
         if (rmt2aLolos) state.subStep = "RMT_2b";
         else state.subStep = "RMT_2c";
         renderSubStepForm();
@@ -1529,7 +2054,6 @@
       if (state.subStep === "RMT_2b") {
         let chk2b = document.getElementById('rmt_2b_1');
         let rmt2bLolos = chk2b && chk2b.checked;
-
         if (rmt2bLolos) {
           state.jalurRMT = "LOLOS_RMT_2b";
           state.subStep = "SOSIAL";
@@ -1543,7 +2067,6 @@
       if (state.subStep === "RMT_2c") {
         let rmt2cChks = Array.from(document.querySelectorAll('.rmt2c_chk'));
         let rmt2cLolos = rmt2cChks.length > 0 && rmt2cChks.every(c => c.checked);
-
         if (rmt2cLolos) {
           state.jalurRMT = "LOLOS_RMT_2c";
           state.subStep = "SOSIAL";
@@ -1560,7 +2083,6 @@
       if (state.subStep === "SOSIAL") {
         let sosLolos = cekLolosSosialSemua();
         state.langkahTerakhirSebelumHasil = "SOSIAL";
-
         if (!sosLolos) {
           state.statusHasil = "Merah";
         } else {
@@ -1577,7 +2099,7 @@
     function mundurSubStep() {
       simpanStateJawaban();
       if (state.subStep === "SDT" || state.subStep === "TSC_HIJAU") {
-        navigasiStep(2);
+        navigasiStep(4);
       } else if (state.subStep === "TSC_TRANSISI") {
         state.subStep = "TSC_HIJAU";
         renderSubStepForm();
@@ -1749,12 +2271,33 @@
       return detail;
     }
 
+    // =========================================================================
+    // TAMPILAN HASIL AKHIR TERPADU (STEP 6)
+    // =========================================================================
     function tampilkanLayarHasilAkhir() {
-      navigasiStep(7);
+      navigasiStep(6);
       bangunJejakStepper(true);
 
       let lvls = getKBLILevels(state.kodeKBLI, state.sektor);
 
+      // Ringkasan Profil & Emisi Terpadu
+      document.getElementById('resNama').innerText = state.namaInstitusi;
+      document.getElementById('resCIF').innerText = state.cif;
+      document.getElementById('resPIC').innerText = state.pic;
+      document.getElementById('resKaryawan').innerText = state.karyawan + " Orang";
+      document.getElementById('resESG').innerText = state.laporanESG;
+      document.getElementById('resKebijakan').innerText = state.kebijakanGRK;
+      document.getElementById('resTransisi').innerText = (state.rencanaTransisi === "Ya")
+        ? `Ya (Investasi: ${formatRupiahDisplay(state.nilaiInvestasi)} | Durasi: ${state.waktuInvestasi})`
+        : "Tidak";
+      document.getElementById('resScope1').innerText = `Bensin: ${state.bensinLiter.toLocaleString()} L (${formatRupiahDisplay(state.bensinRp)}) | Solar: ${state.solarLiter.toLocaleString()} L (${formatRupiahDisplay(state.solarRp)})`;
+      document.getElementById('resScope2').innerText = `Listrik PLN: ${state.listrikKwh.toLocaleString()} kWh (${formatRupiahDisplay(state.listrikRp)}) | EBT: ${state.ebtKwh.toLocaleString()} kWh (${formatRupiahDisplay(state.ebtRp)})`;
+      document.getElementById('resScope3').innerText = `${state.scope3Trips.length} Rute Terdata (${state.scope3Trips.reduce((acc, c) => acc + c.trip, 0)} Total Trip)`;
+      document.getElementById('resVerifikasi').innerText = (state.verifikasiPihakKetiga === "Ya")
+        ? `Ya (${state.lembagaVerifikator})`
+        : "Tidak";
+
+      // Ringkasan Aktivitas TKBI
       document.getElementById('resTanggal').innerText = formatTanggalIndonesia(state.tanggal);
       document.getElementById('resSkala').innerText = state.skala;
       document.getElementById('resSektor').innerText = state.sektor;
@@ -1970,18 +2513,37 @@
 
       const payloadSimpan = {
         namaInstitusi: state.namaInstitusi,
+        cif: state.cif,
+        pic: state.pic,
         tanggal: state.tanggal,
         skalaUsaha: state.skala,
         sektor: state.sektor,
         kodeKBLI: lvls.lvl5,
+        karyawan: state.karyawan,
+        laporanESG: state.laporanESG,
         tujuanLingkungan: state.tujuanLingkungan,
+        kebijakanGRK: state.kebijakanGRK,
+        rencanaTransisi: state.rencanaTransisi,
+        strategiTransisi: state.strategiTransisi,
+        waktuInvestasi: state.waktuInvestasi,
+        nilaiInvestasi: state.nilaiInvestasi,
+        bensinLiter: state.bensinLiter,
+        bensinRp: state.bensinRp,
+        solarLiter: state.solarLiter,
+        solarRp: state.solarRp,
+        listrikKwh: state.listrikKwh,
+        listrikRp: state.listrikRp,
+        ebtKwh: state.ebtKwh,
+        ebtRp: state.ebtRp,
+        scope3Trips: state.scope3Trips,
+        verifikasiPihakKetiga: state.verifikasiPihakKetiga,
+        lembagaVerifikator: state.lembagaVerifikator,
         hasilPenilaian: labelHasil,
         evaluasiDetail: `${state.jalurTSC} | ${state.jalurRMT}`,
         catatan: stringCatatanRapi,
         detailJawaban: detailJawabanList
       };
 
-      // PEREKAMAN KE GOOGLE SHEETS VIA FETCH POST (BEBAS DARI KENDALA GOOGLE DRIVE)
       if (APPS_SCRIPT_URL && !APPS_SCRIPT_URL.includes("AKfycb...")) {
         fetch(APPS_SCRIPT_URL, {
           method: "POST",
@@ -2235,7 +2797,7 @@
 
     function kembaliDariHasil() {
       state.subStep = state.langkahTerakhirSebelumHasil || "SOSIAL";
-      navigasiStep(3);
+      navigasiStep(5);
       renderSubStepForm();
     }
 
@@ -2256,7 +2818,7 @@
           </svg>
           <div style="border-left: 2px solid #e2e8f0; padding-left: 10px;">
             <div style="font-size:10pt; font-weight:800; color:#4A2511; line-height:1.1; font-family:'Open Sans', sans-serif;">PT Bank Jago Tbk</div>
-            <div style="font-size:7pt; font-weight:700; color:#F58220; letter-spacing:0.5px; text-transform:uppercase; font-family:'Open Sans', sans-serif;">TKBI Self-Assessment Simulator</div>
+            <div style="font-size:7pt; font-weight:700; color:#F58220; letter-spacing:0.5px; text-transform:uppercase; font-family:'Open Sans', sans-serif;">TKBI & Emisi Debitur Report</div>
           </div>
         </div>
       `;
@@ -2287,39 +2849,45 @@
             ${logoHtml}
             <div style="text-align: right; font-size: 8.5pt; color: #475569;">
               <div>Dicetak pada : ${tglStr}</div>
-              <div>PT Bank Jago Tbk &bull; Internal TKBI Assessment</div>
+              <div>PT Bank Jago Tbk &bull; Sustainable Finance Assessment</div>
             </div>
           </div>
 
           <div class="pdf-penafian-box">
             <div class="pdf-penafian-bar">! PENAFIAN (DISCLAIMER)</div>
             <div class="pdf-penafian-text">
-              Simulasi ini dibuat untuk keperluan asesmen internal Taksonomi Keuangan Berkelanjutan Indonesia (TKBI) di lingkungan PT Bank Jago Tbk dan tetap mengacu pada Buku Panduan TKBI resmi Otoritas Jasa Keuangan (OJK).
+              Simulasi ini dibuat untuk keperluan asesmen internal Taksonomi Keuangan Berkelanjutan Indonesia (TKBI) serta inventarisasi jejak emisi debitur di PT Bank Jago Tbk dan tetap mengacu pada Buku Panduan TKBI resmi Otoritas Jasa Keuangan (OJK).
             </div>
           </div>
 
-          <div class="pdf-section-title-bar">Ringkasan Aktivitas</div>
-          <table style="width: 100%; font-size: 9pt; margin-bottom: 18px; border-collapse: collapse;">
-            <tr><td style="width: 220px; color:#475569; padding: 5px 0; border-bottom:1px solid #f1f5f9;">Nama Institusi / Debitur</td><td style="width: 15px; border-bottom:1px solid #f1f5f9;">:</td><td style="padding: 5px 0; border-bottom:1px solid #f1f5f9;"><strong>${state.namaInstitusi}</strong></td></tr>
-            <tr><td style="color:#475569; padding: 5px 0; border-bottom:1px solid #f1f5f9;">Posisi Penilaian</td><td style="border-bottom:1px solid #f1f5f9;">:</td><td style="padding: 5px 0; border-bottom:1px solid #f1f5f9;"><strong>${formatTanggalIndonesia(state.tanggal)}</strong></td></tr>
-            <tr><td style="color:#475569; padding: 5px 0; border-bottom:1px solid #f1f5f9;">Skala Usaha</td><td style="border-bottom:1px solid #f1f5f9;">:</td><td style="padding: 5px 0; border-bottom:1px solid #f1f5f9;"><strong>${state.skala}</strong></td></tr>
-            <tr><td style="color:#475569; padding: 5px 0; border-bottom:1px solid #f1f5f9;">Sektor</td><td style="border-bottom:1px solid #f1f5f9;">:</td><td style="padding: 5px 0; border-bottom:1px solid #f1f5f9;"><strong>${state.sektor}</strong></td></tr>
-            <tr><td style="color:#475569; padding: 5px 0; border-bottom:1px solid #f1f5f9;">KBLI Level 1</td><td style="border-bottom:1px solid #f1f5f9;">:</td><td style="padding: 5px 0; border-bottom:1px solid #f1f5f9;"><strong>${lvls.lvl1}</strong></td></tr>
-            <tr><td style="color:#475569; padding: 5px 0; border-bottom:1px solid #f1f5f9;">KBLI Level 2</td><td style="border-bottom:1px solid #f1f5f9;">:</td><td style="padding: 5px 0; border-bottom:1px solid #f1f5f9;"><strong>${lvls.lvl2}</strong></td></tr>
-            <tr><td style="color:#475569; padding: 5px 0; border-bottom:1px solid #f1f5f9;">KBLI Level 3</td><td style="border-bottom:1px solid #f1f5f9;">:</td><td style="padding: 5px 0; border-bottom:1px solid #f1f5f9;"><strong>${lvls.lvl3}</strong></td></tr>
-            <tr><td style="color:#475569; padding: 5px 0; border-bottom:1px solid #f1f5f9;">KBLI Level 4</td><td style="border-bottom:1px solid #f1f5f9;">:</td><td style="padding: 5px 0; border-bottom:1px solid #f1f5f9;"><strong>${lvls.lvl4}</strong></td></tr>
-            <tr><td style="color:#475569; padding: 5px 0; border-bottom:1px solid #f1f5f9;">KBLI Level 5</td><td style="border-bottom:1px solid #f1f5f9;">:</td><td style="padding: 5px 0; border-bottom:1px solid #f1f5f9;"><strong>${lvls.lvl5}</strong></td></tr>
-            <tr><td style="color:#475569; padding: 5px 0;">Tujuan Lingkungan Utama</td><td>:</td><td style="padding: 5px 0;"><strong>${document.getElementById('resEO').innerText}</strong></td></tr>
+          <div class="pdf-section-title-bar">1. Profil Entitas & Inventarisasi Emisi Debitur</div>
+          <table style="width: 100%; font-size: 8.5pt; margin-bottom: 14px; border-collapse: collapse;">
+            <tr><td style="width: 210px; color:#475569; padding: 4px 0; border-bottom:1px solid #f1f5f9;">Nama Perusahaan / CIF</td><td style="width: 15px; border-bottom:1px solid #f1f5f9;">:</td><td style="padding: 4px 0; border-bottom:1px solid #f1f5f9;"><strong>${state.namaInstitusi}</strong> (${state.cif})</td></tr>
+            <tr><td style="color:#475569; padding: 4px 0; border-bottom:1px solid #f1f5f9;">PIC / Jumlah Karyawan</td><td style="border-bottom:1px solid #f1f5f9;">:</td><td style="padding: 4px 0; border-bottom:1px solid #f1f5f9;">${state.pic} / ${state.karyawan} Orang</td></tr>
+            <tr><td style="color:#475569; padding: 4px 0; border-bottom:1px solid #f1f5f9;">Laporan ESG / Kebijakan Iklim</td><td style="border-bottom:1px solid #f1f5f9;">:</td><td style="padding: 4px 0; border-bottom:1px solid #f1f5f9;">ESG: ${state.laporanESG} | Kebijakan Iklim: ${state.kebijakanGRK}</td></tr>
+            <tr><td style="color:#475569; padding: 4px 0; border-bottom:1px solid #f1f5f9;">Rencana Transisi & Investasi</td><td style="border-bottom:1px solid #f1f5f9;">:</td><td style="padding: 4px 0; border-bottom:1px solid #f1f5f9;">${state.rencanaTransisi === 'Ya' ? formatRupiahDisplay(state.nilaiInvestasi) + ' (' + state.waktuInvestasi + ')' : 'Tidak'}</td></tr>
+            <tr><td style="color:#475569; padding: 4px 0; border-bottom:1px solid #f1f5f9;">Scope 1 (Bensin & Solar)</td><td style="border-bottom:1px solid #f1f5f9;">:</td><td style="padding: 4px 0; border-bottom:1px solid #f1f5f9;">Bensin: ${state.bensinLiter.toLocaleString()} L | Solar: ${state.solarLiter.toLocaleString()} L</td></tr>
+            <tr><td style="color:#475569; padding: 4px 0; border-bottom:1px solid #f1f5f9;">Scope 2 (Listrik PLN & EBT)</td><td style="border-bottom:1px solid #f1f5f9;">:</td><td style="padding: 4px 0; border-bottom:1px solid #f1f5f9;">PLN: ${state.listrikKwh.toLocaleString()} kWh | EBT: ${state.ebtKwh.toLocaleString()} kWh</td></tr>
+            <tr><td style="color:#475569; padding: 4px 0; border-bottom:1px solid #f1f5f9;">Scope 3 (Perjalanan Bisnis)</td><td style="border-bottom:1px solid #f1f5f9;">:</td><td style="padding: 4px 0; border-bottom:1px solid #f1f5f9;">${state.scope3Trips.length} Rute Terdata (${state.scope3Trips.reduce((acc, c) => acc + c.trip, 0)} Total Trip)</td></tr>
+            <tr><td style="color:#475569; padding: 4px 0;">Verifikasi Pihak Ketiga</td><td>:</td><td style="padding: 4px 0;">${state.verifikasiPihakKetiga === 'Ya' ? 'Tervalidasi (' + state.lembagaVerifikator + ')' : 'Belum Diverifikasi'}</td></tr>
           </table>
 
-          <div class="pdf-section-title-bar">Rincian Evaluasi Tahapan</div>
-          <div style="font-size: 8.5pt; margin-bottom: 20px;">
+          <div class="pdf-section-title-bar">2. Ringkasan Klasifikasi Aktivitas Usaha (TKBI)</div>
+          <table style="width: 100%; font-size: 8.5pt; margin-bottom: 14px; border-collapse: collapse;">
+            <tr><td style="width: 210px; color:#475569; padding: 4px 0; border-bottom:1px solid #f1f5f9;">Skala Usaha / Sektor</td><td style="width: 15px; border-bottom:1px solid #f1f5f9;">:</td><td style="padding: 4px 0; border-bottom:1px solid #f1f5f9;"><strong>${state.skala}</strong> &bull; ${state.sektor}</td></tr>
+            <tr><td style="color:#475569; padding: 4px 0; border-bottom:1px solid #f1f5f9;">KBLI Level 5</td><td style="border-bottom:1px solid #f1f5f9;">:</td><td style="padding: 4px 0; border-bottom:1px solid #f1f5f9;"><strong>${lvls.lvl5}</strong></td></tr>
+            <tr><td style="color:#475569; padding: 4px 0; border-bottom:1px solid #f1f5f9;">Tujuan Lingkungan Utama</td><td style="border-bottom:1px solid #f1f5f9;">:</td><td style="padding: 4px 0; border-bottom:1px solid #f1f5f9;"><strong>${document.getElementById('resEO').innerText}</strong></td></tr>
+            <tr><td style="color:#475569; padding: 4px 0;">Posisi Penilaian</td><td>:</td><td style="padding: 4px 0;">${formatTanggalIndonesia(state.tanggal)}</td></tr>
+          </table>
+
+          <div class="pdf-section-title-bar">3. Rincian Evaluasi Kriteria TKBI OJK</div>
+          <div style="font-size: 8pt; margin-bottom: 16px;">
             ${hasilHtml}
           </div>
 
-          <div style="background-color: ${badgeBg}; color: #ffffff; border-radius: 8px; padding: 16px; text-align: center; margin-top: 18px;">
-            <div style="font-size: 9pt; font-weight: 700; opacity: 0.95;">Hasil Per-Posisi Penilaian:</div>
-            <div style="font-size: 15pt; font-weight: 800; margin-top: 4px;">${statusFinalTeks}</div>
+          <div style="background-color: ${badgeBg}; color: #ffffff; border-radius: 8px; padding: 14px; text-align: center; margin-top: 14px;">
+            <div style="font-size: 8.5pt; font-weight: 700; opacity: 0.95;">Hasil Akhir Klasifikasi TKBI:</div>
+            <div style="font-size: 14pt; font-weight: 800; margin-top: 3px;">${statusFinalTeks}</div>
           </div>
         </div>
       `;
@@ -2338,7 +2906,7 @@
       let pad = (n) => (n < 10 ? '0' + n : n);
       let fileTimestamp = `${now.getFullYear()}${pad(now.getMonth()+1)}${pad(now.getDate())}_${pad(now.getHours())}${pad(now.getMinutes())}`;
       let namaBersih = (state.namaInstitusi || "Debitur").replace(/[^a-zA-Z0-9]/g, "_");
-      let fileName = `Hasil_TKBI_BankJago_${namaBersih}_${fileTimestamp}.pdf`;
+      let fileName = `Hasil_TKBI_Emisi_BankJago_${namaBersih}_${fileTimestamp}.pdf`;
 
       let targetPDF = document.getElementById('pdfExportArea');
       let statusTxt = document.getElementById('txtStatusPdfToolbar');
