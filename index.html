@@ -437,7 +437,7 @@
 
         <div class="d-flex justify-content-between mt-4">
           <button class="btn btn-back" onclick="navigasiStep(2)"><i class="bi bi-arrow-left me-2"></i>Kembali ke Data Diri</button>
-          <button class="btn btn-next" onclick="selesaikanKuesionerEmisi()">Simpan & Masuk Layar Selesai <i class="bi bi-arrow-right ms-2"></i></button>
+          <button class="btn btn-next" onclick="selesaikanKuesionerEmisi()">Simpan & Lanjutkan <i class="bi bi-arrow-right ms-2"></i></button>
         </div>
       </div>
 
@@ -841,7 +841,7 @@
       }
     };
 
-    const BANK_DNSH_EO = {
+const BANK_DNSH_EO = {
       EO1: {
         judul: "Kriteria DNSH EO1",
         petunjuk: "Memenuhi kriteria berikut:",
@@ -1401,39 +1401,75 @@
     // =========================================================================
     // SIMPAN DATA STEP 3 MENUJU STEP 4 (LAYAR SELESAI EMISI)
     // =========================================================================
-    function selesaikanKuesionerEmisi() {
-      state.kebijakanGRK = document.getElementById('selectKebijakanGRK').value;
-      state.rencanaTransisi = document.getElementById('selectRencanaTransisi').value;
-      state.strategiTransisi = document.getElementById('inputStrategiTransisi').value.trim();
-      state.waktuInvestasi = document.getElementById('selectWaktuInvestasi').value;
-      state.nilaiInvestasi = parseInt(document.getElementById('inputNilaiInvestasi').value.replace(/\D/g, ''), 10) || 0;
+function selesaikanKuesionerEmisi() {
+      try {
+        state.kebijakanGRK = document.querySelector('input[name="radioKebijakanGRK"]:checked')?.value || "Tidak";
+        state.rencanaTransisi = document.querySelector('input[name="radioRencanaTransisi"]:checked')?.value || "Tidak";
+        
+        let elStrategi = document.getElementById('inputStrategiTransisi');
+        state.strategiTransisi = elStrategi ? elStrategi.value.trim() : "-";
+        
+        let elWaktu = document.getElementById('selectWaktuInvestasi');
+        state.waktuInvestasi = elWaktu ? elWaktu.value : "1–3 tahun";
+        
+        let elNilai = document.getElementById('inputNilaiInvestasi');
+        state.nilaiInvestasi = elNilai ? (parseInt(elNilai.value.replace(/\D/g, ''), 10) || 0) : 0;
 
-      state.bensinLiter = parseInt(document.getElementById('inputBensinLiter').value.replace(/\D/g, ''), 10) || 0;
-      state.bensinRp = parseInt(document.getElementById('inputBensinRp').value.replace(/\D/g, ''), 10) || 0;
-      state.solarLiter = parseInt(document.getElementById('inputSolarLiter').value.replace(/\D/g, ''), 10) || 0;
-      state.solarRp = parseInt(document.getElementById('inputSolarRp').value.replace(/\D/g, ''), 10) || 0;
+        let elBensinL = document.getElementById('inputBensinLiter');
+        state.bensinLiter = elBensinL ? (parseInt(elBensinL.value.replace(/\D/g, ''), 10) || 0) : 0;
 
-      state.listrikKwh = parseInt(document.getElementById('inputListrikKwh').value.replace(/\D/g, ''), 10) || 0;
-      state.listrikRp = parseInt(document.getElementById('inputListrikRp').value.replace(/\D/g, ''), 10) || 0;
-      state.ebtKwh = parseInt(document.getElementById('inputEbtKwh').value.replace(/\D/g, ''), 10) || 0;
-      state.ebtRp = parseInt(document.getElementById('inputEbtRp').value.replace(/\D/g, ''), 10) || 0;
+        let elBensinRp = document.getElementById('inputBensinRp');
+        state.bensinRp = elBensinRp ? (parseInt(elBensinRp.value.replace(/\D/g, ''), 10) || 0) : 0;
 
-      state.scope3Trips = getDaftarScope3Data();
+        let elSolarL = document.getElementById('inputSolarLiter');
+        state.solarLiter = elSolarL ? (parseInt(elSolarL.value.replace(/\D/g, ''), 10) || 0) : 0;
 
-      state.verifikasiPihakKetiga = document.getElementById('selectVerifikasi').value;
+        let elSolarRp = document.getElementById('inputSolarRp');
+        state.solarRp = elSolarRp ? (parseInt(elSolarRp.value.replace(/\D/g, ''), 10) || 0) : 0;
 
-      state.lembagaVerifikator = (state.verifikasiPihakKetiga === "Ya")
-        ? (document.getElementById('inputLembagaVerifikasi').value.trim() || "Sucofindo")
-        : "-";
+        let elListrikKwh = document.getElementById('inputListrikKwh');
+        state.listrikKwh = elListrikKwh ? (parseInt(elListrikKwh.value.replace(/\D/g, ''), 10) || 0) : 0;
 
-      // Isi nilai kartu transisi di Step 4
-      document.getElementById('transfNamaCIF').innerText = `${state.namaInstitusi} (${state.cif})`;
-      document.getElementById('transfSektorKBLI').innerText = `${state.sektor} - ${state.kodeKBLI}`;
-      document.getElementById('transfScope1').innerText = `Bensin: ${state.bensinLiter.toLocaleString()} L | Solar: ${state.solarLiter.toLocaleString()} L`;
-      document.getElementById('transfScope2').innerText = `Listrik PLN: ${state.listrikKwh.toLocaleString()} kWh | EBT: ${state.ebtKwh.toLocaleString()} kWh`;
-      document.getElementById('transfScope3').innerText = `${state.scope3Trips.length} Rute Perjalanan Terdata`;
+        let elListrikRp = document.getElementById('inputListrikRp');
+        state.listrikRp = elListrikRp ? (parseInt(elListrikRp.value.replace(/\D/g, ''), 10) || 0) : 0;
 
-      navigasiStep(4);
+        let elEbtKwh = document.getElementById('inputEbtKwh');
+        state.ebtKwh = elEbtKwh ? (parseInt(elEbtKwh.value.replace(/\D/g, ''), 10) || 0) : 0;
+
+        let elEbtRp = document.getElementById('inputEbtRp');
+        state.ebtRp = elEbtRp ? (parseInt(elEbtRp.value.replace(/\D/g, ''), 10) || 0) : 0;
+
+        if (typeof getDaftarScope3Data === 'function') {
+          state.scope3Trips = getDaftarScope3Data();
+        }
+
+        state.verifikasiPihakKetiga = document.querySelector('input[name="radioVerifikasi"]:checked')?.value || "Tidak";
+        let elLembaga = document.getElementById('inputLembagaVerifikasi');
+        state.lembagaVerifikator = (state.verifikasiPihakKetiga === "Ya" && elLembaga)
+          ? (elLembaga.value.trim() || "Sucofindo")
+          : "-";
+
+        // Tampilkan ringkasan pada kartu transisi Step 4
+        let elTransfNama = document.getElementById('transfNamaCIF');
+        if (elTransfNama) elTransfNama.innerText = `${state.namaInstitusi || '-'} (${state.cif || '-'})`;
+
+        let elTransfSektor = document.getElementById('transfSektorKBLI');
+        if (elTransfSektor) elTransfSektor.innerText = `${state.sektor || '-'} - ${state.kodeKBLI || '-'}`;
+
+        let elTransfScope1 = document.getElementById('transfScope1');
+        if (elTransfScope1) elTransfScope1.innerText = `Bensin: ${state.bensinLiter.toLocaleString()} L | Solar: ${state.solarLiter.toLocaleString()} L`;
+
+        let elTransfScope2 = document.getElementById('transfScope2');
+        if (elTransfScope2) elTransfScope2.innerText = `Listrik PLN: ${state.listrikKwh.toLocaleString()} kWh | EBT: ${state.ebtKwh.toLocaleString()} kWh`;
+
+        let elTransfScope3 = document.getElementById('transfScope3');
+        if (elTransfScope3) elTransfScope3.innerText = `${state.scope3Trips.length} Rute Perjalanan Terdata`;
+
+        navigasiStep(4);
+      } catch (err) {
+        console.error("Gagal memproses emisi, tetap lanjut ke layar transisi:", err);
+        navigasiStep(4);
+      }
     }
 
     // =========================================================================
