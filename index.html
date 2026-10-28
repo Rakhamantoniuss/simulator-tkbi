@@ -59,13 +59,13 @@
     <div id="viewStep0" class="row justify-content-center">
       <div class="col-lg-9 text-center">
         <h2 class="fw-bold mb-2 text-dark">Simulator Taksonomi Keuangan Berkelanjutan Indonesia (TKBI) & Data Emisi</h2>
-        <p class="text-secondary mb-4">Pilih skala usaha entitas debitur untuk memulai asesmen keberlanjutan dan inventarisasi emisi GRK</p>
+        <p class="text-secondary mb-4">Pilih skala usaha entitas debitur untuk memulai asesmen keberlanjutan dan inventarisasi emisi GRK[cite: 4]</p>
         <div class="row g-4 justify-content-center">
           <div class="col-md-6">
             <div class="scale-selection-card" onclick="pilihSkala('UMKM')">
               <div class="scale-icon-circle"><i class="bi bi-shop"></i></div>
               <h4 class="fw-bold text-dark">Simulator UMKM</h4>
-              <p class="text-secondary small">Penilaian prinsip umum berbasis <em>Sector-Agnostic Decision Tree</em> (SDT) untuk Usaha Mikro, Kecil, dan Menengah.</p>
+              <p class="text-secondary small">Penilaian prinsip umum berbasis <em>Sector-Agnostic Decision Tree</em> (SDT) untuk Usaha Mikro, Kecil, dan Menengah[cite: 6].</p>
               <button class="btn btn-next w-100">Mulai Simulator UMKM <i class="bi bi-arrow-right ms-1"></i></button>
             </div>
           </div>
@@ -73,7 +73,7 @@
             <div class="scale-selection-card" onclick="pilihSkala('Non UMKM')">
               <div class="scale-icon-circle"><i class="bi bi-buildings"></i></div>
               <h4 class="fw-bold text-dark">Simulator Non UMKM</h4>
-              <p class="text-secondary small">Penilaian kriteria teknis kuantitatif berbasis <em>Technical Screening Criteria</em> (TSC) untuk skala Korporasi.</p>
+              <p class="text-secondary small">Penilaian kriteria teknis kuantitatif berbasis <em>Technical Screening Criteria</em> (TSC) untuk skala Korporasi[cite: 6].</p>
               <button class="btn btn-next w-100">Mulai Simulator Non UMKM <i class="bi bi-arrow-right ms-1"></i></button>
             </div>
           </div>
@@ -86,12 +86,12 @@
       <div class="card-ojk">
         <h4 class="fw-bold text-danger mb-3" id="txtJudulDisclaimer"><i class="bi bi-shield-exclamation me-2"></i>Penafian (Disclaimer)</h4>
         <div class="p-3 bg-light rounded border mb-4 text-secondary small" style="line-height: 1.6;">
-          Aplikasi ini dibuat untuk keperluan simulasi dan asesmen internal Taksonomi Keuangan Berkelanjutan Indonesia (TKBI) serta inventarisasi jejak karbon (GHG Protocol Scope 1, 2, dan 3) di lingkungan PT Bank Jago Tbk. Hasil simulasi berfungsi sebagai alat bantu evaluasi kelayakan pembiayaan berkelanjutan dan tetap mengacu pada Buku Panduan TKBI resmi Otoritas Jasa Keuangan (OJK) sebagai rujukan utama.
+          Aplikasi ini dibuat untuk keperluan simulasi dan asesmen internal Taksonomi Keuangan Berkelanjutan Indonesia (TKBI) serta inventarisasi jejak karbon (GHG Protocol Scope 1, 2, dan 3) di lingkungan PT Bank Jago Tbk[cite: 4, 6]. Hasil simulasi berfungsi sebagai alat bantu evaluasi kelayakan pembiayaan berkelanjutan dan tetap mengacu pada Buku Panduan TKBI resmi Otoritas Jasa Keuangan (OJK) sebagai rujukan utama[cite: 6].
         </div>
         <div class="form-check mb-4">
           <input class="form-check-input" type="checkbox" id="chkDisclaimer" onchange="toggleDisclaimer()">
           <label class="form-check-label fw-bold text-dark" for="chkDisclaimer">
-            Dengan ini saya menyatakan telah membaca, memahami, dan memenuhi syarat dan ketentuan yang berlaku.
+            Dengan ini saya menyatakan telah membaca, memahami, dan memenuhi syarat dan ketentuan yang berlaku[cite: 6].
           </label>
         </div>
         <div class="d-flex justify-content-between">
@@ -107,7 +107,7 @@
         <div class="d-flex justify-content-between align-items-center mb-4 border-bottom pb-3">
           <div>
             <h4 class="fw-bold text-danger mb-1"><i class="bi bi-person-vcard me-2"></i>Informasi Umum Entitas & Aktivitas Usaha</h4>
-            <div class="text-secondary small">Bagian A: Profil perusahaan, aktivitas KBLI, dan fokus keberlanjutan</div>
+            <div class="text-secondary small">Bagian A: Profil perusahaan, aktivitas KBLI, dan fokus keberlanjutan[cite: 4, 6]</div>
           </div>
           <span class="badge bg-light text-secondary border">Wajib Diisi (<span class="text-danger">*</span>)</span>
         </div>
@@ -190,7 +190,7 @@
     <!-- STEP 3: KUESIONER EMISI & KEBIJAKAN LINGKUNGAN (POIN B S.D. E) -->
     <div id="viewStep3" style="display:none;">
       
-      <!-- Bagian B: Kebijakan dan Strategi Lingkungan -->
+<!-- Bagian B: Kebijakan dan Strategi Lingkungan -->
       <div class="card-ojk">
         <h4 class="fw-bold text-danger mb-2"><i class="bi bi-compass me-2"></i>B. Kebijakan dan Strategi Lingkungan</h4>
         <p class="text-secondary small mb-3">Informasi mengenai komitmen perusahaan terhadap mitigasi perubahan iklim dan transisi rendah karbon.</p>
@@ -230,7 +230,7 @@
           </div>
         </div>
 
-        <!-- Rincian Poin B.7: Selalu tampak agar tidak terlewat, aktif jika Ya -->
+        <!-- Rincian Poin B.7: Selalu tampak agar pertanyaan terbaca lengkap -->
         <div id="boxDetailTransisi" class="p-3 bg-light rounded border mb-2">
           <div class="fw-bold text-dark mb-3 border-bottom pb-2">
             <i class="bi bi-card-text text-danger me-1"></i> Jika <strong>Ya</strong>, mohon jelaskan:
@@ -283,9 +283,9 @@
         <div class="guidance-box">
           <strong>📖 Petunjuk Pengisian:</strong>
           <ul class="mb-0 ps-3 mt-1">
-            <li><strong>Pilih yang Termudah:</strong> Cukup isi salah satu satuan yang tersedia (Volume/Energi ATAU Nilai Rupiah pertahun), atau isi keduanya jika ada data lengkap.</li>
-            <li><strong>Gunakan Estimasi:</strong> Gunakan data historis 1 tahun terakhir (Januari–Desember). Jika tidak ada, gunakan rata-rata bulanan dikali 12.</li>
-            <li><strong>Sumber Data:</strong> Laporan pembelian BBM kendaraan/genset dan tagihan listrik PLN bulanan.</li>
+            <li><strong>Pilih yang Termudah:</strong> Cukup isi salah satu satuan yang tersedia (Volume/Energi ATAU Nilai Rupiah pertahun), atau isi keduanya jika ada data lengkap[cite: 4].</li>
+            <li><strong>Gunakan Estimasi:</strong> Gunakan data historis 1 tahun terakhir (Januari–Desember). Jika tidak ada, gunakan rata-rata bulanan dikali 12[cite: 4].</li>
+            <li><strong>Sumber Data:</strong> Laporan pembelian BBM kendaraan/genset dan tagihan listrik PLN bulanan[cite: 4].</li>
           </ul>
         </div>
 
@@ -393,12 +393,12 @@
         <div class="d-flex justify-content-between align-items-center mb-2">
           <div>
             <h4 class="fw-bold text-danger mb-0"><i class="bi bi-airplane me-2"></i>D. Data Emisi Scope 3 (Perjalanan Bisnis)</h4>
-            <div class="text-secondary small">Estimasi jumlah perjalanan dinas karyawan dalam 1 tahun terakhir.</div>
+            <div class="text-secondary small">Estimasi jumlah perjalanan dinas karyawan dalam 1 tahun terakhir[cite: 4].</div>
           </div>
         </div>
 
         <div class="guidance-box my-3">
-          Klik tombol <strong>"+ Tambah Rute Perjalanan"</strong> jika perusahaan melakukan perjalanan bisnis dinas dengan moda transportasi udara, laut, atau darat antarkota/luar negeri.
+          Klik tombol <strong>"+ Tambah Rute Perjalanan"</strong> jika perusahaan melakukan perjalanan bisnis dinas dengan moda transportasi udara, laut, atau darat antarkota/luar negeri[cite: 4].
         </div>
 
         <div id="wadahBarisScope3" class="scope3-container">
@@ -410,7 +410,7 @@
         </button>
       </div>
 
-      <!-- Bagian E: Validasi Data -->
+<!-- Bagian E: Validasi Data -->
       <div class="card-ojk">
         <h4 class="fw-bold text-danger mb-2"><i class="bi bi-patch-check me-2"></i>E. Validasi Data</h4>
         <div class="row g-3">
@@ -449,7 +449,7 @@
         <div class="transition-icon-circle"><i class="bi bi-check-lg"></i></div>
         <h3 class="fw-bold text-dark mb-2">Kuesioner Data Emisi & Kebijakan Lingkungan Telah Lengkap!</h3>
         <p class="text-secondary max-w-600 mx-auto">
-          Terima kasih. Data inventarisasi energi dan profil transisi rendah karbon perusahaan Anda telah berhasil terekam. Tahap berikutnya adalah melakukan pengujian keselarasan aktivitas usaha berdasarkan standar Taksonomi Keuangan Berkelanjutan Indonesia (TKBI OJK).
+          Terima kasih. Data inventarisasi energi dan profil transisi rendah karbon perusahaan Anda telah berhasil terekam[cite: 4]. Tahap berikutnya adalah melakukan pengujian keselarasan aktivitas usaha berdasarkan standar Taksonomi Keuangan Berkelanjutan Indonesia (TKBI OJK)[cite: 6].
         </p>
 
         <div class="transition-stats-box">
@@ -850,13 +850,7 @@
         ],
         pemisah: "",
         referensi: "-",
-        keterangan: "Prinsip Significant Harm
-• Aktivitas menghasilkan emisi GRK yang signifikan
-
-Pertimbangan yang digunakan dalam Panduan Umum
-• ASEAN Taxonomy for Sustainable Finance
-• Enhanced NDC Indonesia
-• Perpres No. 98 Tahun 2021 tentang Nilai Ekonomi Karbon"
+        keterangan: "Prinsip Significant Harm\n• Aktivitas menghasilkan emisi GRK yang signifikan\n\nPertimbangan yang digunakan dalam Panduan Umum\n• ASEAN Taxonomy for Sustainable Finance\n• Enhanced NDC Indonesia\n• Perpres No. 98 Tahun 2021 tentang Nilai Ekonomi Karbon"
       },
       EO2: {
         judul: "Kriteria DNSH EO2",
@@ -867,12 +861,7 @@ Pertimbangan yang digunakan dalam Panduan Umum
         ],
         pemisah: "atau",
         referensi: "-",
-        keterangan: "Prinsip Significant Harm
-• Aktivitas meningkatkan kerentanan atau memindahkan risiko iklim ke pihak lain (maladaptation)
-
-Pertimbangan yang digunakan dalam Panduan Umum
-• ASEAN Taxonomy for Sustainable Finance
-• Dokumen RAN-API Bappenas & Kerentanan Iklim SIDIK KLHK"
+        keterangan: "Prinsip Significant Harm\n• Aktivitas meningkatkan kerentanan atau memindahkan risiko iklim ke pihak lain (maladaptation)\n\nPertimbangan yang digunakan dalam Panduan Umum\n• ASEAN Taxonomy for Sustainable Finance\n• Dokumen RAN-API Bappenas & Kerentanan Iklim SIDIK KLHK"
       },
       EO3: {
         judul: "Kriteria DNSH EO3",
@@ -883,12 +872,7 @@ Pertimbangan yang digunakan dalam Panduan Umum
         ],
         pemisah: "dan",
         referensi: "-",
-        keterangan: "Prinsip Significant Harm
-• Menyebabkan kerusakan terhadap ekosistem alami dan kawasan konservasi tinggi
-
-Pertimbangan yang digunakan dalam Panduan Umum
-• UU No. 32 Tahun 2009 tentang Perlindungan dan Pengelolaan Lingkungan Hidup
-• PP No. 22 Tahun 2021 tentang Penyelenggaraan Perlindungan dan Pengelolaan LH"
+        keterangan: "Prinsip Significant Harm\n• Menyebabkan kerusakan terhadap ekosistem alami dan kawasan konservasi tinggi\n\nPertimbangan yang digunakan dalam Panduan Umum\n• UU No. 32 Tahun 2009 tentang Perlindungan dan Pengelolaan Lingkungan Hidup\n• PP No. 22 Tahun 2021 tentang Penyelenggaraan Perlindungan dan Pengelolaan LH"
       },
       EO4: {
         judul: "Kriteria DNSH EO4",
@@ -898,12 +882,7 @@ Pertimbangan yang digunakan dalam Panduan Umum
         ],
         pemisah: "",
         referensi: "-",
-        keterangan: "Prinsip Significant Harm
-• Aktivitas menyebabkan pemborosan sumber daya air/material dan pembuangan liar limbah tanpa izin
-
-Pertimbangan yang digunakan dalam Panduan Umum
-• UU No. 18 Tahun 2008 tentang Pengelolaan Sampah
-• Pedoman Transisi Ekonomi Sirkular TKBI OJK"
+        keterangan: "Prinsip Significant Harm\n• Aktivitas menyebabkan pemborosan sumber daya air/material dan pembuangan liar limbah tanpa izin\n\nPertimbangan yang digunakan dalam Panduan Umum\n• UU No. 18 Tahun 2008 tentang Pengelolaan Sampah\n• Pedoman Transisi Ekonomi Sirkular TKBI OJK"
       }
     };
 
@@ -951,8 +930,6 @@ Pertimbangan yang digunakan dalam Panduan Umum
       if (document.querySelectorAll('.scope3-row-card').length === 0) {
         tambahBarisScope3(); // Berikan 1 baris awal
       }
-      toggleRencanaTransisiRadio('Tidak');
-      toggleLembagaVerifikasiRadio('Tidak');
     });
 
     function inisialisasiSektorDefault() {
@@ -1005,6 +982,7 @@ Pertimbangan yang digunakan dalam Panduan Umum
       let raw = el.value.replace(/\D/g, '');
       let base = parseInt(raw, 10) || 1;
       
+      // Jika angka sebelumnya sudah sangat besar karena perkalian, sederhanakan ke base semula
       if (base >= 1000000000000) base = Math.round(base / 1000000000000);
       else if (base >= 1000000000) base = Math.round(base / 1000000000);
       else if (base >= 1000000) base = Math.round(base / 1000000);
@@ -1024,28 +1002,14 @@ Pertimbangan yang digunakan dalam Panduan Umum
       if (prevEl) prevEl.innerText = "";
     }
 
-    function toggleRencanaTransisiRadio(val) {
-      state.rencanaTransisi = val;
-      let box = document.getElementById('boxDetailTransisi');
-      if (val === 'Ya') {
-        box.style.opacity = '1';
-        box.querySelectorAll('input, select, textarea').forEach(el => el.disabled = false);
-      } else {
-        box.style.opacity = '0.6';
-        box.querySelectorAll('input, select, textarea').forEach(el => el.disabled = true);
-      }
+    function toggleRencanaTransisi() {
+      let val = document.getElementById('selectRencanaTransisi').value;
+      document.getElementById('boxDetailTransisi').style.display = (val === 'Ya') ? 'block' : 'none';
     }
 
-    function toggleLembagaVerifikasiRadio(val) {
-      state.verifikasiPihakKetiga = val;
-      let inp = document.getElementById('inputLembagaVerifikasi');
-      if (val === 'Ya') {
-        inp.disabled = false;
-        inp.focus();
-      } else {
-        inp.disabled = true;
-        inp.value = '';
-      }
+    function toggleLembagaVerifikasi() {
+      let val = document.getElementById('selectVerifikasi').value;
+      document.getElementById('boxLembagaVerifikasi').style.display = (val === 'Ya') ? 'block' : 'none';
     }
 
     // =========================================================================
@@ -1269,7 +1233,7 @@ Pertimbangan yang digunakan dalam Panduan Umum
       let html = "";
       list.forEach(item => {
         let arrow = (item.level < 5) ? '<span class="tree-node-arrow">▾</span> ' : '';
-        html += `<div class="tree-node tree-lvl-${item.level}" onclick="pilihItemKBLI('${item.text.replace(/'/g, "\'")}')">${arrow}${item.text}</div>`;
+        html += `<div class="tree-node tree-lvl-${item.level}" onclick="pilihItemKBLI('${item.text.replace(/'/g, "\\'")}')">${arrow}${item.text}</div>`;
       });
       area.innerHTML = html;
     }
@@ -1305,7 +1269,7 @@ Pertimbangan yang digunakan dalam Panduan Umum
 
     function getActiveKBLICodeKey() {
       let str = (state.kodeKBLI || "").toString();
-      let m = str.match(/ \d{5} /) || str.match(/ 112 /);
+      let m = str.match(/\b\d{5}\b/) || str.match(/\b112\b/);
       if (m) return m[0];
       let sLow = str.toLowerCase();
       if (sLow.indexOf("gedung baru") !== -1 || sLow.indexOf("existing/renovasi") !== -1) return "41015";
@@ -1438,8 +1402,8 @@ Pertimbangan yang digunakan dalam Panduan Umum
     // SIMPAN DATA STEP 3 MENUJU STEP 4 (LAYAR SELESAI EMISI)
     // =========================================================================
     function selesaikanKuesionerEmisi() {
-      state.kebijakanGRK = document.querySelector('input[name="radioKebijakanGRK"]:checked')?.value || "Tidak";
-      state.rencanaTransisi = document.querySelector('input[name="radioRencanaTransisi"]:checked')?.value || "Tidak";
+      state.kebijakanGRK = document.getElementById('selectKebijakanGRK').value;
+      state.rencanaTransisi = document.getElementById('selectRencanaTransisi').value;
       state.strategiTransisi = document.getElementById('inputStrategiTransisi').value.trim();
       state.waktuInvestasi = document.getElementById('selectWaktuInvestasi').value;
       state.nilaiInvestasi = parseInt(document.getElementById('inputNilaiInvestasi').value.replace(/\D/g, ''), 10) || 0;
@@ -1456,7 +1420,8 @@ Pertimbangan yang digunakan dalam Panduan Umum
 
       state.scope3Trips = getDaftarScope3Data();
 
-      state.verifikasiPihakKetiga = document.querySelector('input[name="radioVerifikasi"]:checked')?.value || "Tidak";
+      state.verifikasiPihakKetiga = document.getElementById('selectVerifikasi').value;
+
       state.lembagaVerifikator = (state.verifikasiPihakKetiga === "Ya")
         ? (document.getElementById('inputLembagaVerifikasi').value.trim() || "Sucofindo")
         : "-";
