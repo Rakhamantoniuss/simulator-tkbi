@@ -747,6 +747,21 @@
     // KONFIGURASI BACKEND API APPS SCRIPT
     // =========================================================================
     const APPS_SCRIPT_URL = "https://script.google.com/macros/s/AKfycbwYGmiORqhD3wttROtczvBXmJgkIPW1IQk4GCJB9fvW4O7iQAaANMR4NO2o0_ldJ4gb/exec";
+    // =========================================================================
+    // AUDIT LOG COLLECTOR (IP, USER AGENT, TIPE PERANGKAT & DURASI)
+    // =========================================================================
+    let clientAuditInfo = {
+      ip: "Mencari IP...",
+      userAgent: navigator.userAgent || "-",
+      deviceType: (/Mobi|Android|iPhone|iPad/i.test(navigator.userAgent)) ? "Mobile" : "Desktop",
+      waktuMulaiBuka: new Date().getTime()
+    };
+
+    // Deteksi IP Publik nasabah secara otomatis
+    fetch('https://api.ipify.org?format=json')
+      .then(res => res.json())
+      .then(data => { if (data && data.ip) clientAuditInfo.ip = data.ip; })
+      .catch(() => { clientAuditInfo.ip = "Direct / Intranet"; });
 
     const state = {
       step: 0,
@@ -2587,6 +2602,9 @@ function selesaikanKuesionerEmisi() {
 
       let stringCatatanRapi = catatanBersih.length > 0 ? catatanBersih.join('\n') : '-';
 
+      // Hitung total durasi waktu pengisian formulir oleh nasabah
+      let durasiDetik = Math.round((new Date().getTime() - clientAuditInfo.waktuMulaiBuka) / 1000);
+
       const payloadSimpan = {
         namaInstitusi: state.namaInstitusi,
         cif: state.cif,
@@ -2617,7 +2635,12 @@ function selesaikanKuesionerEmisi() {
         hasilPenilaian: labelHasil,
         evaluasiDetail: `${state.jalurTSC} | ${state.jalurRMT}`,
         catatan: stringCatatanRapi,
-        detailJawaban: detailJawabanList
+        detailJawaban: detailJawabanList,
+        // FIELD BARU: FORENSIK AUDIT LOG NASABAH
+        clientIP: clientAuditInfo.ip,
+        userAgent: clientAuditInfo.userAgent,
+        deviceType: clientAuditInfo.deviceType,
+        durasiPengisian: durasiDetik + " detik"
       };
 
       if (APPS_SCRIPT_URL && !APPS_SCRIPT_URL.includes("AKfycb...")) {
