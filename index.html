@@ -1301,65 +1301,126 @@
       window.scrollTo({ top: 0, behavior: 'smooth' });
     }
 
-    function toggleKBLIDropdown() {
-      if (!document.getElementById('selectSektor').value) {
-        alert("Silakan pilih Sektor KBLI terlebih dahulu!");
-        return;
-      }
-      let dd = document.getElementById('dropdownPohonKBLI');
-      dd.style.display = (dd.style.display === 'block') ? 'none' : 'block';
-    }
+// =========================================================================
+    // LOGIKA KBLI & AUTO-SELECT SEKTOR (TWO-WAY BINDING)
+    // =========================================================================
+    
+    // Daftar 8 Sektor Resmi Bank Jago / TKBI
+    const DAFTAR_8_SEKTOR = [
+      "Energi",
+      "Konstruksi dan Real Estate (C&RE)",
+      "Pengangkutan dan Pergudangan (T&S)",
+      "Pertanian, Kehutanan, dan Perikanan (AFF)",
+      "Informasi dan Komunikasi (IC)",
+      "Manufaktur (IPPU)",
+      "Profesional, Ilmiah, dan Teknis (PST)",
+      "Pengelolaan Air, Pengelolaan Air Limbah, Pengelolaan Sampah, dan Remediasi (WSSWMR)"
+    ];
 
-    document.addEventListener('click', function(e) {
-      let box = document.getElementById('boxKBLIDisplay');
+    // Debitur bisa langsung buka KBLI tanpa harus pilih sektor terlebih dahulu
+    function toggleKBLIDropdown() {
       let dd = document.getElementById('dropdownPohonKBLI');
-      if (box && dd && !box.contains(e.target) && !dd.contains(e.target)) {
+      let isOpen = (dd.style.display === 'block');
+      
+      if (!isOpen) {
+        // Jika sektor belum dipilih, tampilkan database KBLI seluruh sektor
+        if (!document.getElementById('selectSektor').value) {
+          muatSemuaKBLIGlobal();
+        }
+        dd.style.display = 'block';
+      } else {
         dd.style.display = 'none';
       }
-    });
+    }
 
+    // Memuat seluruh KBLI dari 8 sektor jika debitur belum memilih sektor
+    function muatSemuaKBLIGlobal() {
+      let area = document.getElementById('kontainerNodeKBLI');
+      if (!area || typeof parseRawKBLI === 'undefined') return;
+
+      let html = "";
+      DAFTAR_8_SEKTOR.forEach(sektorName => {
+        let list = parseRawKBLI(sektorName);
+        if (list && list.length > 0) {
+          html += `<div class="p-2 bg-light fw-bold text-danger border-bottom border-top small"><i class="bi bi-tag-fill me-1"></i> Sektor: ${sektorName}</div>`;
+          list.forEach(item => {
+            let arrow = (item.level < 5) ? '<span class="tree-node-arrow">▾</span> ' : '';
+            let escapedTeks = item.text.replace(/'/g, "\\'");
+            let escapedSektor = sektorName.replace(/'/g, "\\'");
+            html += `<div class="tree-node tree-lvl-${item.level}" onclick="pilihItemKBLI('${escapedTeks}', '${escapedSektor}')">${arrow}${item.text}</div>`;
+          });
+        }
+      });
+      area.innerHTML = html;
+    }
+
+    // Jika debitur memilih sektor terlebih dahulu, filter KBLI sesuai sektor tersebut
     function muatPohonKBLISektor() {
       state.sektor = document.getElementById('selectSektor').value;
       let area = document.getElementById('kontainerNodeKBLI');
-      document.getElementById('labelKBLITerpilih').innerText = "Pilih KBLI";
-      document.getElementById('labelKBLITerpilih').className = "text-muted";
-      document.getElementById('inputDeskripsiKBLI').value = "";
-      state.kodeKBLI = "";
-      state.namaKBLI = "";
 
-      perbaruiOpsiTujuanLingkungan();
+      // Jika sektor direset ke kosong, muat semua KBLI
+      if (!state.sektor) {
+        document.getElementById('labelKBLITerpilih').innerText = "Pilih KBLI";
+        document.getElementById('labelKBLITerpilih').className = "text-muted";
+        document.getElementById('inputDeskripsiKBLI').value = "";
+        state.kodeKBLI = "";
+        state.namaKBLI = "";
+        muatSemuaKBLIGlobal();
+        perbaruiOpsiTujuanLingkungan();
+        return;
+      }
 
-      if (!state.sektor || typeof parseRawKBLI === 'undefined') {
-        area.innerHTML = "<div class='p-3 text-secondary small'>Silakan pilih Sektor KBLI terlebih dahulu.</div>";
+      if (typeof parseRawKBLI === 'undefined') {
+        area.innerHTML = "<div class='p-3 text-secondary small'>Sedang memuat data KBLI...</div>";
         return;
       }
 
       let list = parseRawKBLI(state.sektor);
       let html = "";
+      let escapedSektor = state.sektor.replace(/'/g, "\\'");
       list.forEach(item => {
         let arrow = (item.level < 5) ? '<span class="tree-node-arrow">▾</span> ' : '';
-        html += `<div class="tree-node tree-lvl-${item.level}" onclick="pilihItemKBLI('${item.text.replace(/'/g, "\'")}')">${arrow}${item.text}</div>`;
+        let escapedTeks = item.text.replace(/'/g, "\\'");
+        html += `<div class="tree-node tree-lvl-${item.level}" onclick="pilihItemKBLI('${escapedTeks}', '${escapedSektor}')">${arrow}${item.text}</div>`;
       });
       area.innerHTML = html;
+      perbaruiOpsiTujuanLingkungan();
     }
 
-    function filterPohonKBLI() {
-      let q = document.getElementById('cariInputKBLI').value.toLowerCase();
-      let nodes = document.querySelectorAll('#kontainerNodeKBLI .tree-node');
-      nodes.forEach(n => {
-        n.style.display = n.innerText.toLowerCase().includes(q) ? 'block' : 'none';
-      });
+    // Fungsi deteksi sektor otomatis jika debitur memilih KBLI langsung
+    function cariSektorOtomatisDariKBLI(teksKBLI) {
+      if (typeof parseRawKBLI === 'function') {
+        for (let s of DAFTAR_8_SEKTOR) {
+          let list = parseRawKBLI(s);
+          if (list && list.some(item => item.text === teksKBLI)) {
+            return s;
+          }
+        }
+      }
+      return "Manufaktur (IPPU)"; // Fallback standar jika tidak terpetakan
     }
 
-    function pilihItemKBLI(teks) {
+    // Ketika KBLI dipilih: Sektor otomatis terisi
+    function pilihItemKBLI(teks, sektorAsal) {
+      // 1. Tentukan Sektor & Auto-Select Dropdown Sektor
+      let sektorFinal = sektorAsal || state.sektor || cariSektorOtomatisDariKBLI(teks);
+      state.sektor = sektorFinal;
+      let elSelectSektor = document.getElementById('selectSektor');
+      if (elSelectSektor) {
+        elSelectSektor.value = sektorFinal;
+      }
+
+      // 2. Simpan identitas KBLI
       state.kodeKBLI = teks;
       let infoKBLI = (typeof dapatkanHierarkiDanDeskripsiKBLI === 'function')
         ? dapatkanHierarkiDanDeskripsiKBLI(state.sektor, teks)
-        : { sub: teks.replace(/^\d{3,5}\s*[-–:]\s*/, '').trim(), deskripsi: `Kelompok ini mencakup aktivitas usaha dan operasional yang sesuai dengan klasifikasi resmi ${teks} berdasarkan Taksonomi untuk Keuangan Berkelanjutan Indonesia (TKBI).` };
+        : { sub: teks.replace(/^\d{3,5}\s*[-–:]\s*/, '').trim(), deskripsi: `Kelompok ini mencakup aktivitas usaha dan operasional yang sesuai dengan klasifikasi resmi ${teks} berdasarkan Taksonomi Keuangan Berkelanjutan Indonesia (TKBI).` };
 
       state.namaKBLI = infoKBLI.sub || teks.replace(/^\d{3,5}\s*[-–:]\s*/, '').trim();
       state.deskripsiKBLI = infoKBLI.deskripsi;
 
+      // 3. Tampilkan di UI
       document.getElementById('labelKBLITerpilih').innerText = teks;
       document.getElementById('labelKBLITerpilih').className = "text-dark fw-bold";
       document.getElementById('inputDeskripsiKBLI').value = state.deskripsiKBLI;
@@ -1477,7 +1538,7 @@
     // =========================================================================
     // VALIDASI STEP 2 MENUJU STEP 3 (KUESIONER EMISI)
     // =========================================================================
-    function validasiDanLanjutStep3() {
+function validasiDanLanjutStep3() {
       let nama = document.getElementById('inputNamaInstitusi').value.trim();
       let cif = document.getElementById('inputCIF').value.trim();
       let pic = document.getElementById('inputPIC').value.trim();
@@ -1487,8 +1548,13 @@
       if (!nama) { alert("Nama Perusahaan / Institusi wajib diisi!"); return; }
       if (!cif) { alert("Nomor CIF wajib diisi!"); return; }
       if (!pic) { alert("Nama PIC & Jabatan wajib diisi!"); return; }
-      if (!sektor) { alert("Pilih Sektor KBLI terlebih dahulu!"); return; }
-      if (!state.kodeKBLI) { alert("Pilih aktivitas KBLI terlebih dahulu!"); return; }
+      if (!state.kodeKBLI) { alert("Pilih aktivitas KBLI 5-Digit terlebih dahulu!"); return; }
+      if (!sektor) { 
+        // Jika sektor belum terisi, coba deteksi otomatis
+        sektor = cariSektorOtomatisDariKBLI(state.kodeKBLI);
+        document.getElementById('selectSektor').value = sektor;
+        state.sektor = sektor;
+      }
       if (isNaN(karyawan) || karyawan < 1) { alert("Jumlah Karyawan Tetap wajib diisi angka positif!"); return; }
 
       state.namaInstitusi = nama;
@@ -2658,6 +2724,15 @@
       // Hitung total durasi waktu pengisian formulir oleh nasabah
       let durasiDetik = Math.round((new Date().getTime() - clientAuditInfo.waktuMulaiBuka) / 1000);
 
+      // Hitung total perjalanan Scope 3 (otomatis 0 jika kosong / belum ada)
+      let totalTripScope3 = 0;
+      let rincianRuteScope3 = "Tidak Ada Perjalanan Bisnis (0 Trip)";
+
+      if (state.scope3Trips && state.scope3Trips.length > 0) {
+        totalTripScope3 = state.scope3Trips.reduce((acc, c) => acc + (Number(c.trip) || 0), 0);
+        rincianRuteScope3 = state.scope3Trips.map(t => `${t.moda} (${t.kotaAsal} -> ${t.kotaTujuan}: ${t.trip} trip)`).join('; ');
+      }
+
       const payloadSimpan = {
         namaInstitusi: state.namaInstitusi,
         cif: state.cif,
@@ -2671,25 +2746,32 @@
         tujuanLingkungan: state.tujuanLingkungan,
         kebijakanGRK: state.kebijakanGRK,
         rencanaTransisi: state.rencanaTransisi,
-        strategiTransisi: state.strategiTransisi,
-        waktuInvestasi: state.waktuInvestasi,
-        nilaiInvestasi: state.nilaiInvestasi,
-        bensinLiter: state.bensinLiter,
-        bensinRp: state.bensinRp,
-        solarLiter: state.solarLiter,
-        solarRp: state.solarRp,
-        listrikKwh: state.listrikKwh,
-        listrikRp: state.listrikRp,
-        ebtKwh: state.ebtKwh,
-        ebtRp: state.ebtRp,
+        strategiTransisi: state.strategiTransisi || "-",
+        waktuInvestasi: state.waktuInvestasi || "-",
+        nilaiInvestasi: Number(state.nilaiInvestasi) || 0,
+        // EMISI SCOPE 1 (BBM) - Otomatis 0 jika kosong
+        bensinLiter: Number(state.bensinLiter) || 0,
+        bensinRp: Number(state.bensinRp) || 0,
+        solarLiter: Number(state.solarLiter) || 0,
+        solarRp: Number(state.solarRp) || 0,
+        // EMISI SCOPE 2 (LISTRIK & EBT) - Otomatis 0 jika kosong
+        listrikKwh: Number(state.listrikKwh) || 0,
+        listrikRp: Number(state.listrikRp) || 0,
+        ebtKwh: Number(state.ebtKwh) || 0,
+        ebtRp: Number(state.ebtRp) || 0,
+        // EMISI SCOPE 3 (PERJALANAN DINAS) - Otomatis 0 jika kosong / belum ada
+        jumlahTripScope3: totalTripScope3,
+        rincianRuteScope3: rincianRuteScope3,
         scope3Trips: state.scope3Trips,
+        // VALIDASI DATA
         verifikasiPihakKetiga: state.verifikasiPihakKetiga,
         lembagaVerifikator: state.lembagaVerifikator,
+        // HASIL SIMULASI TKBI
         hasilPenilaian: labelHasil,
         evaluasiDetail: `${state.jalurTSC} | ${state.jalurRMT}`,
         catatan: stringCatatanRapi,
         detailJawaban: detailJawabanList,
-        // FIELD FORENSIK AUDIT LOG NASABAH
+        // DATA AUDIT FORENSIK TEKNIS NASABAH
         clientIP: (typeof clientAuditInfo !== 'undefined') ? clientAuditInfo.ip : 'Direct / Intranet',
         userAgent: (typeof clientAuditInfo !== 'undefined') ? clientAuditInfo.userAgent : navigator.userAgent,
         deviceType: (typeof clientAuditInfo !== 'undefined') ? clientAuditInfo.deviceType : 'Desktop',
