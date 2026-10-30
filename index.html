@@ -196,7 +196,7 @@
         <p class="text-secondary small mb-3">Informasi mengenai komitmen perusahaan terhadap mitigasi perubahan iklim dan transisi rendah karbon.</p>
         
         <div class="mb-4">
-          <label class="form-label fw-bold">6. Apakah perusahaan memiliki kebijakan atau strategi terkait mitigasi perubahan iklim dan pengurangan emisi Gas Rumah Kaca (GRK)? (Multiple Choice) <span class="text-danger">*</span></label>
+          <label class="form-label fw-bold">Apakah perusahaan memiliki kebijakan atau strategi terkait mitigasi perubahan iklim dan pengurangan emisi Gas Rumah Kaca (GRK)? (Multiple Choice) <span class="text-danger">*</span></label>
           <div class="d-flex gap-4 my-2">
             <div class="form-check">
               <input class="form-check-input" type="radio" name="radioKebijakanGRK" id="kebijakan_tidak" value="Tidak" checked onchange="state.kebijakanGRK = this.value">
@@ -217,7 +217,7 @@
         </div>
 
         <div class="mb-3">
-          <label class="form-label fw-bold">7. Apakah perusahaan memiliki rencana transisi menuju ekonomi rendah karbon? (Multiple Choice) <span class="text-danger">*</span></label>
+          <label class="form-label fw-bold">Apakah perusahaan memiliki rencana transisi menuju ekonomi rendah karbon? (Multiple Choice) <span class="text-danger">*</span></label>
           <div class="d-flex gap-4 my-2">
             <div class="form-check">
               <input class="form-check-input" type="radio" name="radioRencanaTransisi" id="transisi_tidak" value="Tidak" checked onchange="toggleRencanaTransisiRadio(this.value)">
@@ -284,7 +284,7 @@
           <strong>📖 Petunjuk Pengisian Data Emisi Scope 1 & 2:</strong>
           <ul class="mb-0 ps-3 mt-1">
             <li><strong>Pilih yang Termudah:</strong> Cukup isi salah satu satuan yang tersedia (Volume/Energi ATAU Nilai Rupiah pertahun), atau isi keduanya jika ada data lengkap.</li>
-            <li><strong>Kosongkan Jika Tidak Ada:</strong> Apabila perusahaan <u>tidak menggunakan bensin, solar, atau belum memiliki EBT</u>, <strong>cukup biarkan kolom kosong (tidak perlu diisi)</strong>. Sistem otomatis mencatat nilai angka <strong>0</strong> di database spreadsheet.</li>
+            <li><strong>Kosongkan Jika Tidak Ada:</strong> Apabila perusahaan <u>tidak menggunakan bensin, solar, atau belum memiliki EBT</u>, <strong>cukup biarkan kolom kosong (tidak perlu diisi)</strong>.</li>
             <li><strong>Gunakan Estimasi:</strong> Jika data pasti satu tahun penuh tidak tersedia, gunakan rata-rata bulanan dikali 12.</li>
             <li><strong>Sumber Data:</strong> Laporan pembelian BBM kendaraan/genset dan tagihan listrik PLN bulanan.</li>
           </ul>
@@ -406,7 +406,7 @@
         <div class="form-check p-3 bg-light border rounded mb-3">
           <input class="form-check-input ms-0 me-2" type="checkbox" id="chkTidakAdaScope3" onchange="toggleTidakAdaScope3()">
           <label class="form-check-label fw-bold text-dark" for="chkTidakAdaScope3">
-            Centang jika perusahaan <u>BELUM ADA / TIDAK MEMILIKI</u> aktivitas perjalanan bisnis dinas dalam 1 tahun terakhir (Nilai Scope 3 = 0)
+            Centang jika perusahaan <u>BELUM ADA / TIDAK MEMILIKI</u> aktivitas perjalanan bisnis dinas dalam 1 tahun terakhir.
           </label>
         </div>
 
