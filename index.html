@@ -190,9 +190,9 @@
     <!-- STEP 3: KUESIONER EMISI & KEBIJAKAN LINGKUNGAN (POIN B S.D. E) -->
     <div id="viewStep3" style="display:none;">
       
-<!-- Bagian B: Kebijakan dan Strategi Lingkungan -->
+      <!-- Bagian B: Kebijakan dan Strategi Lingkungan -->
       <div class="card-ojk">
-        <h4 class="fw-bold text-danger mb-2"><i class="bi bi-compass me-2"></i>Kebijakan dan Strategi Lingkungan</h4>
+        <h4 class="fw-bold text-danger mb-2"><i class="bi bi-compass me-2"></i>B. Kebijakan dan Strategi Lingkungan</h4>
         <p class="text-secondary small mb-3">Informasi mengenai komitmen perusahaan terhadap mitigasi perubahan iklim dan transisi rendah karbon.</p>
         
         <div class="mb-4">
@@ -230,7 +230,7 @@
           </div>
         </div>
 
-        <!-- Rincian Poin B.7: Selalu tampak agar pertanyaan terbaca lengkap -->
+        <!-- Rincian Poin B.7: Selalu tampak agar tidak terlewat, aktif jika Ya -->
         <div id="boxDetailTransisi" class="p-3 bg-light rounded border mb-2">
           <div class="fw-bold text-dark mb-3 border-bottom pb-2">
             <i class="bi bi-card-text text-danger me-1"></i> Jika <strong>Ya</strong>, mohon jelaskan:
@@ -278,13 +278,14 @@
 
       <!-- Bagian C: Data Emisi Scope 1 & Scope 2 -->
       <div class="card-ojk">
-        <h4 class="fw-bold text-danger mb-2"><i class="bi bi-lightning-charge me-2"></i>Data Emisi Energi Operasional (Scope 1 & 2)</h4>
+        <h4 class="fw-bold text-danger mb-2"><i class="bi bi-lightning-charge me-2"></i>C. Data Emisi Energi Operasional (Scope 1 & 2)</h4>
         
         <div class="guidance-box">
-          <strong>📖 Petunjuk Pengisian:</strong>
+          <strong>📖 Petunjuk Pengisian Data Emisi Scope 1 & 2:</strong>
           <ul class="mb-0 ps-3 mt-1">
             <li><strong>Pilih yang Termudah:</strong> Cukup isi salah satu satuan yang tersedia (Volume/Energi ATAU Nilai Rupiah pertahun), atau isi keduanya jika ada data lengkap.</li>
-            <li><strong>Gunakan Estimasi:</strong> Gunakan data historis 1 tahun terakhir (Januari–Desember). Jika tidak ada, gunakan rata-rata bulanan dikali 12.</li>
+            <li><strong>Kosongkan Jika Tidak Ada:</strong> Apabila perusahaan <u>tidak menggunakan bensin, solar, atau belum memiliki EBT</u>, <strong>cukup biarkan kolom kosong (tidak perlu diisi)</strong>. Sistem otomatis mencatat nilai angka <strong>0</strong> di database spreadsheet.</li>
+            <li><strong>Gunakan Estimasi:</strong> Jika data pasti satu tahun penuh tidak tersedia, gunakan rata-rata bulanan dikali 12.</li>
             <li><strong>Sumber Data:</strong> Laporan pembelian BBM kendaraan/genset dan tagihan listrik PLN bulanan.</li>
           </ul>
         </div>
@@ -392,27 +393,37 @@
       <div class="card-ojk">
         <div class="d-flex justify-content-between align-items-center mb-2">
           <div>
-            <h4 class="fw-bold text-danger mb-0"><i class="bi bi-airplane me-2"></i>Data Emisi Scope 3 (Perjalanan Bisnis)</h4>
+            <h4 class="fw-bold text-danger mb-0"><i class="bi bi-airplane me-2"></i>D. Data Emisi Scope 3 (Perjalanan Bisnis)</h4>
             <div class="text-secondary small">Estimasi jumlah perjalanan dinas karyawan dalam 1 tahun terakhir.</div>
           </div>
         </div>
 
         <div class="guidance-box my-3">
-          Klik tombol <strong>"+ Tambah Rute Perjalanan"</strong> jika perusahaan melakukan perjalanan bisnis dinas dengan moda transportasi udara, laut, atau darat antarkota/luar negeri.
+          Sebutkan jumlah perjalanan, moda transportasi, serta pilih <strong>Kota Asal</strong> dan <strong>Kota / Negara Tujuan</strong>.
         </div>
 
-        <div id="wadahBarisScope3" class="scope3-container">
-          <!-- Baris dinamis akan di-render di sini oleh JavaScript -->
+        <!-- Opsi jika belum ada / tidak ada perjalanan bisnis -->
+        <div class="form-check p-3 bg-light border rounded mb-3">
+          <input class="form-check-input ms-0 me-2" type="checkbox" id="chkTidakAdaScope3" onchange="toggleTidakAdaScope3()">
+          <label class="form-check-label fw-bold text-dark" for="chkTidakAdaScope3">
+            Centang jika perusahaan <u>BELUM ADA / TIDAK MEMILIKI</u> aktivitas perjalanan bisnis dinas dalam 1 tahun terakhir (Nilai Scope 3 = 0)
+          </label>
         </div>
 
-        <button type="button" class="btn-add-row" onclick="tambahBarisScope3()">
-          <i class="bi bi-plus-circle-fill"></i> Tambah Rute Perjalanan Dinas
-        </button>
+        <div id="areaInputScope3Dinamis">
+          <div id="wadahBarisScope3" class="scope3-container">
+            <!-- Baris dinamis akan di-render di sini oleh JavaScript -->
+          </div>
+
+          <button type="button" class="btn-add-row" onclick="tambahBarisScope3()">
+            <i class="bi bi-plus-circle-fill"></i> Tambah Rute Perjalanan Dinas
+          </button>
+        </div>
       </div>
 
-<!-- Bagian E: Validasi Data -->
+      <!-- Bagian E: Validasi Data -->
       <div class="card-ojk">
-        <h4 class="fw-bold text-danger mb-2"><i class="bi bi-patch-check me-2"></i> Validasi Data</h4>
+        <h4 class="fw-bold text-danger mb-2"><i class="bi bi-patch-check me-2"></i>E. Validasi Data</h4>
         <div class="row g-3">
           <div class="col-12">
             <label class="form-label fw-bold">Apakah data emisi yang diberikan telah diverifikasi oleh pihak ketiga independen? (Multiple Choice) <span class="text-danger">*</span></label>
@@ -437,7 +448,7 @@
 
         <div class="d-flex justify-content-between mt-4">
           <button class="btn btn-back" onclick="navigasiStep(2)"><i class="bi bi-arrow-left me-2"></i>Kembali ke Data Diri</button>
-          <button class="btn btn-next" onclick="selesaikanKuesionerEmisi()">Simpan & Lanjutkan <i class="bi bi-arrow-right ms-2"></i></button>
+          <button class="btn btn-next" onclick="selesaikanKuesionerEmisi()">Simpan & Masuk Layar Selesai <i class="bi bi-arrow-right ms-2"></i></button>
         </div>
       </div>
 
@@ -747,6 +758,7 @@
     // KONFIGURASI BACKEND API APPS SCRIPT
     // =========================================================================
     const APPS_SCRIPT_URL = "https://script.google.com/macros/s/AKfycbwYGmiORqhD3wttROtczvBXmJgkIPW1IQk4GCJB9fvW4O7iQAaANMR4NO2o0_ldJ4gb/exec";
+
     // =========================================================================
     // AUDIT LOG COLLECTOR (IP, USER AGENT, TIPE PERANGKAT & DURASI)
     // =========================================================================
@@ -762,6 +774,7 @@
       .then(res => res.json())
       .then(data => { if (data && data.ip) clientAuditInfo.ip = data.ip; })
       .catch(() => { clientAuditInfo.ip = "Direct / Intranet"; });
+
 
     const state = {
       step: 0,
@@ -856,7 +869,7 @@
       }
     };
 
-const BANK_DNSH_EO = {
+    const BANK_DNSH_EO = {
       EO1: {
         judul: "Kriteria DNSH EO1",
         petunjuk: "Memenuhi kriteria berikut:",
@@ -945,6 +958,8 @@ const BANK_DNSH_EO = {
       if (document.querySelectorAll('.scope3-row-card').length === 0) {
         tambahBarisScope3(); // Berikan 1 baris awal
       }
+      toggleRencanaTransisiRadio('Tidak');
+      toggleLembagaVerifikasiRadio('Tidak');
     });
 
     function inisialisasiSektorDefault() {
@@ -997,7 +1012,6 @@ const BANK_DNSH_EO = {
       let raw = el.value.replace(/\D/g, '');
       let base = parseInt(raw, 10) || 1;
       
-      // Jika angka sebelumnya sudah sangat besar karena perkalian, sederhanakan ke base semula
       if (base >= 1000000000000) base = Math.round(base / 1000000000000);
       else if (base >= 1000000000) base = Math.round(base / 1000000000);
       else if (base >= 1000000) base = Math.round(base / 1000000);
@@ -1017,42 +1031,82 @@ const BANK_DNSH_EO = {
       if (prevEl) prevEl.innerText = "";
     }
 
-    function toggleRencanaTransisi() {
-      let val = document.getElementById('selectRencanaTransisi').value;
-      document.getElementById('boxDetailTransisi').style.display = (val === 'Ya') ? 'block' : 'none';
+    function toggleRencanaTransisiRadio(val) {
+      state.rencanaTransisi = val;
+      let box = document.getElementById('boxDetailTransisi');
+      if (val === 'Ya') {
+        box.style.opacity = '1';
+        box.querySelectorAll('input, select, textarea').forEach(el => el.disabled = false);
+      } else {
+        box.style.opacity = '0.6';
+        box.querySelectorAll('input, select, textarea').forEach(el => el.disabled = true);
+      }
     }
 
-    function toggleLembagaVerifikasi() {
-      let val = document.getElementById('selectVerifikasi').value;
-      document.getElementById('boxLembagaVerifikasi').style.display = (val === 'Ya') ? 'block' : 'none';
+    function toggleLembagaVerifikasiRadio(val) {
+      state.verifikasiPihakKetiga = val;
+      let inp = document.getElementById('inputLembagaVerifikasi');
+      if (val === 'Ya') {
+        inp.disabled = false;
+        inp.focus();
+      } else {
+        inp.disabled = true;
+        inp.value = '';
+      }
     }
 
     // =========================================================================
     // FITUR DINAMIS SCOPE 3: TAMBAH & HAPUS BARIS
     // =========================================================================
-    const DAFTAR_KOTA_RUTE = [
-      "Jakarta - Surabaya",
-      "Jakarta - Bandung",
-      "Jakarta - Medan",
-      "Jakarta - Semarang",
-      "Jakarta - Makassar",
-      "Jakarta - Denpasar (Bali)",
-      "Jakarta - Palembang",
-      "Jakarta - Balikpapan",
-      "Jakarta - Batam",
-      "Jakarta - Yogyakarta",
-      "Surabaya - Makassar",
-      "Surabaya - Denpasar",
-      "Medan - Banda Aceh",
-      "Balikpapan - Samarinda",
-      "Jakarta - Singapura (ASEAN)",
-      "Jakarta - Kuala Lumpur (ASEAN)",
-      "Jakarta - Bangkok (ASEAN)",
-      "Jakarta - Manila (ASEAN)",
-      "Jakarta - Hanoi/HCMC (ASEAN)",
-      "Rute Lainnya (Domestik)",
-      "Rute Lainnya (Luar Negeri)"
+    const DAFTAR_KOTA_INDONESIA = [
+      "DKI Jakarta", "Bogor", "Depok", "Tangerang", "Tangerang Selatan", "Bekasi", 
+      "Bandung", "Cimahi", "Cirebon", "Sukabumi", "Tasikmalaya", "Karawang", "Purwakarta",
+      "Semarang", "Surakarta (Solo)", "Yogyakarta", "Magelang", "Pekalongan", "Salatiga", "Tegal", "Kudus", "Purwokerto",
+      "Surabaya", "Malang", "Sidoarjo", "Gresik", "Kediri", "Blitar", "Madiun", "Mojokerto", "Pasuruan", "Probolinggo", "Batu", "Banyuwangi", "Jember",
+      "Serang", "Cilegon",
+      "Denpasar (Bali)", "Badung / Kuta (Bali)", "Mataram (Lombok)", "Kupang", "Labuan Bajo", "Bima",
+      "Banda Aceh", "Medan", "Binjai", "Pematangsiantar", "Tebing Tinggi", "Padang", "Bukittinggi", 
+      "Pekanbaru", "Dumai", "Batam", "Tanjungpinang", "Jambi", "Palembang", "Prabumulih", "Lubuklinggau", 
+      "Bengkulu", "Bandar Lampung", "Metro", "Pangkalpinang", "Tanjung Pandan (Belitung)",
+      "Pontianak", "Singkawang", "Banjarmasin", "Banjarbaru", "Palangka Raya", "Samarinda", "Balikpapan", "Bontang", "Tarakan", "IKN (Nusantara)",
+      "Makassar", "Parepare", "Palopo", "Manado", "Bitung", "Tomohon", "Palu", "Kendari", "Bau-Bau", "Gorontalo", "Mamuju",
+      "Ambon", "Tual", "Ternate", "Tidore", "Jayapura", "Sorong", "Manokwari", "Merauke", "Timika", "Biak",
+      "Kota Lainnya (Domestik Indonesia)"
     ];
+
+    const DAFTAR_NEGARA_ASEAN = [
+      "Singapura (Singapore)",
+      "Malaysia (Kuala Lumpur)",
+      "Malaysia (Penang / Johor / Sabah)",
+      "Thailand (Bangkok)",
+      "Thailand (Phuket / Chiang Mai)",
+      "Filipina (Manila)",
+      "Filipina (Cebu)",
+      "Vietnam (Hanoi)",
+      "Vietnam (Ho Chi Minh City)",
+      "Kamboja (Phnom Penh)",
+      "Kamboja (Siem Reap)",
+      "Brunei Darussalam (Bandar Seri Begawan)",
+      "Laos (Vientiane)",
+      "Myanmar (Yangon / Naypyidaw)",
+      "Timor Leste (Dili)",
+      "Negara Lainnya (Asia / Internasional)"
+    ];
+
+    function toggleTidakAdaScope3() {
+      let chk = document.getElementById('chkTidakAdaScope3');
+      let area = document.getElementById('areaInputScope3Dinamis');
+      if (chk && chk.checked) {
+        if (area) area.style.display = 'none';
+      } else {
+        if (area) {
+          area.style.display = 'block';
+          if (document.querySelectorAll('.scope3-row-card').length === 0) {
+            tambahBarisScope3();
+          }
+        }
+      }
+    }
 
     function tambahBarisScope3() {
       let wadah = document.getElementById('wadahBarisScope3');
@@ -1061,22 +1115,41 @@ const BANK_DNSH_EO = {
       card.className = "scope3-row-card";
       card.id = rowId;
 
-      let ruteOptions = DAFTAR_KOTA_RUTE.map(r => `<option value="${r}">${r}</option>`).join('');
+      let optionsAsal = DAFTAR_KOTA_INDONESIA.map(k => `<option value="${k}" ${k==='DKI Jakarta'?'selected':''}>${k}</option>`).join('');
+
+      let optionsTujuanIndo = DAFTAR_KOTA_INDONESIA.map(k => `<option value="${k}" ${k==='Surabaya'?'selected':''}>${k}</option>`).join('');
+      let optionsTujuanAsean = DAFTAR_NEGARA_ASEAN.map(n => `<option value="${n}">${n}</option>`).join('');
+
+      let optionsTujuan = `
+        <optgroup label="--- Destinasi Domestik (Indonesia) ---">
+          ${optionsTujuanIndo}
+        </optgroup>
+        <optgroup label="--- Destinasi Asia Tenggara (ASEAN) & Luar Negeri ---">
+          ${optionsTujuanAsean}
+        </optgroup>
+      `;
 
       card.innerHTML = `
         <div class="row g-2 align-items-center">
-          <div class="col-md-4">
+          <div class="col-md-3">
             <label class="small text-secondary fw-semibold">Moda Transportasi:</label>
             <select class="form-select form-select-sm scope3-moda">
               <option value="Transportasi Udara - Pesawat">Transportasi Udara - Pesawat</option>
               <option value="Transportasi Laut - Kapal (ferry/laut)">Transportasi Laut - Kapal (ferry/laut)</option>
               <option value="Transportasi Darat - Bus/Travel">Transportasi Darat - Bus/Travel</option>
+              <option value="Transportasi Kereta Api">Transportasi Kereta Api</option>
             </select>
           </div>
-          <div class="col-md-5">
-            <label class="small text-secondary fw-semibold">Rute / Kota Tujuan:</label>
-            <select class="form-select form-select-sm scope3-rute">
-              ${ruteOptions}
+          <div class="col-md-3">
+            <label class="small text-secondary fw-semibold">Kota Asal (Indonesia):</label>
+            <select class="form-select form-select-sm scope3-asal">
+              ${optionsAsal}
+            </select>
+          </div>
+          <div class="col-md-3">
+            <label class="small text-secondary fw-semibold">Kota / Negara Tujuan:</label>
+            <select class="form-select form-select-sm scope3-tujuan">
+              ${optionsTujuan}
             </select>
           </div>
           <div class="col-md-2">
@@ -1099,19 +1172,36 @@ const BANK_DNSH_EO = {
     }
 
     function getDaftarScope3Data() {
+      let chk = document.getElementById('chkTidakAdaScope3');
+      if (chk && chk.checked) {
+        return [];
+      }
       let list = [];
       document.querySelectorAll('.scope3-row-card').forEach(card => {
-        let moda = card.querySelector('.scope3-moda').value;
-        let rute = card.querySelector('.scope3-rute').value;
-        let trip = parseInt(card.querySelector('.scope3-trip').value, 10) || 0;
-        if (trip > 0) {
-          list.push({ moda: moda, rute: rute, trip: trip });
+        let elModa = card.querySelector('.scope3-moda');
+        let elAsal = card.querySelector('.scope3-asal');
+        let elTujuan = card.querySelector('.scope3-tujuan');
+        let elTrip = card.querySelector('.scope3-trip');
+
+        if (elModa && elAsal && elTujuan && elTrip) {
+          let moda = elModa.value;
+          let asal = elAsal.value;
+          let tujuan = elTujuan.value;
+          let trip = parseInt(elTrip.value, 10) || 0;
+          if (trip > 0) {
+            list.push({
+              moda: moda,
+              kotaAsal: asal,
+              kotaTujuan: tujuan,
+              rute: `${asal} - ${tujuan}`,
+              trip: trip
+            });
+          }
         }
       });
       return list;
     }
 
-    // =========================================================================
     // NAVIGASI STEP & WORKFLOW
     // =========================================================================
     function bersihkanSemuaDataFormulir() {
@@ -1248,7 +1338,7 @@ const BANK_DNSH_EO = {
       let html = "";
       list.forEach(item => {
         let arrow = (item.level < 5) ? '<span class="tree-node-arrow">▾</span> ' : '';
-        html += `<div class="tree-node tree-lvl-${item.level}" onclick="pilihItemKBLI('${item.text.replace(/'/g, "\\'")}')">${arrow}${item.text}</div>`;
+        html += `<div class="tree-node tree-lvl-${item.level}" onclick="pilihItemKBLI('${item.text.replace(/'/g, "\'")}')">${arrow}${item.text}</div>`;
       });
       area.innerHTML = html;
     }
@@ -1416,75 +1506,38 @@ const BANK_DNSH_EO = {
     // =========================================================================
     // SIMPAN DATA STEP 3 MENUJU STEP 4 (LAYAR SELESAI EMISI)
     // =========================================================================
-function selesaikanKuesionerEmisi() {
-      try {
-        state.kebijakanGRK = document.querySelector('input[name="radioKebijakanGRK"]:checked')?.value || "Tidak";
-        state.rencanaTransisi = document.querySelector('input[name="radioRencanaTransisi"]:checked')?.value || "Tidak";
-        
-        let elStrategi = document.getElementById('inputStrategiTransisi');
-        state.strategiTransisi = elStrategi ? elStrategi.value.trim() : "-";
-        
-        let elWaktu = document.getElementById('selectWaktuInvestasi');
-        state.waktuInvestasi = elWaktu ? elWaktu.value : "1–3 tahun";
-        
-        let elNilai = document.getElementById('inputNilaiInvestasi');
-        state.nilaiInvestasi = elNilai ? (parseInt(elNilai.value.replace(/\D/g, ''), 10) || 0) : 0;
+    function selesaikanKuesionerEmisi() {
+      state.kebijakanGRK = document.querySelector('input[name="radioKebijakanGRK"]:checked')?.value || "Tidak";
+      state.rencanaTransisi = document.querySelector('input[name="radioRencanaTransisi"]:checked')?.value || "Tidak";
+      state.strategiTransisi = document.getElementById('inputStrategiTransisi').value.trim();
+      state.waktuInvestasi = document.getElementById('selectWaktuInvestasi').value;
+      state.nilaiInvestasi = parseInt(document.getElementById('inputNilaiInvestasi').value.replace(/\D/g, ''), 10) || 0;
 
-        let elBensinL = document.getElementById('inputBensinLiter');
-        state.bensinLiter = elBensinL ? (parseInt(elBensinL.value.replace(/\D/g, ''), 10) || 0) : 0;
+      state.bensinLiter = parseInt(document.getElementById('inputBensinLiter').value.replace(/\D/g, ''), 10) || 0;
+      state.bensinRp = parseInt(document.getElementById('inputBensinRp').value.replace(/\D/g, ''), 10) || 0;
+      state.solarLiter = parseInt(document.getElementById('inputSolarLiter').value.replace(/\D/g, ''), 10) || 0;
+      state.solarRp = parseInt(document.getElementById('inputSolarRp').value.replace(/\D/g, ''), 10) || 0;
 
-        let elBensinRp = document.getElementById('inputBensinRp');
-        state.bensinRp = elBensinRp ? (parseInt(elBensinRp.value.replace(/\D/g, ''), 10) || 0) : 0;
+      state.listrikKwh = parseInt(document.getElementById('inputListrikKwh').value.replace(/\D/g, ''), 10) || 0;
+      state.listrikRp = parseInt(document.getElementById('inputListrikRp').value.replace(/\D/g, ''), 10) || 0;
+      state.ebtKwh = parseInt(document.getElementById('inputEbtKwh').value.replace(/\D/g, ''), 10) || 0;
+      state.ebtRp = parseInt(document.getElementById('inputEbtRp').value.replace(/\D/g, ''), 10) || 0;
 
-        let elSolarL = document.getElementById('inputSolarLiter');
-        state.solarLiter = elSolarL ? (parseInt(elSolarL.value.replace(/\D/g, ''), 10) || 0) : 0;
+      state.scope3Trips = getDaftarScope3Data();
 
-        let elSolarRp = document.getElementById('inputSolarRp');
-        state.solarRp = elSolarRp ? (parseInt(elSolarRp.value.replace(/\D/g, ''), 10) || 0) : 0;
+      state.verifikasiPihakKetiga = document.querySelector('input[name="radioVerifikasi"]:checked')?.value || "Tidak";
+      state.lembagaVerifikator = (state.verifikasiPihakKetiga === "Ya")
+        ? (document.getElementById('inputLembagaVerifikasi').value.trim() || "Sucofindo")
+        : "-";
 
-        let elListrikKwh = document.getElementById('inputListrikKwh');
-        state.listrikKwh = elListrikKwh ? (parseInt(elListrikKwh.value.replace(/\D/g, ''), 10) || 0) : 0;
+      // Isi nilai kartu transisi di Step 4
+      document.getElementById('transfNamaCIF').innerText = `${state.namaInstitusi} (${state.cif})`;
+      document.getElementById('transfSektorKBLI').innerText = `${state.sektor} - ${state.kodeKBLI}`;
+      document.getElementById('transfScope1').innerText = `Bensin: ${state.bensinLiter.toLocaleString()} L | Solar: ${state.solarLiter.toLocaleString()} L`;
+      document.getElementById('transfScope2').innerText = `Listrik PLN: ${state.listrikKwh.toLocaleString()} kWh | EBT: ${state.ebtKwh.toLocaleString()} kWh`;
+      document.getElementById('transfScope3').innerText = (state.scope3Trips.length === 0) ? 'Belum Ada / Tidak Ada (0 Trip)' : `${state.scope3Trips.length} Rute Terdata (${state.scope3Trips.reduce((acc, c) => acc + c.trip, 0)} Total Trip)`;
 
-        let elListrikRp = document.getElementById('inputListrikRp');
-        state.listrikRp = elListrikRp ? (parseInt(elListrikRp.value.replace(/\D/g, ''), 10) || 0) : 0;
-
-        let elEbtKwh = document.getElementById('inputEbtKwh');
-        state.ebtKwh = elEbtKwh ? (parseInt(elEbtKwh.value.replace(/\D/g, ''), 10) || 0) : 0;
-
-        let elEbtRp = document.getElementById('inputEbtRp');
-        state.ebtRp = elEbtRp ? (parseInt(elEbtRp.value.replace(/\D/g, ''), 10) || 0) : 0;
-
-        if (typeof getDaftarScope3Data === 'function') {
-          state.scope3Trips = getDaftarScope3Data();
-        }
-
-        state.verifikasiPihakKetiga = document.querySelector('input[name="radioVerifikasi"]:checked')?.value || "Tidak";
-        let elLembaga = document.getElementById('inputLembagaVerifikasi');
-        state.lembagaVerifikator = (state.verifikasiPihakKetiga === "Ya" && elLembaga)
-          ? (elLembaga.value.trim() || "Sucofindo")
-          : "-";
-
-        // Tampilkan ringkasan pada kartu transisi Step 4
-        let elTransfNama = document.getElementById('transfNamaCIF');
-        if (elTransfNama) elTransfNama.innerText = `${state.namaInstitusi || '-'} (${state.cif || '-'})`;
-
-        let elTransfSektor = document.getElementById('transfSektorKBLI');
-        if (elTransfSektor) elTransfSektor.innerText = `${state.sektor || '-'} - ${state.kodeKBLI || '-'}`;
-
-        let elTransfScope1 = document.getElementById('transfScope1');
-        if (elTransfScope1) elTransfScope1.innerText = `Bensin: ${state.bensinLiter.toLocaleString()} L | Solar: ${state.solarLiter.toLocaleString()} L`;
-
-        let elTransfScope2 = document.getElementById('transfScope2');
-        if (elTransfScope2) elTransfScope2.innerText = `Listrik PLN: ${state.listrikKwh.toLocaleString()} kWh | EBT: ${state.ebtKwh.toLocaleString()} kWh`;
-
-        let elTransfScope3 = document.getElementById('transfScope3');
-        if (elTransfScope3) elTransfScope3.innerText = `${state.scope3Trips.length} Rute Perjalanan Terdata`;
-
-        navigasiStep(4);
-      } catch (err) {
-        console.error("Gagal memproses emisi, tetap lanjut ke layar transisi:", err);
-        navigasiStep(4);
-      }
+      navigasiStep(4);
     }
 
     // =========================================================================
@@ -2383,7 +2436,7 @@ function selesaikanKuesionerEmisi() {
         : "Tidak";
       document.getElementById('resScope1').innerText = `Bensin: ${state.bensinLiter.toLocaleString()} L (${formatRupiahDisplay(state.bensinRp)}) | Solar: ${state.solarLiter.toLocaleString()} L (${formatRupiahDisplay(state.solarRp)})`;
       document.getElementById('resScope2').innerText = `Listrik PLN: ${state.listrikKwh.toLocaleString()} kWh (${formatRupiahDisplay(state.listrikRp)}) | EBT: ${state.ebtKwh.toLocaleString()} kWh (${formatRupiahDisplay(state.ebtRp)})`;
-      document.getElementById('resScope3').innerText = `${state.scope3Trips.length} Rute Terdata (${state.scope3Trips.reduce((acc, c) => acc + c.trip, 0)} Total Trip)`;
+      document.getElementById('resScope3').innerText = (state.scope3Trips.length === 0) ? 'Belum Ada / Tidak Ada (0 Trip)' : `${state.scope3Trips.length} Rute Terdata (${state.scope3Trips.reduce((acc, c) => acc + c.trip, 0)} Total Trip)`;
       document.getElementById('resVerifikasi').innerText = (state.verifikasiPihakKetiga === "Ya")
         ? `Ya (${state.lembagaVerifikator})`
         : "Tidak";
@@ -2636,10 +2689,10 @@ function selesaikanKuesionerEmisi() {
         evaluasiDetail: `${state.jalurTSC} | ${state.jalurRMT}`,
         catatan: stringCatatanRapi,
         detailJawaban: detailJawabanList,
-        // FIELD BARU: FORENSIK AUDIT LOG NASABAH
-        clientIP: clientAuditInfo.ip,
-        userAgent: clientAuditInfo.userAgent,
-        deviceType: clientAuditInfo.deviceType,
+        // FIELD FORENSIK AUDIT LOG NASABAH
+        clientIP: (typeof clientAuditInfo !== 'undefined') ? clientAuditInfo.ip : 'Direct / Intranet',
+        userAgent: (typeof clientAuditInfo !== 'undefined') ? clientAuditInfo.userAgent : navigator.userAgent,
+        deviceType: (typeof clientAuditInfo !== 'undefined') ? clientAuditInfo.deviceType : 'Desktop',
         durasiPengisian: durasiDetik + " detik"
       };
 
@@ -2967,7 +3020,7 @@ function selesaikanKuesionerEmisi() {
             <tr><td style="color:#475569; padding: 4px 0; border-bottom:1px solid #f1f5f9;">Rencana Transisi & Investasi</td><td style="border-bottom:1px solid #f1f5f9;">:</td><td style="padding: 4px 0; border-bottom:1px solid #f1f5f9;">${state.rencanaTransisi === 'Ya' ? formatRupiahDisplay(state.nilaiInvestasi) + ' (' + state.waktuInvestasi + ')' : 'Tidak'}</td></tr>
             <tr><td style="color:#475569; padding: 4px 0; border-bottom:1px solid #f1f5f9;">Scope 1 (Bensin & Solar)</td><td style="border-bottom:1px solid #f1f5f9;">:</td><td style="padding: 4px 0; border-bottom:1px solid #f1f5f9;">Bensin: ${state.bensinLiter.toLocaleString()} L | Solar: ${state.solarLiter.toLocaleString()} L</td></tr>
             <tr><td style="color:#475569; padding: 4px 0; border-bottom:1px solid #f1f5f9;">Scope 2 (Listrik PLN & EBT)</td><td style="border-bottom:1px solid #f1f5f9;">:</td><td style="padding: 4px 0; border-bottom:1px solid #f1f5f9;">PLN: ${state.listrikKwh.toLocaleString()} kWh | EBT: ${state.ebtKwh.toLocaleString()} kWh</td></tr>
-            <tr><td style="color:#475569; padding: 4px 0; border-bottom:1px solid #f1f5f9;">Scope 3 (Perjalanan Bisnis)</td><td style="border-bottom:1px solid #f1f5f9;">:</td><td style="padding: 4px 0; border-bottom:1px solid #f1f5f9;">${state.scope3Trips.length} Rute Terdata (${state.scope3Trips.reduce((acc, c) => acc + c.trip, 0)} Total Trip)</td></tr>
+            <tr><td style="color:#475569; padding: 4px 0; border-bottom:1px solid #f1f5f9;">Scope 3 (Perjalanan Bisnis)</td><td style="border-bottom:1px solid #f1f5f9;">:</td><td style="padding: 4px 0; border-bottom:1px solid #f1f5f9;">${(state.scope3Trips.length === 0) ? 'Belum Ada / Tidak Ada (0 Trip)' : state.scope3Trips.length + ' Rute Terdata (' + state.scope3Trips.reduce((acc, c) => acc + c.trip, 0) + ' Total Trip)'}</td></tr>
             <tr><td style="color:#475569; padding: 4px 0;">Verifikasi Pihak Ketiga</td><td>:</td><td style="padding: 4px 0;">${state.verifikasiPihakKetiga === 'Ya' ? 'Tervalidasi (' + state.lembagaVerifikator + ')' : 'Belum Diverifikasi'}</td></tr>
           </table>
 
