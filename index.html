@@ -196,7 +196,7 @@
         <p class="text-secondary small mb-3">Informasi mengenai komitmen perusahaan terhadap mitigasi perubahan iklim dan transisi rendah karbon.</p>
         
         <div class="mb-4">
-          <label class="form-label fw-bold">Apakah perusahaan memiliki kebijakan atau strategi terkait mitigasi perubahan iklim dan pengurangan emisi Gas Rumah Kaca (GRK)? (Multiple Choice) <span class="text-danger">*</span></label>
+          <label class="form-label fw-bold">6. Apakah perusahaan memiliki kebijakan atau strategi terkait mitigasi perubahan iklim dan pengurangan emisi Gas Rumah Kaca (GRK)? (Multiple Choice) <span class="text-danger">*</span></label>
           <div class="d-flex gap-4 my-2">
             <div class="form-check">
               <input class="form-check-input" type="radio" name="radioKebijakanGRK" id="kebijakan_tidak" value="Tidak" checked onchange="state.kebijakanGRK = this.value">
@@ -217,7 +217,7 @@
         </div>
 
         <div class="mb-3">
-          <label class="form-label fw-bold">Apakah perusahaan memiliki rencana transisi menuju ekonomi rendah karbon? (Multiple Choice) <span class="text-danger">*</span></label>
+          <label class="form-label fw-bold">7. Apakah perusahaan memiliki rencana transisi menuju ekonomi rendah karbon? (Multiple Choice) <span class="text-danger">*</span></label>
           <div class="d-flex gap-4 my-2">
             <div class="form-check">
               <input class="form-check-input" type="radio" name="radioRencanaTransisi" id="transisi_tidak" value="Tidak" checked onchange="toggleRencanaTransisiRadio(this.value)">
@@ -284,7 +284,7 @@
           <strong>📖 Petunjuk Pengisian Data Emisi Scope 1 & 2:</strong>
           <ul class="mb-0 ps-3 mt-1">
             <li><strong>Pilih yang Termudah:</strong> Cukup isi salah satu satuan yang tersedia (Volume/Energi ATAU Nilai Rupiah pertahun), atau isi keduanya jika ada data lengkap.</li>
-            <li><strong>Kosongkan Jika Tidak Ada:</strong> Apabila perusahaan <u>tidak menggunakan bensin, solar, atau belum memiliki EBT</u>, <strong>cukup biarkan kolom kosong (tidak perlu diisi)</strong>.</li>
+            <li><strong>Kosongkan Jika Tidak Ada:</strong> Apabila perusahaan <u>tidak menggunakan bensin, solar, atau belum memiliki EBT</u>, <strong>cukup biarkan kolom kosong (tidak perlu diisi)</strong>. Sistem otomatis mencatat nilai angka <strong>0</strong> di database spreadsheet.</li>
             <li><strong>Gunakan Estimasi:</strong> Jika data pasti satu tahun penuh tidak tersedia, gunakan rata-rata bulanan dikali 12.</li>
             <li><strong>Sumber Data:</strong> Laporan pembelian BBM kendaraan/genset dan tagihan listrik PLN bulanan.</li>
           </ul>
@@ -406,7 +406,7 @@
         <div class="form-check p-3 bg-light border rounded mb-3">
           <input class="form-check-input ms-0 me-2" type="checkbox" id="chkTidakAdaScope3" onchange="toggleTidakAdaScope3()">
           <label class="form-check-label fw-bold text-dark" for="chkTidakAdaScope3">
-            Centang jika perusahaan <u>BELUM ADA / TIDAK MEMILIKI</u> aktivitas perjalanan bisnis dinas dalam 1 tahun terakhir.
+            Centang jika perusahaan <u>BELUM ADA / TIDAK MEMILIKI</u> aktivitas perjalanan bisnis dinas dalam 1 tahun terakhir (Nilai Scope 3 = 0)
           </label>
         </div>
 
@@ -1301,12 +1301,7 @@
       window.scrollTo({ top: 0, behavior: 'smooth' });
     }
 
-// =========================================================================
-    // LOGIKA KBLI & AUTO-SELECT SEKTOR (TWO-WAY BINDING)
-    // =========================================================================
-    
-    // Daftar 8 Sektor Resmi Bank Jago / TKBI
-    const DAFTAR_8_SEKTOR = [
+    const DAFTAR_8_SEKTOR_MASTER = [
       "Energi",
       "Konstruksi dan Real Estate (C&RE)",
       "Pengangkutan dan Pergudangan (T&S)",
@@ -1317,110 +1312,137 @@
       "Pengelolaan Air, Pengelolaan Air Limbah, Pengelolaan Sampah, dan Remediasi (WSSWMR)"
     ];
 
-    // Debitur bisa langsung buka KBLI tanpa harus pilih sektor terlebih dahulu
+    function cariSektorDariKBLI(teksKBLI) {
+      if (typeof parseRawKBLI === 'undefined') return "";
+      for (let s of DAFTAR_8_SEKTOR_MASTER) {
+        let list = parseRawKBLI(s);
+        if (list && list.some(item => item.text === teksKBLI)) {
+          return s;
+        }
+      }
+      return "";
+    }
+
     function toggleKBLIDropdown() {
       let dd = document.getElementById('dropdownPohonKBLI');
-      let isOpen = (dd.style.display === 'block');
-      
-      if (!isOpen) {
-        // Jika sektor belum dipilih, tampilkan database KBLI seluruh sektor
-        if (!document.getElementById('selectSektor').value) {
-          muatSemuaKBLIGlobal();
+      if (!dd) return;
+      let isOpening = (dd.style.display !== 'block');
+      if (isOpening) {
+        let selVal = document.getElementById('selectSektor').value;
+        let kontainer = document.getElementById('kontainerNodeKBLI');
+        if (!selVal || (kontainer && kontainer.innerHTML.trim() === "")) {
+          muatSemuaKBLI();
         }
         dd.style.display = 'block';
+        let inp = document.getElementById('cariInputKBLI');
+        if (inp) {
+          setTimeout(() => inp.focus(), 100);
+        }
       } else {
         dd.style.display = 'none';
       }
     }
 
-    // Memuat seluruh KBLI dari 8 sektor jika debitur belum memilih sektor
-    function muatSemuaKBLIGlobal() {
+    document.addEventListener('click', function(e) {
+      let box = document.getElementById('boxKBLIDisplay');
+      let dd = document.getElementById('dropdownPohonKBLI');
+      if (box && dd && !box.contains(e.target) && !dd.contains(e.target)) {
+        dd.style.display = 'none';
+      }
+    });
+
+    function muatSemuaKBLI() {
       let area = document.getElementById('kontainerNodeKBLI');
-      if (!area || typeof parseRawKBLI === 'undefined') return;
+      if (!area) return;
+      if (typeof parseRawKBLI === 'undefined') {
+        area.innerHTML = "<div class='p-3 text-secondary small'>Data KBLI sedang dimuat...</div>";
+        return;
+      }
 
       let html = "";
-      DAFTAR_8_SEKTOR.forEach(sektorName => {
+      DAFTAR_8_SEKTOR_MASTER.forEach(sektorName => {
         let list = parseRawKBLI(sektorName);
         if (list && list.length > 0) {
-          html += `<div class="p-2 bg-light fw-bold text-danger border-bottom border-top small"><i class="bi bi-tag-fill me-1"></i> Sektor: ${sektorName}</div>`;
+          html += `<div class="kbli-sector-group-header p-2 bg-light fw-bold text-danger border-bottom small"><i class="bi bi-folder2-open me-1"></i>Sektor: ${sektorName}</div>`;
           list.forEach(item => {
             let arrow = (item.level < 5) ? '<span class="tree-node-arrow">▾</span> ' : '';
-            let escapedTeks = item.text.replace(/'/g, "\\'");
-            let escapedSektor = sektorName.replace(/'/g, "\\'");
-            html += `<div class="tree-node tree-lvl-${item.level}" onclick="pilihItemKBLI('${escapedTeks}', '${escapedSektor}')">${arrow}${item.text}</div>`;
+            html += `<div class="tree-node tree-lvl-${item.level}" data-kbli="${encodeURIComponent(item.text)}" data-sektor="${encodeURIComponent(sektorName)}" onclick="handleKBLIClick(this)">${arrow}${item.text}</div>`;
           });
         }
       });
       area.innerHTML = html;
     }
 
-    // Jika debitur memilih sektor terlebih dahulu, filter KBLI sesuai sektor tersebut
     function muatPohonKBLISektor() {
       state.sektor = document.getElementById('selectSektor').value;
       let area = document.getElementById('kontainerNodeKBLI');
+      document.getElementById('labelKBLITerpilih').innerText = "Pilih KBLI";
+      document.getElementById('labelKBLITerpilih').className = "text-muted";
+      document.getElementById('inputDeskripsiKBLI').value = "";
+      state.kodeKBLI = "";
+      state.namaKBLI = "";
 
-      // Jika sektor direset ke kosong, muat semua KBLI
+      perbaruiOpsiTujuanLingkungan();
+
       if (!state.sektor) {
-        document.getElementById('labelKBLITerpilih').innerText = "Pilih KBLI";
-        document.getElementById('labelKBLITerpilih').className = "text-muted";
-        document.getElementById('inputDeskripsiKBLI').value = "";
-        state.kodeKBLI = "";
-        state.namaKBLI = "";
-        muatSemuaKBLIGlobal();
-        perbaruiOpsiTujuanLingkungan();
+        muatSemuaKBLI();
         return;
       }
 
       if (typeof parseRawKBLI === 'undefined') {
-        area.innerHTML = "<div class='p-3 text-secondary small'>Sedang memuat data KBLI...</div>";
+        area.innerHTML = "<div class='p-3 text-secondary small'>Data KBLI sedang dimuat...</div>";
         return;
       }
 
       let list = parseRawKBLI(state.sektor);
       let html = "";
-      let escapedSektor = state.sektor.replace(/'/g, "\\'");
       list.forEach(item => {
         let arrow = (item.level < 5) ? '<span class="tree-node-arrow">▾</span> ' : '';
-        let escapedTeks = item.text.replace(/'/g, "\\'");
-        html += `<div class="tree-node tree-lvl-${item.level}" onclick="pilihItemKBLI('${escapedTeks}', '${escapedSektor}')">${arrow}${item.text}</div>`;
+        html += `<div class="tree-node tree-lvl-${item.level}" data-kbli="${encodeURIComponent(item.text)}" data-sektor="${encodeURIComponent(state.sektor)}" onclick="handleKBLIClick(this)">${arrow}${item.text}</div>`;
       });
       area.innerHTML = html;
-      perbaruiOpsiTujuanLingkungan();
     }
 
-    // Fungsi deteksi sektor otomatis jika debitur memilih KBLI langsung
-    function cariSektorOtomatisDariKBLI(teksKBLI) {
-      if (typeof parseRawKBLI === 'function') {
-        for (let s of DAFTAR_8_SEKTOR) {
-          let list = parseRawKBLI(s);
-          if (list && list.some(item => item.text === teksKBLI)) {
-            return s;
-          }
-        }
-      }
-      return "Manufaktur (IPPU)"; // Fallback standar jika tidak terpetakan
+    function filterPohonKBLI() {
+      let q = document.getElementById('cariInputKBLI').value.toLowerCase().trim();
+      let nodes = document.querySelectorAll('#kontainerNodeKBLI .tree-node');
+      nodes.forEach(n => {
+        n.style.display = n.innerText.toLowerCase().includes(q) ? 'block' : 'none';
+      });
+      let headers = document.querySelectorAll('#kontainerNodeKBLI .kbli-sector-group-header');
+      headers.forEach(h => {
+        h.style.display = (q === '') ? 'block' : 'none';
+      });
     }
 
-    // Ketika KBLI dipilih: Sektor otomatis terisi
-    function pilihItemKBLI(teks, sektorAsal) {
-      // 1. Tentukan Sektor & Auto-Select Dropdown Sektor
-      let sektorFinal = sektorAsal || state.sektor || cariSektorOtomatisDariKBLI(teks);
-      state.sektor = sektorFinal;
-      let elSelectSektor = document.getElementById('selectSektor');
-      if (elSelectSektor) {
-        elSelectSektor.value = sektorFinal;
-      }
+    function handleKBLIClick(el) {
+      let teks = decodeURIComponent(el.getAttribute('data-kbli') || '');
+      let sektor = decodeURIComponent(el.getAttribute('data-sektor') || '');
+      pilihItemKBLI(teks, sektor);
+    }
 
-      // 2. Simpan identitas KBLI
+    function pilihItemKBLI(teks, sektorPilihan) {
       state.kodeKBLI = teks;
+
+      // Auto-set sektor jika debitur memilih KBLI terlebih dahulu
+      let sektorFinal = sektorPilihan || document.getElementById('selectSektor').value;
+      if (!sektorFinal) {
+        sektorFinal = cariSektorDariKBLI(teks);
+      }
+
+      if (sektorFinal) {
+        state.sektor = sektorFinal;
+        let sel = document.getElementById('selectSektor');
+        if (sel) sel.value = sektorFinal;
+      }
+
       let infoKBLI = (typeof dapatkanHierarkiDanDeskripsiKBLI === 'function')
         ? dapatkanHierarkiDanDeskripsiKBLI(state.sektor, teks)
-        : { sub: teks.replace(/^\d{3,5}\s*[-–:]\s*/, '').trim(), deskripsi: `Kelompok ini mencakup aktivitas usaha dan operasional yang sesuai dengan klasifikasi resmi ${teks} berdasarkan Taksonomi Keuangan Berkelanjutan Indonesia (TKBI).` };
+        : { sub: teks.replace(/^\d{3,5}\s*[-–:]\s*/, '').trim(), deskripsi: `Kelompok ini mencakup aktivitas usaha dan operasional yang sesuai dengan klasifikasi resmi ${teks} berdasarkan Taksonomi untuk Keuangan Berkelanjutan Indonesia (TKBI).` };
 
       state.namaKBLI = infoKBLI.sub || teks.replace(/^\d{3,5}\s*[-–:]\s*/, '').trim();
       state.deskripsiKBLI = infoKBLI.deskripsi;
 
-      // 3. Tampilkan di UI
       document.getElementById('labelKBLITerpilih').innerText = teks;
       document.getElementById('labelKBLITerpilih').className = "text-dark fw-bold";
       document.getElementById('inputDeskripsiKBLI').value = state.deskripsiKBLI;
@@ -1538,23 +1560,27 @@
     // =========================================================================
     // VALIDASI STEP 2 MENUJU STEP 3 (KUESIONER EMISI)
     // =========================================================================
-function validasiDanLanjutStep3() {
+    function validasiDanLanjutStep3() {
       let nama = document.getElementById('inputNamaInstitusi').value.trim();
       let cif = document.getElementById('inputCIF').value.trim();
       let pic = document.getElementById('inputPIC').value.trim();
       let sektor = document.getElementById('selectSektor').value;
       let karyawan = parseInt(document.getElementById('inputKaryawan').value, 10);
 
+      // Jika debitur memilih KBLI lebih dulu dan sektor belum terisi, cari otomatis
+      if (!sektor && state.kodeKBLI) {
+        sektor = cariSektorDariKBLI(state.kodeKBLI);
+        if (sektor) {
+          document.getElementById('selectSektor').value = sektor;
+          state.sektor = sektor;
+        }
+      }
+
       if (!nama) { alert("Nama Perusahaan / Institusi wajib diisi!"); return; }
       if (!cif) { alert("Nomor CIF wajib diisi!"); return; }
       if (!pic) { alert("Nama PIC & Jabatan wajib diisi!"); return; }
-      if (!state.kodeKBLI) { alert("Pilih aktivitas KBLI 5-Digit terlebih dahulu!"); return; }
-      if (!sektor) { 
-        // Jika sektor belum terisi, coba deteksi otomatis
-        sektor = cariSektorOtomatisDariKBLI(state.kodeKBLI);
-        document.getElementById('selectSektor').value = sektor;
-        state.sektor = sektor;
-      }
+      if (!state.kodeKBLI) { alert("Pilih aktivitas KBLI terlebih dahulu!"); return; }
+      if (!sektor) { alert("Pilih Sektor KBLI terlebih dahulu!"); return; }
       if (isNaN(karyawan) || karyawan < 1) { alert("Jumlah Karyawan Tetap wajib diisi angka positif!"); return; }
 
       state.namaInstitusi = nama;
@@ -1569,9 +1595,6 @@ function validasiDanLanjutStep3() {
       navigasiStep(3);
     }
 
-    // =========================================================================
-    // SIMPAN DATA STEP 3 MENUJU STEP 4 (LAYAR SELESAI EMISI)
-    // =========================================================================
     function selesaikanKuesionerEmisi() {
       state.kebijakanGRK = document.querySelector('input[name="radioKebijakanGRK"]:checked')?.value || "Tidak";
       state.rencanaTransisi = document.querySelector('input[name="radioRencanaTransisi"]:checked')?.value || "Tidak";
@@ -1596,19 +1619,33 @@ function validasiDanLanjutStep3() {
         ? (document.getElementById('inputLembagaVerifikasi').value.trim() || "Sucofindo")
         : "-";
 
-      // Isi nilai kartu transisi di Step 4
+      // --- PERHITUNGAN OTOMATIS TON & SUMMARY DI DALAM KODE ---
+      state.emisiBensinTon = Math.round(((state.bensinLiter * 2.305) / 1000) * 100) / 100;
+      state.emisiSolarTon = Math.round(((state.solarLiter * 2.673) / 1000) * 100) / 100;
+      state.emisiListrikTon = Math.round(((state.listrikKwh * 0.79) / 1000) * 100) / 100;
+      state.penguranganEbtTon = Math.round(((state.ebtKwh * 0.79) / 1000) * 100) / 100;
+
+      let totalTripScope3 = (state.scope3Trips && state.scope3Trips.length > 0)
+        ? state.scope3Trips.reduce((acc, c) => acc + (parseInt(c.trip, 10) || 0), 0)
+        : 0;
+      state.totalTripScope3 = totalTripScope3;
+      state.emisiScope3Ton = Math.round((totalTripScope3 * 0.12) * 100) / 100;
+
+      state.summaryScope1 = Math.round((state.emisiBensinTon + state.emisiSolarTon) * 100) / 100;
+      state.summaryScope2 = state.emisiListrikTon;
+      state.summaryScope3 = state.emisiScope3Ton;
+      state.totalEmisiOperasional = Math.round((state.summaryScope1 + state.summaryScope2 + state.summaryScope3) * 100) / 100;
+
+      // Tampilkan ringkasan pada kartu transisi Step 4
       document.getElementById('transfNamaCIF').innerText = `${state.namaInstitusi} (${state.cif})`;
       document.getElementById('transfSektorKBLI').innerText = `${state.sektor} - ${state.kodeKBLI}`;
-      document.getElementById('transfScope1').innerText = `Bensin: ${state.bensinLiter.toLocaleString()} L | Solar: ${state.solarLiter.toLocaleString()} L`;
-      document.getElementById('transfScope2').innerText = `Listrik PLN: ${state.listrikKwh.toLocaleString()} kWh | EBT: ${state.ebtKwh.toLocaleString()} kWh`;
-      document.getElementById('transfScope3').innerText = (state.scope3Trips.length === 0) ? 'Belum Ada / Tidak Ada (0 Trip)' : `${state.scope3Trips.length} Rute Terdata (${state.scope3Trips.reduce((acc, c) => acc + c.trip, 0)} Total Trip)`;
+      document.getElementById('transfScope1').innerText = `Bensin: ${state.bensinLiter.toLocaleString()} L (${state.emisiBensinTon} tCO2e) | Solar: ${state.solarLiter.toLocaleString()} L (${state.emisiSolarTon} tCO2e) → Summary Scope 1: ${state.summaryScope1} tCO2e`;
+      document.getElementById('transfScope2').innerText = `Listrik PLN: ${state.listrikKwh.toLocaleString()} kWh (${state.emisiListrikTon} tCO2e) | EBT: ${state.ebtKwh.toLocaleString()} kWh (-${state.penguranganEbtTon} tCO2e) → Summary Scope 2: ${state.summaryScope2} tCO2e`;
+      document.getElementById('transfScope3').innerText = (state.totalTripScope3 === 0) ? 'Belum Ada / Tidak Ada (0 Trip → 0 tCO2e)' : `${state.scope3Trips.length} Rute Terdata (${state.totalTripScope3} Trip) → Summary Scope 3: ${state.summaryScope3} tCO2e`;
 
       navigasiStep(4);
     }
 
-    // =========================================================================
-    // MULAI KUESIONER TKBI OJK (STEP 5)
-    // =========================================================================
     function mulaiKuesionerSurvei() {
       const eoMap = {
         "EO1": "Mitigasi Perubahan Iklim",
@@ -2500,9 +2537,9 @@ function validasiDanLanjutStep3() {
       document.getElementById('resTransisi').innerText = (state.rencanaTransisi === "Ya")
         ? `Ya (Investasi: ${formatRupiahDisplay(state.nilaiInvestasi)} | Durasi: ${state.waktuInvestasi})`
         : "Tidak";
-      document.getElementById('resScope1').innerText = `Bensin: ${state.bensinLiter.toLocaleString()} L (${formatRupiahDisplay(state.bensinRp)}) | Solar: ${state.solarLiter.toLocaleString()} L (${formatRupiahDisplay(state.solarRp)})`;
-      document.getElementById('resScope2').innerText = `Listrik PLN: ${state.listrikKwh.toLocaleString()} kWh (${formatRupiahDisplay(state.listrikRp)}) | EBT: ${state.ebtKwh.toLocaleString()} kWh (${formatRupiahDisplay(state.ebtRp)})`;
-      document.getElementById('resScope3').innerText = (state.scope3Trips.length === 0) ? 'Belum Ada / Tidak Ada (0 Trip)' : `${state.scope3Trips.length} Rute Terdata (${state.scope3Trips.reduce((acc, c) => acc + c.trip, 0)} Total Trip)`;
+      document.getElementById('resScope1').innerText = `Bensin: ${state.bensinLiter.toLocaleString()} L (${state.emisiBensinTon} tCO2e) | Solar: ${state.solarLiter.toLocaleString()} L (${state.emisiSolarTon} tCO2e) → Summary Scope 1: ${state.summaryScope1} tCO2e`;
+      document.getElementById('resScope2').innerText = `Listrik PLN: ${state.listrikKwh.toLocaleString()} kWh (${state.emisiListrikTon} tCO2e) | EBT: ${state.ebtKwh.toLocaleString()} kWh (-${state.penguranganEbtTon} tCO2e) → Summary Scope 2: ${state.summaryScope2} tCO2e`;
+      document.getElementById('resScope3').innerText = (state.totalTripScope3 === 0) ? 'Belum Ada / Tidak Ada (0 Trip → 0 tCO2e)' : `${state.scope3Trips.length} Rute Terdata (${state.totalTripScope3} Trip) → Summary Scope 3: ${state.summaryScope3} tCO2e`;
       document.getElementById('resVerifikasi').innerText = (state.verifikasiPihakKetiga === "Ya")
         ? `Ya (${state.lembagaVerifikator})`
         : "Tidak";
@@ -2724,14 +2761,9 @@ function validasiDanLanjutStep3() {
       // Hitung total durasi waktu pengisian formulir oleh nasabah
       let durasiDetik = Math.round((new Date().getTime() - clientAuditInfo.waktuMulaiBuka) / 1000);
 
-      // Hitung total perjalanan Scope 3 (otomatis 0 jika kosong / belum ada)
-      let totalTripScope3 = 0;
-      let rincianRuteScope3 = "Tidak Ada Perjalanan Bisnis (0 Trip)";
-
-      if (state.scope3Trips && state.scope3Trips.length > 0) {
-        totalTripScope3 = state.scope3Trips.reduce((acc, c) => acc + (Number(c.trip) || 0), 0);
-        rincianRuteScope3 = state.scope3Trips.map(t => `${t.moda} (${t.kotaAsal} -> ${t.kotaTujuan}: ${t.trip} trip)`).join('; ');
-      }
+      let rincianScope3Text = (state.scope3Trips && state.scope3Trips.length > 0)
+        ? state.scope3Trips.map(t => `${t.rute || (t.kotaAsal + ' - ' + t.kotaTujuan)} (${t.moda}: ${t.trip} trip)`).join("; ")
+        : "Tidak Ada Perjalanan Bisnis (0 Trip)";
 
       const payloadSimpan = {
         namaInstitusi: state.namaInstitusi,
@@ -2746,32 +2778,40 @@ function validasiDanLanjutStep3() {
         tujuanLingkungan: state.tujuanLingkungan,
         kebijakanGRK: state.kebijakanGRK,
         rencanaTransisi: state.rencanaTransisi,
-        strategiTransisi: state.strategiTransisi || "-",
-        waktuInvestasi: state.waktuInvestasi || "-",
-        nilaiInvestasi: Number(state.nilaiInvestasi) || 0,
-        // EMISI SCOPE 1 (BBM) - Otomatis 0 jika kosong
-        bensinLiter: Number(state.bensinLiter) || 0,
-        bensinRp: Number(state.bensinRp) || 0,
-        solarLiter: Number(state.solarLiter) || 0,
-        solarRp: Number(state.solarRp) || 0,
-        // EMISI SCOPE 2 (LISTRIK & EBT) - Otomatis 0 jika kosong
-        listrikKwh: Number(state.listrikKwh) || 0,
-        listrikRp: Number(state.listrikRp) || 0,
-        ebtKwh: Number(state.ebtKwh) || 0,
-        ebtRp: Number(state.ebtRp) || 0,
-        // EMISI SCOPE 3 (PERJALANAN DINAS) - Otomatis 0 jika kosong / belum ada
-        jumlahTripScope3: totalTripScope3,
-        rincianRuteScope3: rincianRuteScope3,
+        strategiTransisi: state.strategiTransisi,
+        waktuInvestasi: state.waktuInvestasi,
+        nilaiInvestasi: state.nilaiInvestasi,
+        // Data Input Aktivitas Asli
+        bensinLiter: state.bensinLiter,
+        bensinRp: state.bensinRp,
+        solarLiter: state.solarLiter,
+        solarRp: state.solarRp,
+        listrikKwh: state.listrikKwh,
+        listrikRp: state.listrikRp,
+        ebtKwh: state.ebtKwh,
+        ebtRp: state.ebtRp,
+        jumlahTripScope3: state.totalTripScope3,
+        rincianScope3: rincianScope3Text,
         scope3Trips: state.scope3Trips,
-        // VALIDASI DATA
         verifikasiPihakKetiga: state.verifikasiPihakKetiga,
         lembagaVerifikator: state.lembagaVerifikator,
-        // HASIL SIMULASI TKBI
+        // PERHITUNGAN 1: EMISI PER KOMPONEN TON (tCO2e)
+        emisiBensinTon: state.emisiBensinTon,
+        emisiSolarTon: state.emisiSolarTon,
+        emisiListrikTon: state.emisiListrikTon,
+        penguranganEbtTon: state.penguranganEbtTon,
+        emisiScope3Ton: state.emisiScope3Ton,
+        // PERHITUNGAN 2: SUMMARY PER SCOPE (tCO2e)
+        summaryScope1: state.summaryScope1,
+        summaryScope2: state.summaryScope2,
+        summaryScope3: state.summaryScope3,
+        totalEmisiOperasional: state.totalEmisiOperasional,
+        // Evaluasi TKBI OJK
         hasilPenilaian: labelHasil,
         evaluasiDetail: `${state.jalurTSC} | ${state.jalurRMT}`,
         catatan: stringCatatanRapi,
         detailJawaban: detailJawabanList,
-        // DATA AUDIT FORENSIK TEKNIS NASABAH
+        // Audit Log Forensik
         clientIP: (typeof clientAuditInfo !== 'undefined') ? clientAuditInfo.ip : 'Direct / Intranet',
         userAgent: (typeof clientAuditInfo !== 'undefined') ? clientAuditInfo.userAgent : navigator.userAgent,
         deviceType: (typeof clientAuditInfo !== 'undefined') ? clientAuditInfo.deviceType : 'Desktop',
@@ -3100,9 +3140,10 @@ function validasiDanLanjutStep3() {
             <tr><td style="color:#475569; padding: 4px 0; border-bottom:1px solid #f1f5f9;">PIC / Jumlah Karyawan</td><td style="border-bottom:1px solid #f1f5f9;">:</td><td style="padding: 4px 0; border-bottom:1px solid #f1f5f9;">${state.pic} / ${state.karyawan} Orang</td></tr>
             <tr><td style="color:#475569; padding: 4px 0; border-bottom:1px solid #f1f5f9;">Laporan ESG / Kebijakan Iklim</td><td style="border-bottom:1px solid #f1f5f9;">:</td><td style="padding: 4px 0; border-bottom:1px solid #f1f5f9;">ESG: ${state.laporanESG} | Kebijakan Iklim: ${state.kebijakanGRK}</td></tr>
             <tr><td style="color:#475569; padding: 4px 0; border-bottom:1px solid #f1f5f9;">Rencana Transisi & Investasi</td><td style="border-bottom:1px solid #f1f5f9;">:</td><td style="padding: 4px 0; border-bottom:1px solid #f1f5f9;">${state.rencanaTransisi === 'Ya' ? formatRupiahDisplay(state.nilaiInvestasi) + ' (' + state.waktuInvestasi + ')' : 'Tidak'}</td></tr>
-            <tr><td style="color:#475569; padding: 4px 0; border-bottom:1px solid #f1f5f9;">Scope 1 (Bensin & Solar)</td><td style="border-bottom:1px solid #f1f5f9;">:</td><td style="padding: 4px 0; border-bottom:1px solid #f1f5f9;">Bensin: ${state.bensinLiter.toLocaleString()} L | Solar: ${state.solarLiter.toLocaleString()} L</td></tr>
-            <tr><td style="color:#475569; padding: 4px 0; border-bottom:1px solid #f1f5f9;">Scope 2 (Listrik PLN & EBT)</td><td style="border-bottom:1px solid #f1f5f9;">:</td><td style="padding: 4px 0; border-bottom:1px solid #f1f5f9;">PLN: ${state.listrikKwh.toLocaleString()} kWh | EBT: ${state.ebtKwh.toLocaleString()} kWh</td></tr>
-            <tr><td style="color:#475569; padding: 4px 0; border-bottom:1px solid #f1f5f9;">Scope 3 (Perjalanan Bisnis)</td><td style="border-bottom:1px solid #f1f5f9;">:</td><td style="padding: 4px 0; border-bottom:1px solid #f1f5f9;">${(state.scope3Trips.length === 0) ? 'Belum Ada / Tidak Ada (0 Trip)' : state.scope3Trips.length + ' Rute Terdata (' + state.scope3Trips.reduce((acc, c) => acc + c.trip, 0) + ' Total Trip)'}</td></tr>
+            <tr><td style="color:#475569; padding: 4px 0; border-bottom:1px solid #f1f5f9;">Scope 1 (Bensin & Solar)</td><td style="border-bottom:1px solid #f1f5f9;">:</td><td style="padding: 4px 0; border-bottom:1px solid #f1f5f9;">Bensin: ${state.bensinLiter.toLocaleString()} L (${state.emisiBensinTon} tCO2e) | Solar: ${state.solarLiter.toLocaleString()} L (${state.emisiSolarTon} tCO2e) <br><strong>Summary Scope 1: ${state.summaryScope1} tCO2e</strong></td></tr>
+            <tr><td style="color:#475569; padding: 4px 0; border-bottom:1px solid #f1f5f9;">Scope 2 (Listrik PLN & EBT)</td><td style="border-bottom:1px solid #f1f5f9;">:</td><td style="padding: 4px 0; border-bottom:1px solid #f1f5f9;">PLN: ${state.listrikKwh.toLocaleString()} kWh (${state.emisiListrikTon} tCO2e) | EBT: ${state.ebtKwh.toLocaleString()} kWh (-${state.penguranganEbtTon} tCO2e) <br><strong>Summary Scope 2: ${state.summaryScope2} tCO2e</strong></td></tr>
+            <tr><td style="color:#475569; padding: 4px 0; border-bottom:1px solid #f1f5f9;">Scope 3 (Perjalanan Bisnis)</td><td style="border-bottom:1px solid #f1f5f9;">:</td><td style="padding: 4px 0; border-bottom:1px solid #f1f5f9;">${(state.totalTripScope3 === 0) ? 'Belum Ada / Tidak Ada (0 Trip)' : state.scope3Trips.length + ' Rute Terdata (' + state.totalTripScope3 + ' Total Trip)'} <br><strong>Summary Scope 3: ${state.summaryScope3} tCO2e</strong></td></tr>
+            <tr><td style="color:#475569; padding: 4px 0; border-bottom:1px solid #f1f5f9;"><strong>Total Emisi Operasional (Scope 1+2+3)</strong></td><td style="border-bottom:1px solid #f1f5f9;">:</td><td style="padding: 4px 0; border-bottom:1px solid #f1f5f9; color:#b91c1c; font-weight:bold;">${state.totalEmisiOperasional} tCO2e</td></tr>
             <tr><td style="color:#475569; padding: 4px 0;">Verifikasi Pihak Ketiga</td><td>:</td><td style="padding: 4px 0;">${state.verifikasiPihakKetiga === 'Ya' ? 'Tervalidasi (' + state.lembagaVerifikator + ')' : 'Belum Diverifikasi'}</td></tr>
           </table>
 
