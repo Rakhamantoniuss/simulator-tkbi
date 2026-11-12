@@ -283,7 +283,7 @@
         <div class="guidance-box">
           <strong>📖 Petunjuk Pengisian Data Emisi Scope 1 & 2:</strong>
           <ul class="mb-0 ps-3 mt-1">
-            <li><strong>Pilih yang Termudah:</strong> Cukup isi salah satu satuan yang tersedia (Volume/Energi ATAU Nilai Rupiah pertahun), atau isi keduanya jika ada data lengkap.</li>
+            <li><strong>Pilih yang Termudah (Bensin, Solar, Listrik PLN):</strong> Cukup isi salah satu satuan yang tersedia (Volume/Energi ATAU Nilai Rupiah pertahun). Khusus <strong>Energi Terbarukan (EBT)</strong>, perhitungan pengurangan emisi hanya menggunakan konsumsi <strong>kWh</strong> (biaya investasi dicatat terpisah dan tidak dikonversi ke kWh).</li>
             <li><strong>Kosongkan Jika Tidak Ada:</strong> Apabila perusahaan <u>tidak menggunakan bensin, solar, atau belum memiliki EBT</u>, <strong>cukup biarkan kolom kosong (tidak perlu diisi)</strong>. Sistem otomatis mencatat nilai angka <strong>0</strong> di database spreadsheet.</li>
             <li><strong>Gunakan Estimasi:</strong> Jika data pasti satu tahun penuh tidak tersedia, gunakan rata-rata bulanan dikali 12.</li>
             <li><strong>Sumber Data:</strong> Laporan pembelian BBM kendaraan/genset dan tagihan listrik PLN bulanan.</li>
@@ -294,7 +294,8 @@
           <!-- Bensin -->
           <div class="col-md-6">
             <div class="p-3 border rounded bg-white h-100">
-              <div class="fw-bold text-dark mb-2"><i class="bi bi-fuel-pump me-1 text-danger"></i> 1. Bensin (Kendaraan Operasional)</div>
+              <div class="fw-bold text-dark mb-1"><i class="bi bi-fuel-pump me-1 text-danger"></i> 1. Bensin RON 90 / Pertalite (Kendaraan Operasional)</div>
+              <div class="small text-muted mb-2" style="font-size:0.75rem;">Acuan Harga: Rp 10.000/L &bull; Faktor Emisi: 2,309 kgCO2e/L</div>
               <div class="mb-2">
                 <label class="small text-secondary fw-semibold">Konsumsi per Tahun (Liter):</label>
                 <div class="input-group-unit">
@@ -318,7 +319,8 @@
           <!-- Solar -->
           <div class="col-md-6">
             <div class="p-3 border rounded bg-white h-100">
-              <div class="fw-bold text-dark mb-2"><i class="bi bi-truck me-1 text-danger"></i> 2. Solar (Genset/Truk/Alat Berat)</div>
+              <div class="fw-bold text-dark mb-1"><i class="bi bi-truck me-1 text-danger"></i> 2. Solar CN 48 / Solar Subsidi (Genset/Truk/Alat Berat)</div>
+              <div class="small text-muted mb-2" style="font-size:0.75rem;">Acuan Harga: Rp 6.800/L &bull; Faktor Emisi: 2,673 kgCO2e/L</div>
               <div class="mb-2">
                 <label class="small text-secondary fw-semibold">Konsumsi per Tahun (Liter):</label>
                 <div class="input-group-unit">
@@ -342,7 +344,8 @@
           <!-- Listrik PLN -->
           <div class="col-md-6">
             <div class="p-3 border rounded bg-white h-100">
-              <div class="fw-bold text-dark mb-2"><i class="bi bi-plug me-1 text-danger"></i> 3. Listrik PLN (Kantor/Pabrik)</div>
+              <div class="fw-bold text-dark mb-1"><i class="bi bi-plug me-1 text-danger"></i> 3. Listrik PLN (Kantor/Pabrik)</div>
+              <div class="small text-muted mb-2" style="font-size:0.75rem;">Acuan Tarif Listrik: Rp 1.444,7/kWh (Jika mengisi nilai tagihan Rp)</div>
               
               <div class="mb-2">
                 <label class="small text-secondary fw-semibold">Wilayah Jaringan Listrik (Grid PLN):</label>
@@ -386,7 +389,8 @@
           <!-- Energi Terbarukan -->
           <div class="col-md-6">
             <div class="p-3 border rounded bg-white h-100">
-              <div class="fw-bold text-dark mb-2"><i class="bi bi-sun me-1 text-danger"></i> 4. Energi Terbarukan (Solar Panel/EV)</div>
+              <div class="fw-bold text-dark mb-1"><i class="bi bi-sun me-1 text-danger"></i> 4. Energi Terbarukan (Solar Panel/EV)</div>
+              <div class="small text-muted mb-2" style="font-size:0.75rem;">Faktor Emisi mengikuti jaringan listrik terpilih; biaya investasi tidak dikonversi ke kWh</div>
               <div class="mb-2">
                 <label class="small text-secondary fw-semibold">Konsumsi per Tahun (kWh):</label>
                 <div class="input-group-unit">
@@ -1781,21 +1785,22 @@ function toggleRencanaTransisiRadio(val) {
       let bLit = parseInt(document.getElementById('inputBensinLiter').value.replace(/\D/g, ''), 10) || 0;
       let bRp = parseInt(document.getElementById('inputBensinRp').value.replace(/\D/g, ''), 10) || 0;
       if (bLit === 0 && bRp > 0) {
-        bLit = Math.round(bRp / 13000); // Harga acuan bensin RON 92 tahun 2026
+        bLit = Math.round((bRp / 10000) * 100) / 100; // Bensin RON 90 Pertalite: Rp 10.000/L
       }
 
       let sLit = parseInt(document.getElementById('inputSolarLiter').value.replace(/\D/g, ''), 10) || 0;
       let sRp = parseInt(document.getElementById('inputSolarRp').value.replace(/\D/g, ''), 10) || 0;
       if (sLit === 0 && sRp > 0) {
-        sLit = Math.round(sRp / 14000); // Harga acuan solar CN 48 tahun 2026
+        sLit = Math.round((sRp / 6800) * 100) / 100; // Solar CN 48 Subsidi: Rp 6.800/L
       }
 
       let lKwh = parseInt(document.getElementById('inputListrikKwh').value.replace(/\D/g, ''), 10) || 0;
       let lRp = parseInt(document.getElementById('inputListrikRp').value.replace(/\D/g, ''), 10) || 0;
       if (lKwh === 0 && lRp > 0) {
-        lKwh = Math.round(lRp / 1450); // Harga acuan listrik PLN tahun 2026
+        lKwh = Math.round((lRp / 1444.7) * 100) / 100; // Listrik PLN: Rp 1.444,7/kWh
       }
 
+      // EBT hanya menggunakan kWh aktual (biaya investasi eRp tidak dikonversi ke kWh)
       let eKwh = parseInt(document.getElementById('inputEbtKwh').value.replace(/\D/g, ''), 10) || 0;
       let eRp = parseInt(document.getElementById('inputEbtRp').value.replace(/\D/g, ''), 10) || 0;
 
@@ -1824,10 +1829,10 @@ function toggleRencanaTransisiRadio(val) {
         : "-";
 
       // --- PERHITUNGAN OTOMATIS TON PER KOMPONEN & SUMMARY DI DALAM KODE ---
-      state.emisiBensinTon = Math.round(((state.bensinLiter * 2.305) / 1000) * 100) / 100;
-      state.emisiSolarTon = Math.round(((state.solarLiter * 2.673) / 1000) * 100) / 100;
-      state.emisiListrikTon = Math.round(((state.listrikKwh * feGrid) / 1000) * 100) / 100;
-      state.penguranganEbtTon = Math.round(((state.ebtKwh * feGrid) / 1000) * 100) / 100;
+      state.emisiBensinTon = Math.round(((state.bensinLiter * 2.309) / 1000) * 100) / 100; // Bensin RON 90 Pertalite (2,309 kgCO2e/L)
+      state.emisiSolarTon = Math.round(((state.solarLiter * 2.673) / 1000) * 100) / 100;  // Solar CN 48 Subsidi (2,673 kgCO2e/L)
+      state.emisiListrikTon = Math.round(((state.listrikKwh * feGrid) / 1000) * 100) / 100; // Listrik PLN sesuai wilayah grid
+      state.penguranganEbtTon = Math.round(((state.ebtKwh * feGrid) / 1000) * 100) / 100;  // EBT menggunakan faktor emisi listrik yang sama
 
       // Pemisahan Rute dan Emisi Scope 3 per Moda (Pesawat, Kereta, Kapal, Bus)
       let totalTripScope3 = 0;
